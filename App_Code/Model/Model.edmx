@@ -1,0 +1,578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CIPMSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="CIPMSModelStoreContainer">
+          <EntitySet Name="tblCamps" EntityType="CIPMSModel.Store.tblCamps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblCampYear" EntityType="CIPMSModel.Store.tblCampYear" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblFedCampGrant" EntityType="CIPMSModel.Store.tblFedCampGrant" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblFederationCamps" EntityType="CIPMSModel.Store.tblFederationCamps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblFederationCampsContactDetails" EntityType="CIPMSModel.Store.tblFederationCampsContactDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblFederationGrades" EntityType="CIPMSModel.Store.tblFederationGrades" store:Type="Tables" store:Schema="dbo" store:Name="tblFederationGrades">
+            <DefiningQuery>SELECT 
+      [tblFederationGrades].[ID] AS [ID], 
+      [tblFederationGrades].[FederationID] AS [FederationID], 
+      [tblFederationGrades].[EligibleGrade] AS [EligibleGrade], 
+      [tblFederationGrades].[CampYearID] AS [CampYearID], 
+      [tblFederationGrades].[TimeInCamp] AS [TimeInCamp]
+      FROM [dbo].[tblFederationGrades] AS [tblFederationGrades]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblJCC" EntityType="CIPMSModel.Store.tblJCC" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblMetaCamps" EntityType="CIPMSModel.Store.tblMetaCamps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblMetaFederationGrades" EntityType="CIPMSModel.Store.tblMetaFederationGrades" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblNationalCamps" EntityType="CIPMSModel.Store.tblNationalCamps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblSynagogues" EntityType="CIPMSModel.Store.tblSynagogues" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblUserCamps" EntityType="CIPMSModel.Store.tblUserCamps" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_tblFederationCamps_Camps" Association="CIPMSModel.Store.FK_tblFederationCamps_Camps">
+            <End Role="tblCamps" EntitySet="tblCamps" />
+            <End Role="tblFederationCamps" EntitySet="tblFederationCamps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblFederationCampsContactDetails_tblCamps" Association="CIPMSModel.Store.FK_tblFederationCampsContactDetails_tblCamps">
+            <End Role="tblCamps" EntitySet="tblCamps" />
+            <End Role="tblFederationCampsContactDetails" EntitySet="tblFederationCampsContactDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblCamps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="75" />
+          <Property Name="State" Type="int" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="CampYearID" Type="int" />
+          <Property Name="IsManual" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblCampYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="CampYear" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="CurrentYear" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFedCampGrant">
+          <Key>
+            <PropertyRef Name="FederationID" />
+            <PropertyRef Name="CampID" />
+            <PropertyRef Name="CampYearID" />
+            <PropertyRef Name="TimeInCamp" />
+            <PropertyRef Name="DaysAtLeast" />
+          </Key>
+          <Property Name="FederationID" Type="int" Nullable="false" />
+          <Property Name="CampID" Type="int" Nullable="false" />
+          <Property Name="CampYearID" Type="int" Nullable="false" />
+          <Property Name="TimeInCamp" Type="int" Nullable="false" />
+          <Property Name="DaysAtLeast" Type="int" Nullable="false" />
+          <Property Name="GrantAmount" Type="float" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tblFederationCamps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FederationID" Type="int" Nullable="false" />
+          <Property Name="CampID" Type="bigint" Nullable="false" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="CampYearID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblFederationCampsContactDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampID" Type="bigint" Nullable="false" />
+          <Property Name="FederationID" Type="int" Nullable="false" />
+          <Property Name="Contact" Type="nvarchar" MaxLength="200" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="NavigationURL" Type="nvarchar(max)" />
+          <Property Name="ParentInfoPreviousClickURL" Type="nvarchar(max)" />
+          <Property Name="CampYearID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'CIPMS.dbo.tblFederationGrades' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="tblFederationGrades">
+          <Key>
+            <PropertyRef Name="ID" />
+            
+            
+            
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FederationID" Type="int" Nullable="false" />
+          <Property Name="EligibleGrade" Type="int" Nullable="false" />
+          <Property Name="CampYearID" Type="int" Nullable="false" />
+          <Property Name="TimeInCamp" Type="int" />
+        </EntityType>
+        <EntityType Name="tblJCC">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="FederationID" Type="int" />
+          <Property Name="CampYearid" Type="int" />
+        </EntityType>
+        <EntityType Name="tblMetaCamps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampName" Type="nvarchar" MaxLength="300" />
+          <Property Name="NewCampName" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="tblMetaFederationGrades">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FedID" Type="int" Nullable="false" />
+          <Property Name="FromGrade" Type="int" Nullable="false" />
+          <Property Name="ToGrade" Type="int" Nullable="false" />
+          <Property Name="CampYearID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblNationalCamps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampID" Type="bigint" />
+          <Property Name="FederationID" Type="int" />
+          <Property Name="CampYearID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblSynagogues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="FederationID" Type="int" />
+          <Property Name="CampYearid" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUserCamps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="CampId" Type="int" />
+          <Property Name="CampYearid" Type="int" />
+        </EntityType>
+        <Association Name="FK_tblFederationCamps_Camps">
+          <End Role="tblCamps" Type="CIPMSModel.Store.tblCamps" Multiplicity="1" />
+          <End Role="tblFederationCamps" Type="CIPMSModel.Store.tblFederationCamps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCamps">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFederationCamps">
+              <PropertyRef Name="CampID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblFederationCampsContactDetails_tblCamps">
+          <End Role="tblCamps" Type="CIPMSModel.Store.tblCamps" Multiplicity="1" />
+          <End Role="tblFederationCampsContactDetails" Type="CIPMSModel.Store.tblFederationCampsContactDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCamps">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFederationCampsContactDetails">
+              <PropertyRef Name="CampID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_CampsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_FedCampGrantDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_FederationCampsContactDetailsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_FederationGradesDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_NationalCampsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CIPMSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="CIPMSEntities1">
+          <EntitySet Name="tblFederationGrades" EntityType="CIPMSModel.tblFederationGrade" />
+          <EntitySet Name="tblMetaFederationGrades" EntityType="CIPMSModel.tblMetaFederationGrade" />
+          <EntitySet Name="tblCamps" EntityType="CIPMSModel.tblCamp" />
+          <EntitySet Name="tblMetaCamps" EntityType="CIPMSModel.tblMetaCamp" />
+          <FunctionImport a:MethodAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" Name="uspCampsDelete" EntitySet="tblCamps" ReturnType="Collection(CIPMSModel.tblCamp)">
+          <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="uspFederationGradesDelete" EntitySet="tblFederationGrades" ReturnType="Collection(CIPMSModel.tblFederationGrade)">
+          <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblFedCampGrants" EntityType="CIPMSModel.tblFedCampGrant" />
+          <FunctionImport Name="uspFedCampGrantDelete" EntitySet="tblFedCampGrants" ReturnType="Collection(CIPMSModel.tblFedCampGrant)">
+          <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblCampYears" EntityType="CIPMSModel.tblCampYear" />
+          <FunctionImport Name="uspNationalCampsDelete" EntitySet="tblNationalCamps" ReturnType="Collection(CIPMSModel.tblNationalCamp)">
+          <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblNationalCamps" EntityType="CIPMSModel.tblNationalCamp" />
+          <EntitySet Name="tblFederationCampsContactDetails" EntityType="CIPMSModel.tblFederationCampsContactDetail" />
+          <AssociationSet Name="FK_tblFederationCampsContactDetails_tblCamps" Association="CIPMSModel.FK_tblFederationCampsContactDetails_tblCamps">
+            <End Role="tblCamp" EntitySet="tblCamps" />
+            <End Role="tblFederationCampsContactDetail" EntitySet="tblFederationCampsContactDetails" />
+          </AssociationSet>
+          <FunctionImport Name="uspFedCampsContactsDelete" EntitySet="tblFederationCampsContactDetails" ReturnType="Collection(CIPMSModel.tblFederationCampsContactDetail)">
+          <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblFederationCamps" EntityType="CIPMSModel.tblFederationCamp" />
+          <AssociationSet Name="FK_tblFederationCamps_Camps" Association="CIPMSModel.FK_tblFederationCamps_Camps">
+            <End Role="tblCamp" EntitySet="tblCamps" />
+            <End Role="tblFederationCamp" EntitySet="tblFederationCamps" />
+          </AssociationSet>
+          <EntitySet Name="tblSynagogues" EntityType="CIPMSModel.tblSynagogue" />
+          <EntitySet Name="tblJCCs" EntityType="CIPMSModel.tblJCC" />
+          <EntitySet Name="tblUserCamps" EntityType="CIPMSModel.tblUserCamp" />
+        </EntityContainer>
+        <EntityType Name="tblFederationGrade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FederationID" Type="Int32" Nullable="false" />
+          <Property Name="EligibleGrade" Type="Int32" Nullable="false" />
+          <Property Name="CampYearID" Type="Int32" Nullable="false" />
+          <Property Name="TimeInCamp" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblMetaFederationGrade">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FedID" Type="Int32" Nullable="false" />
+          <Property Name="FromGrade" Type="Int32" Nullable="false" />
+          <Property Name="ToGrade" Type="Int32" Nullable="false" />
+          <Property Name="CampYearID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="State" />
+          <Property Type="Boolean" Name="Inactive" />
+          <Property Type="Int32" Name="CampYearID" />
+          <Property Type="Boolean" Name="IsManual" />
+          <NavigationProperty Name="tblFederationCampsContactDetails" Relationship="CIPMSModel.FK_tblFederationCampsContactDetails_tblCamps" FromRole="tblCamp" ToRole="tblFederationCampsContactDetail" />
+          <NavigationProperty Name="tblFederationCamps" Relationship="CIPMSModel.FK_tblFederationCamps_Camps" FromRole="tblCamp" ToRole="tblFederationCamp" />
+        </EntityType>
+        <EntityType Name="tblMetaCamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CampName" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NewCampName" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblFedCampGrant">
+          <Key>
+            <PropertyRef Name="FederationID" />
+            <PropertyRef Name="CampID" />
+            <PropertyRef Name="CampYearID" />
+            <PropertyRef Name="TimeInCamp" />
+            <PropertyRef Name="DaysAtLeast" />
+          </Key>
+          <Property Type="Int32" Name="FederationID" Nullable="false" />
+          <Property Type="Int32" Name="CampID" Nullable="false" />
+          <Property Type="Int32" Name="CampYearID" Nullable="false" />
+          <Property Type="Int32" Name="TimeInCamp" Nullable="false" />
+          <Property Type="Int32" Name="DaysAtLeast" Nullable="false" />
+          <Property Type="Double" Name="GrantAmount" Nullable="false" />
+          <Property Type="String" Name="Note" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblCampYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CampYear" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+          <Property Type="Boolean" Name="CurrentYear" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblNationalCamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="CampID" />
+          <Property Type="Int32" Name="FederationID" />
+          <Property Type="Int32" Name="CampYearID" />
+        </EntityType>
+        <EntityType Name="tblFederationCampsContactDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="FederationID" Nullable="false" />
+          <Property Type="String" Name="Contact" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NavigationURL" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ParentInfoPreviousClickURL" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CampYearID" />
+          <NavigationProperty Name="tblCamp" Relationship="CIPMSModel.FK_tblFederationCampsContactDetails_tblCamps" FromRole="tblFederationCampsContactDetail" ToRole="tblCamp" />
+        </EntityType>
+        <Association Name="FK_tblFederationCampsContactDetails_tblCamps">
+          <End Type="CIPMSModel.tblCamp" Role="tblCamp" Multiplicity="1" />
+          <End Type="CIPMSModel.tblFederationCampsContactDetail" Role="tblFederationCampsContactDetail" Multiplicity="*" />
+        </Association>
+        <EntityType Name="tblFederationCamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="FederationID" Nullable="false" />
+          <Property Type="Boolean" Name="Inactive" />
+          <Property Type="Int32" Name="CampYearID" />
+          <NavigationProperty Name="tblCamp" Relationship="CIPMSModel.FK_tblFederationCamps_Camps" FromRole="tblFederationCamp" ToRole="tblCamp" />
+        </EntityType>
+        <Association Name="FK_tblFederationCamps_Camps">
+          <End Type="CIPMSModel.tblCamp" Role="tblCamp" Multiplicity="1" />
+          <End Type="CIPMSModel.tblFederationCamp" Role="tblFederationCamp" Multiplicity="*" />
+        </Association>
+        <EntityType Name="tblSynagogue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="FederationID" />
+          <Property Type="Int32" Name="CampYearid" />
+        </EntityType>
+        <EntityType Name="tblJCC">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="FederationID" />
+          <Property Type="Int32" Name="CampYearid" />
+        </EntityType>
+        <EntityType Name="tblUserCamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="UserId" />
+          <Property Type="Int32" Name="CampId" />
+          <Property Type="Int32" Name="CampYearid" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="CIPMSModelStoreContainer" CdmEntityContainer="CIPMSEntities1">
+          <EntitySetMapping Name="tblFederationGrades"><EntityTypeMapping TypeName="CIPMSModel.tblFederationGrade"><MappingFragment StoreEntitySet="tblFederationGrades">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+            <ScalarProperty Name="EligibleGrade" ColumnName="EligibleGrade" />
+            <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+            <ScalarProperty Name="TimeInCamp" ColumnName="TimeInCamp" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="tblMetaFederationGrades"><EntityTypeMapping TypeName="CIPMSModel.tblMetaFederationGrade"><MappingFragment StoreEntitySet="tblMetaFederationGrades">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="FedID" ColumnName="FedID" />
+            <ScalarProperty Name="FromGrade" ColumnName="FromGrade" />
+            <ScalarProperty Name="ToGrade" ColumnName="ToGrade" />
+            <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="tblCamps">
+            <EntityTypeMapping TypeName="CIPMSModel.tblCamp">
+              <MappingFragment StoreEntitySet="tblCamps">
+                <ScalarProperty Name="IsManual" ColumnName="IsManual" />
+                <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMetaCamps">
+            <EntityTypeMapping TypeName="CIPMSModel.tblMetaCamp">
+              <MappingFragment StoreEntitySet="tblMetaCamps">
+                <ScalarProperty Name="NewCampName" ColumnName="NewCampName" />
+                <ScalarProperty Name="CampName" ColumnName="CampName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspCampsDelete" FunctionName="CIPMSModel.Store.usp_CampsDelete" />
+          <FunctionImportMapping FunctionImportName="uspFederationGradesDelete" FunctionName="CIPMSModel.Store.usp_FederationGradesDelete" />
+          <EntitySetMapping Name="tblFedCampGrants">
+            <EntityTypeMapping TypeName="CIPMSModel.tblFedCampGrant">
+              <MappingFragment StoreEntitySet="tblFedCampGrant">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="GrantAmount" ColumnName="GrantAmount" />
+                <ScalarProperty Name="DaysAtLeast" ColumnName="DaysAtLeast" />
+                <ScalarProperty Name="TimeInCamp" ColumnName="TimeInCamp" />
+                <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+                <ScalarProperty Name="CampID" ColumnName="CampID" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspFedCampGrantDelete" FunctionName="CIPMSModel.Store.usp_FedCampGrantDelete" />
+          <EntitySetMapping Name="tblCampYears">
+            <EntityTypeMapping TypeName="CIPMSModel.tblCampYear">
+              <MappingFragment StoreEntitySet="tblCampYear">
+                <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="CampYear" ColumnName="CampYear" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspNationalCampsDelete" FunctionName="CIPMSModel.Store.usp_NationalCampsDelete" />
+          <EntitySetMapping Name="tblNationalCamps">
+            <EntityTypeMapping TypeName="CIPMSModel.tblNationalCamp">
+              <MappingFragment StoreEntitySet="tblNationalCamps">
+                <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+                <ScalarProperty Name="CampID" ColumnName="CampID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFederationCampsContactDetails">
+            <EntityTypeMapping TypeName="CIPMSModel.tblFederationCampsContactDetail">
+              <MappingFragment StoreEntitySet="tblFederationCampsContactDetails">
+                <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+                <ScalarProperty Name="ParentInfoPreviousClickURL" ColumnName="ParentInfoPreviousClickURL" />
+                <ScalarProperty Name="NavigationURL" ColumnName="NavigationURL" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_tblFederationCampsContactDetails_tblCamps" TypeName="CIPMSModel.FK_tblFederationCampsContactDetails_tblCamps" StoreEntitySet="tblFederationCampsContactDetails">
+            <EndProperty Name="tblFederationCampsContactDetail">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="tblCamp">
+              <ScalarProperty Name="ID" ColumnName="CampID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="uspFedCampsContactsDelete" FunctionName="CIPMSModel.Store.usp_FederationCampsContactDetailsDelete" />
+          <EntitySetMapping Name="tblFederationCamps">
+            <EntityTypeMapping TypeName="CIPMSModel.tblFederationCamp">
+              <MappingFragment StoreEntitySet="tblFederationCamps">
+                <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_tblFederationCamps_Camps" TypeName="CIPMSModel.FK_tblFederationCamps_Camps" StoreEntitySet="tblFederationCamps">
+            <EndProperty Name="tblFederationCamp">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="tblCamp">
+              <ScalarProperty Name="ID" ColumnName="CampID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="tblSynagogues">
+            <EntityTypeMapping TypeName="CIPMSModel.tblSynagogue">
+              <MappingFragment StoreEntitySet="tblSynagogues">
+                <ScalarProperty Name="CampYearid" ColumnName="CampYearid" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblJCCs">
+            <EntityTypeMapping TypeName="CIPMSModel.tblJCC">
+              <MappingFragment StoreEntitySet="tblJCC">
+                <ScalarProperty Name="CampYearid" ColumnName="CampYearid" />
+                <ScalarProperty Name="FederationID" ColumnName="FederationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserCamps">
+            <EntityTypeMapping TypeName="CIPMSModel.tblUserCamp">
+              <MappingFragment StoreEntitySet="tblUserCamps">
+                <ScalarProperty Name="CampYearid" ColumnName="CampYearid" />
+                <ScalarProperty Name="CampId" ColumnName="CampId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model">
+        <EntityTypeShape EntityType="CIPMSModel.tblFederationGrade" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333331" IsExpanded="true" />
+        <EntityTypeShape EntityType="CIPMSModel.tblMetaFederationGrade" Width="1.5" PointX="2.25" PointY="0.5" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="CIPMSModel.tblCamp" Width="1.5" PointX="0.5" PointY="3.375" Height="2.5571907552083326" />
+        <EntityTypeShape EntityType="CIPMSModel.tblMetaCamp" Width="1.5" PointX="7.5" PointY="0.5" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="CIPMSModel.tblFedCampGrant" Width="1.5" PointX="4" PointY="0.5" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="CIPMSModel.tblCampYear" Width="1.5" PointX="5.75" PointY="0.5" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="CIPMSModel.tblNationalCamp" Width="1.5" PointX="5.75" PointY="4.125" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="CIPMSModel.tblFederationCampsContactDetail" Width="1.5" PointX="4" PointY="3.25" Height="2.7494921874999996" IsExpanded="true" />
+        <AssociationConnector Association="CIPMSModel.FK_tblFederationCampsContactDetails_tblCamps" >
+          <ConnectorPoint PointX="2" PointY="3.65625" />
+          <ConnectorPoint PointX="4" PointY="3.65625" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CIPMSModel.tblFederationCamp" Width="1.5" PointX="2.25" PointY="4" Height="1.9802864583333317" />
+        <AssociationConnector Association="CIPMSModel.FK_tblFederationCamps_Camps" >
+          <ConnectorPoint PointX="2" PointY="4.9660953776041659" />
+          <ConnectorPoint PointX="2.25" PointY="4.9660953776041659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CIPMSModel.tblSynagogue" Width="1.5" PointX="7.625" PointY="3.125" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="CIPMSModel.tblJCC" Width="1.5" PointX="9.5" PointY="0.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="CIPMSModel.tblUserCamp" Width="1.5" PointX="9.875" PointY="3.875" Height="1.7879850260416674" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

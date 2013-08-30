@@ -1,0 +1,169 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Reporting System</title>
+    <link rel="stylesheet" href="Scripts/jquery.tooltip.css" />
+    <%--<link rel="stylesheet" href="Scripts/screen.css" />--%>
+    <script src="Scripts/jquery.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.bgiframe.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.dimensions.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.tooltip.js" type="text/javascript"></script>
+    <script src="Scripts/chili-1.7.pack.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4949411-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+
+</script>
+    <form id="form1" runat="server">
+    <div id="bodywrapper">
+    <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="Server" />
+        <%--<asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
+        <div id="TopHeaderPanel">
+            <a href="http://www.jewishcamp.org/"><asp:Image ImageUrl="~/Images/applicaitonHDR.jpg" ID="imgBanner" runat="server" /></a>
+        </div>    
+        <div>
+            <asp:Label ID="lblTitle" Font-Bold="true" runat="server" Text="Reporting System"></asp:Label>
+            &nbsp;&nbsp;
+            <span style="font-size:smaller">
+            If you are not <asp:Label ID="lblID" runat="server"></asp:Label>, please 
+            <asp:LinkButton ID="lnkbtnLogout" runat="server" Text="logout" onclick="lnkbtnLogout_Click"></asp:LinkButton>
+            </span>
+            <br />
+            Available Reports:
+        </div>   
+        <div id="divOtherLeftMenuPanel" class="LeftMenuPanel" runat="server">
+            <br />
+            <span style="font-weight:bold; font-size:small;"><a href="Default.aspx">Report Menu</a></span>
+            <br /><br />
+            <span style="font-weight:bold; font-size:small">Administrative Reports</span>
+            <ul class="menutext2">
+                <li>
+                    <asp:HyperLink ID="hylCampersByCampFed2" runat="server" Text="Camper Detail" NavigateUrl="~/CampersByCampFed.aspx"></asp:HyperLink>
+                </li>
+                <li id="Li16" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperContactInfo2" runat="server" Text="Camper Contact Info" NavigateUrl="~/CamperContactInfo.aspx"></asp:HyperLink>
+                </li>  
+                <li>
+                    <asp:HyperLink ID="hylNumberOfCampersByCamp2" runat="server" Text="Camper Status" NavigateUrl="~/NumberOfCampersByCamp.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li20" runat="server" visible="false">
+                    <asp:HyperLink ID="hylSummaryByCamp2" runat="server" Text="Summary by Camp" NavigateUrl="~/SummaryByCamp.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li1" runat="server" visible="true">
+                    <asp:HyperLink ID="hylDataExtract2" runat="server" Text="Full Data Extract" NavigateUrl="~/DataExtract.aspx" ></asp:HyperLink>
+                </li>
+                <li id="LiSchoolTypeReport" runat="server" visible="false">
+                    <asp:HyperLink ID="HyperLink1" runat="server" Text="School Type Report" NavigateUrl="~/SchoolTypeReport.aspx"></asp:HyperLink>
+                </li>                                                           
+            </ul>
+            <span style="font-weight:bold; font-size:small">Analytical Reports</span>
+            <ul class="menutext2">
+                <li id="Li2" runat="server" visible="true">
+                    <asp:HyperLink ID="hylParentByCountry2" runat="server" Text="Parent Origin" NavigateUrl="~/ParentByCountry.aspx" ></asp:HyperLink>
+                </li> 
+                <li id="Li3" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCampersBySynagogue2" runat="server" Text="Campers by Synagogue" NavigateUrl="~/CampersBySynagogue.aspx" ></asp:HyperLink>
+                </li>  
+                <li id="Li4" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperSummaryReportByCamp2" runat="server" Text="Session Length" NavigateUrl="~/CamperSummaryReportByCamp.aspx"></asp:HyperLink>
+                </li>  
+                <li id="Li5" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperReportByState_TimesInCamp2" runat="server" Text="Camper State" NavigateUrl="~/CamperReportByState_TimesInCamp.aspx" ></asp:HyperLink>
+                </li>                                
+            </ul>
+            <br /><br />
+            <asp:HyperLink ID="hylBackToCIPMS2" runat="server" Text="Return to OHC Home"></asp:HyperLink>
+        </div>
+        <div id="divFJCAdminLeftMenuPanel" class="LeftMenuPanel" runat="server">
+            <br />
+            <span style="font-weight:bold; font-size:small;"><a href="Default.aspx">Report Menu</a></span>
+            <br /><br />
+            <span style="font-weight:bold; font-size:small">Administrative Reports</span>
+            <ul class="menutext2">
+                <li id="Li6" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCampersByCampFJC" runat="server" Text="Camper Detail Report(FJC)" NavigateUrl="~/CampersByCampFJC.aspx"></asp:HyperLink>
+                </li>
+                <li>
+                    <asp:HyperLink ID="hylCampersByCampFed" runat="server" Text="Camper Detail by Camp" NavigateUrl="~/CampersByCampFed.aspx"></asp:HyperLink>
+                </li>
+                <li id="Li15" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperContactInfo" runat="server" Text="Camper Contact Info" NavigateUrl="~/CamperContactInfo.aspx"></asp:HyperLink>
+                </li>  
+                <li id="Li7" runat="server" visible="true">
+                    <asp:HyperLink ID="hylNumberOfCampersByProgram" runat="server" Text="Camper Status by Program" NavigateUrl="~/NumberOfCampersByProgram.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li19" runat="server" visible="true">
+                    <asp:HyperLink ID="hylSummaryByProgram" runat="server" Text="Summary by Program" NavigateUrl="~/SummaryByProgram.aspx" ></asp:HyperLink>
+                </li>
+                <li>
+                    <asp:HyperLink ID="hylNumberOfCampersByCamp" runat="server" Text="Camper Status by Camp" NavigateUrl="~/NumberOfCampersByCamp.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li21" runat="server" visible="true">
+                    <asp:HyperLink ID="hylSummaryByCamp" runat="server" Text="Summary by Camp" NavigateUrl="~/SummaryByCamp.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li8" runat="server" visible="true">
+                    <asp:HyperLink ID="hylDataExtract" runat="server" Text="Full Data Extract" NavigateUrl="~/DataExtract.aspx" ></asp:HyperLink>
+                </li>    
+                <li id="Li9" runat="server" visible="true">
+                    <asp:HyperLink ID="hylFJCAllocationReport" runat="server" Text="FJC Allocation" NavigateUrl="~/FJCAllocationReport.aspx"></asp:HyperLink>
+                </li>
+                <li id="Li14" runat="server" visible="true">
+                    <asp:HyperLink ID="hylDuplicateIDReport" runat="server" Text="Duplicate Identification Report" NavigateUrl="~/DuplicateIDReport.aspx"></asp:HyperLink>
+                </li>   
+                <li id="Li17" runat="server" visible="true">
+                    <asp:HyperLink ID="hylProgramProfile" runat="server" Text="Program Profile Report" NavigateUrl="~/ProgramProfileReport.aspx"></asp:HyperLink>
+                </li>
+                <li id="Li18" runat="server" visible="true">
+                    <asp:HyperLink ID="hylSchoolType" runat="server" Text="School Type Report" NavigateUrl="~/SchoolTypeReport.aspx"></asp:HyperLink>
+                </li>   
+                <li id="Li22" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperHolding" runat="server" Text="Camper Holding Report" NavigateUrl="~/CamperHoldingReport.aspx"></asp:HyperLink>
+                </li>                                                                                                                        
+            </ul>
+            <span style="font-weight:bold; font-size:small">Analytical Reports</span>
+            <ul class="menutext2">
+                <li id="Li10" runat="server" visible="true">
+                    <asp:HyperLink ID="hylParentByCountry" runat="server" Text="Parent Origin by Camp" NavigateUrl="~/ParentByCountry.aspx" ></asp:HyperLink>
+                </li> 
+                <li id="Li11" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCampersBySynagogue" runat="server" Text="Campers by Synagogue" NavigateUrl="~/CampersBySynagogue.aspx" ></asp:HyperLink>
+                </li>  
+                <li id="Li12" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperSummaryReportByCamp" runat="server" Text="Session Length by Camp" NavigateUrl="~/CamperSummaryReportByCamp.aspx"></asp:HyperLink>
+                </li>  
+                <li id="Li13" runat="server" visible="true">
+                    <asp:HyperLink ID="hylCamperReportByState_TimesInCamp" runat="server" Text="Camper State by Camp" NavigateUrl="~/CamperReportByState_TimesInCamp.aspx" ></asp:HyperLink>
+                </li>                                
+            </ul>
+            <span style="font-weight:bold; font-size:small">Other Reports</span>
+            <ul class="menutext2">
+                <li>
+                    <asp:HyperLink ID="hylCamperApplicationSearchReport" runat="server" Text="Camper App Search" NavigateUrl="~/CamperApplicationSearchReport.aspx" ></asp:HyperLink>
+                </li>                              
+            </ul>
+            <br /><br />
+            <asp:HyperLink ID="hylBackToCIPMS" runat="server" Text="Return to OHC Home"></asp:HyperLink>
+        </div>
+        <div id="RightContentPanel">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolderHeader" runat="server"></asp:ContentPlaceHolder>
+            <br /><br />
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server" />
+        </div>
+    </div>
+    </form>
+</body>
+</html>
