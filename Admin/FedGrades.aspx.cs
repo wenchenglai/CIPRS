@@ -35,13 +35,16 @@ public partial class Admin_FedGrades : System.Web.UI.Page
             foreach (var row in list)
             {
                 // create new detail rows.  EF will insert entities automatically because referecing to the existing camps
-                ctx.AddTotblFederationGrades(new tblFederationGrade
+                if (row.FederationID != 89)
                 {
-                    CampYearID = campYearID,
-                    FederationID = row.FederationID,
-                    EligibleGrade = row.EligibleGrade,
-                    TimeInCamp = row.TimeInCamp
-                });
+                    ctx.AddTotblFederationGrades(new tblFederationGrade
+                    {
+                        CampYearID = campYearID,
+                        FederationID = row.FederationID,
+                        EligibleGrade = row.EligibleGrade,
+                        TimeInCamp = row.TimeInCamp
+                    });
+                }
             }
             ctx.SaveChanges();
         }

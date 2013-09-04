@@ -28,7 +28,7 @@ public partial class Admin_FedCampGrant : System.Web.UI.Page
         using (CIPMSEntities1 ctx = new CIPMSEntities1())
         {
             var list = from grantrow in ctx.tblFedCampGrants
-                       where grantrow.CampYearID == 4
+                       where grantrow.CampYearID == campYearID - 1
                        orderby grantrow.FederationID, grantrow.CampID
                        select grantrow;
 

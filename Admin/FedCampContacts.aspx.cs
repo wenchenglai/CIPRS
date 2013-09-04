@@ -28,7 +28,7 @@ public partial class Admin_FedCampContacts : System.Web.UI.Page
         using (CIPMSEntities1 ctx = new CIPMSEntities1())
         {
             var list = from row in ctx.tblFederationCampsContactDetails.Include("tblCamp")
-                       where row.CampYearID == 4
+                       where row.CampYearID == campYearID - 1
                        orderby row.FederationID, row.tblCamp.ID
                        select row;
 
