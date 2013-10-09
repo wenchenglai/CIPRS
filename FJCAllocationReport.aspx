@@ -9,14 +9,7 @@
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <strong>Year:</strong>&nbsp;&nbsp;
-                <asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="true" 
-                    onselectedindexchanged="ddlYear_SelectedIndexChanged">
-                    <asp:ListItem Text="2009" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="2010" Value="2"></asp:ListItem> 
-                    <asp:ListItem Text="2011" Value="3"></asp:ListItem>  
-        <asp:ListItem Text="2012" Value="4"></asp:ListItem>   
-        <asp:ListItem Text="2013" Value="5" Selected="True"></asp:ListItem>                     
-                </asp:DropDownList>
+                <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" AutoPostBack="true" onselectedindexchanged="ddlYear_SelectedIndexChanged" runat="server" />
                 <br /><br />    
                 <strong>Program:</strong>&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:CheckBox ID="chkAllFeds" runat="server" Text="Select all programs" 
@@ -25,7 +18,7 @@
                 DataValueField="ID" DataTextField="Name" />
                 <asp:ObjectDataSource ID="odsFed" runat="server" TypeName="FederationsDA" SelectMethod="GetAllFederations">
                     <SelectParameters>
-                        <asp:ControlParameter ControlID="ddlYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
+                        <asp:ControlParameter ControlID="ddlCampYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
                     </SelectParameters>         
                 </asp:ObjectDataSource>   
             </ContentTemplate>

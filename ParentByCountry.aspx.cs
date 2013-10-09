@@ -8,6 +8,8 @@ using GemBox.ExcelLite;
 using System.Data;
 using System.Drawing;
 
+using Model;
+
 public partial class ParentByCountry : System.Web.UI.Page
 {
     Role UserRole;
@@ -29,8 +31,12 @@ public partial class ParentByCountry : System.Web.UI.Page
                 chkByProgram.Visible = false;
             }
 
-            //chklistCountry.Visible = false;
-            //chklistCountryPopular.Visible = true;
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
 
             for (int i = 0; i < 2; i++)
             {
@@ -373,7 +379,7 @@ public partial class ParentByCountry : System.Web.UI.Page
         if (chk3rdTimers.Checked)
             TimesReceivedGrant += 8;
         
-        return CamperAnswerBL.GetParentCountryOfOrigin(Int32.Parse(ddlYear.SelectedValue), FedID_List, CampID_List, StatusID_List, CountryID_List, TimesReceivedGrant);
+        return CamperAnswerBL.GetParentCountryOfOrigin(Int32.Parse(ddlCampYear.SelectedValue), FedID_List, CampID_List, StatusID_List, CountryID_List, TimesReceivedGrant);
     }
 
     private void MakeKeyStatusBold()
@@ -534,7 +540,7 @@ public partial class ParentByCountry : System.Web.UI.Page
         CellRange SubHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
         SubHeader.Merged = true;
         SubHeader.Style = styleReportSubHeader;
-        SubHeader.Value = string.Format("Camp Year: {0}.  Generated on {1} {2}", ddlYear.SelectedItem.Text, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
+        SubHeader.Value = string.Format("Camp Year: {0}.  Generated on {1} {2}", ddlCampYear.SelectedItem.Text, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
 
         iRow += 2;
 

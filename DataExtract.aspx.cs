@@ -6,6 +6,8 @@ using GemBox.ExcelLite;
 using System.Data;
 using System.Drawing;
 
+using Model;
+
 public partial class DataExtract : System.Web.UI.Page
 {
 	Role UserRole;
@@ -22,6 +24,16 @@ public partial class DataExtract : System.Web.UI.Page
 		}
 
 		MakeKeyStatusBold();
+
+        if (!IsPostBack)
+        {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
+        }
 	}
 
 	protected void btnReport_Click(object sender, EventArgs e)
@@ -134,7 +146,7 @@ public partial class DataExtract : System.Web.UI.Page
 		else if (rdo2ndTimers.Checked)
 			TimesReceivedGrant = 2;
 
-		return ViewDumpForAllYearsDA.GetDataExtract(Int32.Parse(ddlYear.SelectedValue), FedID_List, CampID_List, StatusID_List, TimesReceivedGrant);
+		return ViewDumpForAllYearsDA.GetDataExtract(Int32.Parse(ddlCampYear.SelectedValue), FedID_List, CampID_List, StatusID_List, TimesReceivedGrant);
 	}
 
 	#region "Criterial selection control events"

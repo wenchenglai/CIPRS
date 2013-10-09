@@ -7,6 +7,8 @@ using GemBox.ExcelLite;
 using System.Data;
 using System.Drawing;
 
+using Model;
+
 public partial class NumberOfCampersByCamp : System.Web.UI.Page
 {
     Role UserRole;
@@ -31,6 +33,13 @@ public partial class NumberOfCampersByCamp : System.Web.UI.Page
                     chkAllCamps.Visible = false;
                     ddlProgram.SelectedIndex = 1;
                 }
+            }
+
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
             }
         }
 
@@ -182,20 +191,20 @@ public partial class NumberOfCampersByCamp : System.Web.UI.Page
         // There is one to one relationship between Fed Admin and a Federation, so UserID of FedAdmin is enough to know FedID
         if (UserRole == Role.FederationAdmin)
         {
-            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlYear.SelectedValue), pt, CampID_List, StatusName_List, Convert.ToInt32(Session["UserID"]));
+            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlCampYear.SelectedValue), pt, CampID_List, StatusName_List, Convert.ToInt32(Session["UserID"]));
         }
         else if (UserRole == Role.FJCAdmin)
         {
-            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlYear.SelectedValue), pt, CampID_List, StatusName_List, -1);
+            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlCampYear.SelectedValue), pt, CampID_List, StatusName_List, -1);
         }
         else if (UserRole == Role.CampDirector)
         {
-            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlYear.SelectedValue), pt, CampID_List, StatusName_List, -1);
+            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlCampYear.SelectedValue), pt, CampID_List, StatusName_List, -1);
         }
         else
         {
             // Other possible roles, use the most stringent rule first
-            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlYear.SelectedValue), pt, CampID_List, StatusName_List, Convert.ToInt32(Session["UserID"]));
+            dt = CamperApplicationBL.GetCamperCountByCamp(Int32.Parse(ddlCampYear.SelectedValue), pt, CampID_List, StatusName_List, Convert.ToInt32(Session["UserID"]));
         }
         return dt;
     }
@@ -280,7 +289,7 @@ public partial class NumberOfCampersByCamp : System.Web.UI.Page
 
         CellRange SubHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
         SubHeader.Merged = true;
-        SubHeader.Value = "Camp Year: " + ddlYear.SelectedItem.Text;
+        SubHeader.Value = "Camp Year: " + ddlCampYear.SelectedItem.Text;
         SubHeader.Style = styleSubHeader;
 
         iRow += 2;

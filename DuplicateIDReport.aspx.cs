@@ -9,6 +9,8 @@ using GemBox.ExcelLite;
 using System.Data;
 using System.Drawing;
 
+using Model;
+
 public partial class DuplicateIDReport : System.Web.UI.Page
 {
     Role UserRole;
@@ -23,7 +25,12 @@ public partial class DuplicateIDReport : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
         }
 
         // Delete old work files
@@ -92,7 +99,7 @@ public partial class DuplicateIDReport : System.Web.UI.Page
             }
         }
 
-        return DuplicateCheckingBL.GetDuplicateCampers(UserRole, Int32.Parse(ddlYear.SelectedValue), StatusID_List);
+        return DuplicateCheckingBL.GetDuplicateCampers(UserRole, Int32.Parse(ddlCampYear.SelectedValue), StatusID_List);
     }
     
     protected void lnkbtnBack_Click(object sender, EventArgs e)
@@ -159,7 +166,7 @@ public partial class DuplicateIDReport : System.Web.UI.Page
 
         CellRange SubHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
         SubHeader.Merged = true;
-        SubHeader.Value = "Camp Year: " + ddlYear.SelectedItem.Text;
+        SubHeader.Value = "Camp Year: " + ddlCampYear.SelectedItem.Text;
         SubHeader.Style = styleSubHeader;
 
         iRow += 2;

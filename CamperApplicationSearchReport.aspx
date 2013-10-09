@@ -5,13 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <strong>Summer:</strong>&nbsp;&nbsp;
-    <asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="true">
-        <asp:ListItem Text="2009" Value="1"></asp:ListItem>
-        <asp:ListItem Text="2010" Value="2"></asp:ListItem>      
-        <asp:ListItem Text="2011" Value="3"></asp:ListItem>  
-        <asp:ListItem Text="2012" Value="4"></asp:ListItem>   
-        <asp:ListItem Text="2013" Value="5" Selected="True"></asp:ListItem>      
-    </asp:DropDownList>
+    <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server"></asp:DropDownList>
     <br /><br /> 
     <asp:DropDownList ID="ddlSearchKey" runat="server">
         <asp:ListItem Text="Name" Value="0"></asp:ListItem>
@@ -28,7 +22,7 @@
     </asp:GridView>
     <asp:ObjectDataSource ID="ods" runat="server" TypeName="CamperApplicationDA" SelectMethod="GetCamperApplicationsWithSearchCriteria">
         <SelectParameters>
-            <asp:ControlParameter ControlID="ddlYear" Type="Int32" PropertyName="SelectedValue" Name="CampYearID" />
+            <asp:ControlParameter ControlID="ddlCampYear" Type="Int32" PropertyName="SelectedValue" Name="CampYearID" />
             <asp:ControlParameter ControlID="ddlSearchKey" Type="Int32" PropertyName="SelectedValue" Name="SearchKey" />
             <asp:ControlParameter ControlID="txtSearchText" Type="String" PropertyName="Text" Name="SearchText" />
         </SelectParameters>

@@ -5,11 +5,21 @@ using System.Data;
 using System.Drawing;
 using GemBox.ExcelLite;
 
+using Model;
+
 public partial class CamperHoldingReport : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
+        }
     }
 
     protected void btnReport_Click(object sender, EventArgs e)

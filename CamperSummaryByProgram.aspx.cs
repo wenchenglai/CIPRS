@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
+using Model;
+
 public partial class CamperSummaryByProgram : System.Web.UI.Page
 {
     Role UserRole;
@@ -28,10 +30,17 @@ public partial class CamperSummaryByProgram : System.Web.UI.Page
                 ddlFed.DataSourceID = null;
 
                 chklistCamp.DataSourceID = null;
-                chklistCamp.DataSource = CampsDA.GetCampByJWestCampDirector(Int32.Parse(ddlYear.SelectedValue), Int32.Parse(Session["UserID"].ToString()));
+                chklistCamp.DataSource = CampsDA.GetCampByJWestCampDirector(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(Session["UserID"].ToString()));
                 chklistCamp.DataBind();
 
                 chkAllCamps.Visible = false;
+            }
+
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
             }
         }
     }
@@ -102,9 +111,9 @@ public partial class CamperSummaryByProgram : System.Web.UI.Page
 
         ReportParamCampersFJC param = new ReportParamCampersFJC();
 
-        param.CampYearID = Int32.Parse(ddlYear.SelectedValue);
+        param.CampYearID = Int32.Parse(ddlCampYear.SelectedValue);
         param.ProgramTypeID = ProgramType.NoUse;
-        param.CampYear = Int32.Parse(ddlYear.SelectedItem.Text);
+        param.CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text);
 
         if (UserRole == Role.CampDirector)
         {

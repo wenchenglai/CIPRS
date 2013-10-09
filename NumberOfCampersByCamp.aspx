@@ -9,13 +9,7 @@
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>      
                 <strong>Summer:</strong>&nbsp;&nbsp;
-                <asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="true">
-                    <asp:ListItem Text="2009" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="2010" Value="2"></asp:ListItem>
-                    <asp:ListItem Text="2011" Value="3"></asp:ListItem>  
-                    <asp:ListItem Text="2012" Value="4"></asp:ListItem>   
-                    <asp:ListItem Text="2013" Value="5" Selected="True"></asp:ListItem>                 
-                </asp:DropDownList>
+                <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server" AutoPostBack="true" />
                 <br /><br />
                 <strong>Program:</strong>&nbsp;&nbsp;
                 <asp:DropDownList ID="ddlProgram" runat="server" AutoPostBack="true" 
@@ -35,7 +29,7 @@
                         RepeatColumns="2" ondatabound="chklistCamp_DataBound"></asp:CheckBoxList>
                 <asp:ObjectDataSource ID="odsCamps" runat="server" TypeName="CampsDA" SelectMethod="GetAllCampsByRoleID">
                     <SelectParameters>
-                        <asp:ControlParameter ControlID="ddlYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
+                        <asp:ControlParameter ControlID="ddlCampYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
                         <asp:ControlParameter ControlID="ddlProgram" Name="type" PropertyName="SelectedValue" Type="Int32" />        
                         <asp:SessionParameter SessionField="RoleID" Name="RoleID" Type="Int32" />
                         <asp:SessionParameter SessionField="UserID" Name="UserID" Type="Int32" />            

@@ -9,13 +9,7 @@
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 <strong>Summer:</strong>&nbsp;&nbsp;
-                <asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="true">
-                    <asp:ListItem Text="2009" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="2010" Value="2"></asp:ListItem>
-                    <asp:ListItem Text="2011" Value="3"></asp:ListItem>  
-        <asp:ListItem Text="2012" Value="4"></asp:ListItem>   
-        <asp:ListItem Text="2013" Value="5" Selected="True"></asp:ListItem>                       
-                </asp:DropDownList>
+                <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server" />
                 <br /><br />    
                 <strong>Program:</strong>&nbsp;&nbsp;
                 <asp:DropDownList ID="ddlFed" runat="server" DataSourceID="odsFed" 
@@ -24,7 +18,7 @@
                     onselectedindexchanged="ddlFed_SelectedIndexChanged" />
                 <asp:ObjectDataSource ID="odsFed" runat="server" TypeName="FederationsDA" SelectMethod="GetAllFederations">
                     <SelectParameters>
-                        <asp:ControlParameter ControlID="ddlYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
+                        <asp:ControlParameter ControlID="ddlCampYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
                     </SelectParameters>     
                 </asp:ObjectDataSource>
                 <br /><br />
@@ -38,7 +32,7 @@
                 </asp:CheckBoxList>
                 <asp:ObjectDataSource ID="odsCamp" runat="server" TypeName="CampsDA" SelectMethod="GetAllCampsByFedID">
                     <SelectParameters>
-                        <asp:ControlParameter ControlID="ddlYear" PropertyName="SelectedValue" Type="Int32" Name="CampYearID" />
+                        <asp:ControlParameter ControlID="ddlCampYear" PropertyName="SelectedValue" Type="Int32" Name="CampYearID" />
                         <asp:ControlParameter ControlID="ddlFed" PropertyName="SelectedValue" Type="Int32" Name="FedID" />
                     </SelectParameters>
                 </asp:ObjectDataSource>

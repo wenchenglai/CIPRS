@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using Model;
+
 public partial class CampersBySynagogue : System.Web.UI.Page
 {
     Role UserRole;
@@ -14,6 +16,16 @@ public partial class CampersBySynagogue : System.Web.UI.Page
         UserRole = (Role)Convert.ToInt32(Session["RoleID"]);
 
         MakeKeyStatusBold();
+
+        if (!IsPostBack)
+        {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
+        }
     }
 
     protected void ddlFed_DataBound(object sender, EventArgs e)
@@ -138,8 +150,8 @@ public partial class CampersBySynagogue : System.Web.UI.Page
 
         ReportParamCampersFJC param = new ReportParamCampersFJC() 
         { 
-            CampYearID = Int32.Parse(ddlYear.SelectedValue), 
-            CampYear = Int32.Parse(ddlYear.SelectedItem.Text), 
+            CampYearID = Int32.Parse(ddlCampYear.SelectedValue), 
+            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text), 
             ProgramTypeID = (ProgramType)(-1), 
             FedID = Int32.Parse(ddlFed.SelectedValue), 
             CamperOrg = CamperOrgType.Synagogue 

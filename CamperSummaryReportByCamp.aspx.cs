@@ -8,6 +8,8 @@ using System.Data;
 using GemBox.ExcelLite;
 using System.Drawing;
 
+using Model;
+
 public partial class CamperSummaryReportByCamp : System.Web.UI.Page
 {
     Role UserRole;
@@ -26,6 +28,13 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
             if (UserRole == Role.CampDirector || UserRole == Role.FederationAdmin)
             {
                 chkAllFeds.Visible = false;
+            }
+
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
             }
         }
     }
@@ -199,7 +208,7 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         if (chk3rdTimers.Checked)
             TimesReceivedGrant += 8;
 
-        return CamperApplicationBL.GetCamperSummaryReportByCamp(Int32.Parse(ddlYear.SelectedValue), FedID_List, CampID_List, StatusID_List, TimesReceivedGrant);
+        return CamperApplicationBL.GetCamperSummaryReportByCamp(Int32.Parse(ddlCampYear.SelectedValue), FedID_List, CampID_List, StatusID_List, TimesReceivedGrant);
     }
 
     private void MakeKeyStatusBold()
@@ -389,7 +398,7 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         CellRange SubHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
         SubHeader.Merged = true;
         SubHeader.Style = styleReportSubHeader;
-        SubHeader.Value = string.Format("Camp Year: {0}.  Generated on {1} {2}", ddlYear.SelectedItem.Text, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
+        SubHeader.Value = string.Format("Camp Year: {0}.  Generated on {1} {2}", ddlCampYear.SelectedItem.Text, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
 
         iRow += 4;
 

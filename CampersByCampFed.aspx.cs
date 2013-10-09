@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using Model;
+
 public partial class CampersByCampFed : System.Web.UI.Page
 {
     Role UserRole;
@@ -19,13 +21,20 @@ public partial class CampersByCampFed : System.Web.UI.Page
 
         if (!IsPostBack)
         {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
+
             if (UserRole == Role.CampDirector)
             {
                 ddlFed.Visible = false;
                 ddlFed.DataSourceID = null;
 
                 chklistCamp.DataSourceID = null;
-                chklistCamp.DataSource = CampsDA.GetCampByJWestCampDirector(Int32.Parse(ddlYear.SelectedValue), Int32.Parse(Session["UserID"].ToString()));
+                chklistCamp.DataSource = CampsDA.GetCampByJWestCampDirector(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(Session["UserID"].ToString()));
                 chklistCamp.DataBind();
 
                 chkAllCamps.Visible = false;
@@ -87,9 +96,9 @@ public partial class CampersByCampFed : System.Web.UI.Page
 
         ReportParamCampersFJC param = new ReportParamCampersFJC() 
         { 
-            CampYearID = Int32.Parse(ddlYear.SelectedValue), 
+            CampYearID = Int32.Parse(ddlCampYear.SelectedValue), 
             ProgramTypeID = ProgramType.NoUse, 
-            CampYear = Int32.Parse(ddlYear.SelectedItem.Text) 
+            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text) 
         };
 
         if (UserRole == Role.CampDirector)

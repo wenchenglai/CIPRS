@@ -13,9 +13,8 @@ public partial class Admin_FedCampGrant : System.Web.UI.Page
         {
             using (CIPMSEntities1 ctx = new CIPMSEntities1())
             {
-                ddlCampYear.DataSource = ctx.tblCampYears.Where(x => x.CurrentYear == true).Select(x => new { id = x.ID, text = x.CampYear });
-                ddlCampYear.DataValueField = "id";
-                ddlCampYear.DataTextField = "text";
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
                 ddlCampYear.DataBind();
             }
         }

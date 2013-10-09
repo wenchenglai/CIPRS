@@ -9,6 +9,8 @@ using System.IO;
 using GemBox.ExcelLite;
 using System.Drawing;
 
+using Model;
+
 public partial class FJCAllocationReport : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -24,6 +26,16 @@ public partial class FJCAllocationReport : System.Web.UI.Page
             // Delete any files that are 1 min old
             //if ((DateTime.Now - myFile.CreationTime).Minutes > 1)
             myFile.Delete();
+        }
+
+        if (!IsPostBack)
+        {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
         }
     }
     
@@ -52,7 +64,7 @@ public partial class FJCAllocationReport : System.Web.UI.Page
 
     private DataTable GenerateDataTable()
     {
-        DataSet ds = CamperApplicationDA.GetFJCAllocationData(Int32.Parse(ddlYear.SelectedValue));
+        DataSet ds = CamperApplicationDA.GetFJCAllocationData(Int32.Parse(ddlCampYear.SelectedValue));
         DataTable dtMain = ds.Tables[0];
         DataTable dtOverage = ds.Tables[1];
         DataTable dtFirstSecondTimers = ds.Tables[2];
@@ -216,7 +228,7 @@ public partial class FJCAllocationReport : System.Web.UI.Page
 
         CellRange SubHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
         SubHeader.Merged = true;
-        SubHeader.Value = "Camp Year: " + ddlYear.SelectedItem.Text;
+        SubHeader.Value = "Camp Year: " + ddlCampYear.SelectedItem.Text;
         SubHeader.Style = styleSubHeader;
 
         iRow += 2;

@@ -84,6 +84,14 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         hylCampersBySynagogue.ForeColor = Color.DarkBlue;
                         break;
 
+                    case "ProgramProfileReport.aspx":
+                        hylProgramProfile.ForeColor = Color.DarkBlue;
+                        break;
+
+                    case "SchoolTypeReport.aspx":
+                        hylSchoolType.ForeColor = Color.DarkBlue;
+                        break;
+
                     case "CamperSummaryReportByCamp.aspx":
                         hylCamperSummaryReportByCamp.ForeColor = Color.DarkBlue;
                         break;
@@ -112,16 +120,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         hylDuplicateIDReport.ForeColor = Color.DarkBlue;
                         break;
 
-                    case "SchoolTypeReport.aspx":
-                        hylDuplicateIDReport.ForeColor = Color.DarkBlue;
-                        break;
-
                     case "SummaryByProgram.aspx":
                         hylSummaryByProgram.ForeColor = Color.DarkBlue;
                         break;
 
                     case "SummaryByCamp.aspx":
                         hylSummaryByCamp.ForeColor = Color.DarkBlue;
+                        break;
+
+                    case "CamperHoldingReport.aspx":
+                        hylCamperHolding.ForeColor = Color.DarkBlue;
                         break;
 
                     default:

@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using Model;
+
 public partial class CampersByCampFJC : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         lblMsg.Text = "";
         MakeKeyStatusBold();
+        if (!IsPostBack)
+        {
+            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            {
+                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataBind();
+            }
+        }
     }
 
     protected void chkAllCamps_CheckedChanged(object sender, EventArgs e)
@@ -62,8 +73,8 @@ public partial class CampersByCampFJC : System.Web.UI.Page
 
         ReportParamCampersFJC param = new ReportParamCampersFJC() 
         { 
-            CampYearID = Int32.Parse(ddlYear.SelectedValue), 
-            CampYear = Int32.Parse(ddlYear.SelectedItem.Text), 
+            CampYearID = Int32.Parse(ddlCampYear.SelectedValue), 
+            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text), 
             ProgramTypeID = (ProgramType)Int32.Parse(ddlProgram.SelectedValue), 
             FedID = -1, /* flag value*/ 
             CamperOrg = CamperOrgType.Camp
