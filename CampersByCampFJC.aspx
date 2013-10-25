@@ -8,7 +8,7 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <strong>Summer:</strong>&nbsp;&nbsp;
-            <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server" />
+            <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server"  AutoPostBack="true" />
             <br /><br />
             <strong>Program:</strong>&nbsp;&nbsp;
             <asp:DropDownList ID="ddlProgram" runat="server" AutoPostBack="true" 

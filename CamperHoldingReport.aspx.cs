@@ -24,7 +24,7 @@ public partial class CamperHoldingReport : System.Web.UI.Page
 
     protected void btnReport_Click(object sender, EventArgs e)
     {
-        DataTable dt = CamperHoldingDA.GetData(Int32.Parse(Application["CampYear"].ToString()));
+        DataTable dt = CamperHoldingDA.GetData(Int32.Parse(ddlCampYear.SelectedItem.Text));
 
         string templateFile = Server.MapPath(@"~/Docs/Templates/CamperDetailReport.xls");
         string workFileDir = Server.MapPath(@"~/Docs");
