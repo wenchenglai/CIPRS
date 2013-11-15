@@ -277,7 +277,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs.WrapText = true;
 		cs.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr = ws.Cells.GetSubrangeAbsolute(0, 0, 0, 10);
+		CellRange cr = ws.Cells.GetSubrangeAbsolute(0, 0, 0, 9);
 		cr.Merged = true;
 		cr.Value = "Program Information";
 		cr.Style = cs;
@@ -288,7 +288,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs2.WrapText = true;
 		cs2.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr2 = ws.Cells.GetSubrangeAbsolute(0, 11, 0, 15);
+		CellRange cr2 = ws.Cells.GetSubrangeAbsolute(0, 10, 0, 14);
 		cr2.Merged = true;
 		cr2.Value = "Camp Information";
 		cr2.Style = cs2;
@@ -299,7 +299,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs3.WrapText = true;
 		cs3.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr3 = ws.Cells.GetSubrangeAbsolute(0, 16, 0, 23);
+		CellRange cr3 = ws.Cells.GetSubrangeAbsolute(0, 15, 0, 22);
 		cr3.Merged = true;
 		cr3.Value = "Basic Camper Information";
 		cr3.Style = cs3;
@@ -310,7 +310,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs4.WrapText = true;
 		cs4.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr4 = ws.Cells.GetSubrangeAbsolute(0, 24, 0, 28);
+		CellRange cr4 = ws.Cells.GetSubrangeAbsolute(0, 23, 0, 27);
 		cr4.Merged = true;
 		cr4.Value = "Camper Contact Information";
 		cr4.Style = cs4;
@@ -321,7 +321,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs5.WrapText = true;
 		cs5.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr5 = ws.Cells.GetSubrangeAbsolute(0, 29, 0, 42);
+		CellRange cr5 = ws.Cells.GetSubrangeAbsolute(0, 28, 0, 41);
 		cr5.Merged = true;
 		cr5.Value = "Parent Contact Information";
 		cr5.Style = cs5;
@@ -332,7 +332,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs6.WrapText = true;
 		cs6.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr6 = ws.Cells.GetSubrangeAbsolute(0, 43, 0, 45);
+		CellRange cr6 = ws.Cells.GetSubrangeAbsolute(0, 42, 0, 44);
 		cr6.Merged = true;
 		cr6.Value = "Application Information";
 		cr6.Style = cs6;
@@ -343,7 +343,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs7.WrapText = true;
 		cs7.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr7 = ws.Cells.GetSubrangeAbsolute(0, 46, 0, 52);
+		CellRange cr7 = ws.Cells.GetSubrangeAbsolute(0, 45, 0, 51);
 		cr7.Merged = true;
 		cr7.Value = "Marketing Source";
 		cr7.Style = cs7;
@@ -354,10 +354,21 @@ public partial class DataExtract : System.Web.UI.Page
 		cs8.WrapText = true;
 		cs8.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr8 = ws.Cells.GetSubrangeAbsolute(0, 53, 0, 68);
+		CellRange cr8 = ws.Cells.GetSubrangeAbsolute(0, 52, 0, 67);
 		cr8.Merged = true;
 		cr8.Value = "Demographic Information";
 		cr8.Style = cs8;
+
+        CellStyle cs9 = new CellStyle();
+        cs9.FillPattern.SetSolid(Color.FromArgb(233, 19, 210));
+        cs9.Font.Weight = ExcelFont.BoldWeight;
+        cs9.WrapText = true;
+        cs9.HorizontalAlignment = HorizontalAlignmentStyle.Center;
+
+        CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, 69, 0, 73);
+        cr9.Merged = true;
+        cr9.Value = "FJC ONLY";
+        cr9.Style = cs8;
 
 		// this creats the real table
 		ws.InsertDataTable(dt, 1, 0, true);
