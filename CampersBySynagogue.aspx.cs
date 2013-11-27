@@ -44,9 +44,9 @@ public partial class CampersBySynagogue : System.Web.UI.Page
             // Federation admins will see only their own Federation
             if (UserRole == Role.FederationAdmin)
             {
-                int FedID = Int32.Parse(Session["FedID"].ToString());
-                ddlFed.SelectedValue = FedID.ToString();
-                ddlFed.Enabled = false;
+                //int FedID = Int32.Parse(Session["FedID"].ToString());
+                //ddlFed.SelectedValue = FedID.ToString();
+                ddlFed.Enabled = true;
             }
             else if (UserRole == Role.FJCAdmin)
             {

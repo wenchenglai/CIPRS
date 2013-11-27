@@ -6,14 +6,16 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <strong>Summer:</strong>&nbsp;&nbsp;
-            <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server"></asp:DropDownList>
+            <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" AutoPostBack="true" runat="server"></asp:DropDownList>
             <br /><br />    
             <strong>Program:</strong>&nbsp;&nbsp;
             <asp:DropDownList ID="ddlFed" runat="server" DataSourceID="odsFed" DataValueField="ID" DataTextField="Name" AutoPostBack="true" 
                 ondatabound="ddlFed_DataBound" onselectedindexchanged="ddlFed_SelectedIndexChanged" />
-            <asp:ObjectDataSource ID="odsFed" runat="server" TypeName="FederationsDA" SelectMethod="GetAllFederations">
+            <asp:ObjectDataSource ID="odsFed" runat="server" TypeName="FederationsDA" SelectMethod="GetAllFederationsByUserRole">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="ddlCampYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
+                    <asp:SessionParameter SessionField="RoleID" Name="UserRole" Type="Int32" />
+                    <asp:SessionParameter SessionField="FedID" Name="FedID" Type="Int32" />
                 </SelectParameters>     
             </asp:ObjectDataSource>
             <br /><br />

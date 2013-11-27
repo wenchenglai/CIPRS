@@ -31,7 +31,6 @@
     <form id="form1" runat="server">
     <div id="bodywrapper">
     <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="Server" />
-        <%--<asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
         <div id="TopHeaderPanel">
             <a href="http://www.jewishcamp.org/"><asp:Image ImageUrl="~/Images/applicaitonHDR.jpg" ID="imgBanner" runat="server" /></a>
         </div>    
@@ -159,7 +158,7 @@
             <asp:HyperLink ID="hylBackToCIPMS" runat="server" Text="Return to OHC Home"></asp:HyperLink>
         </div>
         <div id="RightContentPanel">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolderHeader" runat="server"></asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolderHeader" runat="server" />
             <br /><br />
             <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server" />
         </div>

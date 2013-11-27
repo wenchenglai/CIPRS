@@ -160,18 +160,17 @@ public partial class CampersByCampFed : System.Web.UI.Page
             btnReport.Enabled = true;
 
             // Federation admins will see only their own Federation
-            if (UserRole == Role.FederationAdmin)
-            {
-                int FedID = Int32.Parse(Session["FedID"].ToString());
-                if (ddlFed.Items.FindByValue(FedID.ToString()) == null)
-                {
-                    lblMsg.Text = "Currently there are no camper applications for this program in the system";
-                    ddlFed.SelectedItem.Text = "No camper application data";
-                }
-                else                    
-                    ddlFed.SelectedValue = FedID.ToString();
-                ddlFed.Enabled = false;
-            }
+            //if (UserRole == Role.FederationAdmin)
+            //{
+            //    int FedID = Int32.Parse(Session["FedID"].ToString());
+            //    if (ddlFed.Items.FindByValue(FedID.ToString()) == null)
+            //    {
+            //        lblMsg.Text = "Currently there are no camper applications for this program in the system";
+            //        ddlFed.SelectedItem.Text = "No camper application data";
+            //    }
+            //    else                    
+            //        ddlFed.SelectedValue = FedID.ToString();
+            //}
         }
     }
 
