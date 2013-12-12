@@ -9,7 +9,7 @@
     <asp:ObjectDataSource ID="ods" runat="server" TypeName="CamperAnswerDA" SelectMethod="GetSchoolTypeReport">
         <SelectParameters>
             <asp:Parameter Name="FedID" DefaultValue="63" />
-            <asp:Parameter Name="CampYearID" DefaultValue="4" />
+            <asp:Parameter Name="CampYearID" DefaultValue="6" />
         </SelectParameters>
     </asp:ObjectDataSource>
 </asp:Content>
