@@ -87,11 +87,14 @@ public partial class DataExtract : System.Web.UI.Page
 
 		GenerateExcelReport();
 
-		//gv.DataSource = GenerateDataSet();
-		//gv.DataBind();
+        // 2013-12-31 The code below is for testing purpose
 
-		//divMenu.Visible = false;
-		//divReport.Visible = true;
+        //DataTable dt = GenerateDataSet();
+        //gv.DataSource = dt;
+        //gv.DataBind();
+
+        //divMenu.Visible = false;
+        //divReport.Visible = true;
 	}
 
 	private DataTable GenerateDataSet()
