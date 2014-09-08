@@ -11,7 +11,7 @@ public partial class Admin_Camps : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            using (var ctx = new CIPMSEntities1())
             {
                 ddlCampYear.DataSource = ctx.tblCampYears.Where(x => x.CurrentYear == true).Select(x => new { id = x.ID, text = x.CampYear });
                 ddlCampYear.DataValueField = "id";
@@ -24,70 +24,30 @@ public partial class Admin_Camps : System.Web.UI.Page
     protected void btnGenerate_Click(object sender, EventArgs e)
     {
         int campYearID = Int32.Parse(ddlCampYear.SelectedValue);
-        bool isCopyFromLastYearDirectly = true;
 
-        using (CIPMSEntities1 ctx = new CIPMSEntities1())
+        using (var ctx = new CIPMSEntities1())
         {
             var list = from camp in ctx.tblCamps
                        where camp.CampYearID == campYearID - 1
                        select camp;
 
-            if (isCopyFromLastYearDirectly)
+            foreach (var newCamp in list)
             {
-                foreach (var newCamp in list)
+                ctx.AddTotblCamps(new tblCamp
                 {
-                    ctx.AddTotblCamps(new tblCamp
-                    {
-                        CampYearID = campYearID,
-                        ID = newCamp.ID + 1000,
-                        Inactive = false,
-                        Name = newCamp.Name,
-                        IsManual = false,
-                        State = newCamp.State
-                    });
-                }
+                    CampYearID = campYearID,
+                    ID = newCamp.ID + 1000,
+                    Inactive = false,
+                    Name = newCamp.Name,
+                    IsManual = false,
+                    State = newCamp.State,
+                    JDataID = newCamp.JDataID,
+                    IsWestCamp = newCamp.IsWestCamp,
+                    IsAdamahCamp = newCamp.IsAdamahCamp,
+                    IsURJCamp = newCamp.IsURJCamp
+                });
             }
-            else
-            {
-                // use the meta camp table - the source of meta camp table is from FJC 
-                long idMax = ctx.tblCamps.Select(x => x).Max(x => x.ID);
-
-                foreach (var newCamp in ctx.tblMetaCamps)
-                {
-                    var oldCamp = (from camp in list
-                                   where camp.Name == newCamp.CampName
-                                   select camp).FirstOrDefault();
-
-                    if (oldCamp == null)
-                    {
-                        // this means we have new camp for this camp year
-                        idMax += 1;
-
-                        ctx.AddTotblCamps(new tblCamp
-                        {
-                            CampYearID = campYearID,
-                            ID = idMax.ToString()[0] == (campYearID - 1).ToString()[0] ? idMax : idMax + 1000,
-                            Inactive = false,
-                            Name = newCamp.CampName,
-                            IsManual = false
-                        });
-                    }
-                    else
-                    {
-                        // we have exiting camp that needs to be migrated to this year
-                        ctx.AddTotblCamps(new tblCamp
-                        {
-                            CampYearID = campYearID,
-                            ID = oldCamp.ID + 1000,
-                            Inactive = false,
-                            Name = newCamp.NewCampName ?? newCamp.CampName,
-                            IsManual = false,
-                            State = oldCamp.State
-                        });
-                    }
-                }
-            }
-            
+           
             ctx.SaveChanges();
         }
         lblMsg.Text = "Data generated successfully.";

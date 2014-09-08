@@ -11,10 +11,11 @@ public partial class Admin_FedCampGrant : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            using (var ctx = new CIPMSEntities1())
             {
-                ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
-                ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
+                ddlCampYear.DataSource = ctx.tblCampYears.Where(x => x.CurrentYear).Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.DataValueField = "id";
+                ddlCampYear.DataTextField = "text";
                 ddlCampYear.DataBind();
             }
         }
@@ -24,7 +25,7 @@ public partial class Admin_FedCampGrant : System.Web.UI.Page
     {
         int campYearID = Int32.Parse(ddlCampYear.SelectedValue);
 
-        using (CIPMSEntities1 ctx = new CIPMSEntities1())
+        using (var ctx = new CIPMSEntities1())
         {
             var list = from grantrow in ctx.tblFedCampGrants
                        where grantrow.CampYearID == campYearID - 1

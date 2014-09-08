@@ -136,22 +136,6 @@ namespace Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<tblFedCampGrant> tblFedCampGrants
-        {
-            get
-            {
-                if ((_tblFedCampGrants == null))
-                {
-                    _tblFedCampGrants = base.CreateObjectSet<tblFedCampGrant>("tblFedCampGrants");
-                }
-                return _tblFedCampGrants;
-            }
-        }
-        private ObjectSet<tblFedCampGrant> _tblFedCampGrants;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<tblCampYear> tblCampYears
         {
             get
@@ -260,6 +244,22 @@ namespace Model
             }
         }
         private ObjectSet<tblUserCamp> _tblUserCamps;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<tblFedCampGrant> tblFedCampGrants
+        {
+            get
+            {
+                if ((_tblFedCampGrants == null))
+                {
+                    _tblFedCampGrants = base.CreateObjectSet<tblFedCampGrant>("tblFedCampGrants");
+                }
+                return _tblFedCampGrants;
+            }
+        }
+        private ObjectSet<tblFedCampGrant> _tblFedCampGrants;
 
         #endregion
 
@@ -295,14 +295,6 @@ namespace Model
         public void AddTotblMetaCamps(tblMetaCamp tblMetaCamp)
         {
             base.AddObject("tblMetaCamps", tblMetaCamp);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the tblFedCampGrants EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddTotblFedCampGrants(tblFedCampGrant tblFedCampGrant)
-        {
-            base.AddObject("tblFedCampGrants", tblFedCampGrant);
         }
     
         /// <summary>
@@ -359,6 +351,14 @@ namespace Model
         public void AddTotblUserCamps(tblUserCamp tblUserCamp)
         {
             base.AddObject("tblUserCamps", tblUserCamp);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the tblFedCampGrants EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTotblFedCampGrants(tblFedCampGrant tblFedCampGrant)
+        {
+            base.AddObject("tblFedCampGrants", tblFedCampGrant);
         }
 
         #endregion
@@ -445,7 +445,7 @@ namespace Model
         /// No Metadata Documentation available.
         /// </summary>
         /// <param name="campYearID">No Metadata Documentation available.</param>
-        public ObjectResult<tblFedCampGrant> uspFedCampGrantDelete(Nullable<global::System.Int32> campYearID)
+        public int uspFedCampGrantDelete(Nullable<global::System.Int32> campYearID)
         {
             ObjectParameter campYearIDParameter;
             if (campYearID.HasValue)
@@ -457,26 +457,7 @@ namespace Model
                 campYearIDParameter = new ObjectParameter("CampYearID", typeof(global::System.Int32));
             }
     
-            return base.ExecuteFunction<tblFedCampGrant>("uspFedCampGrantDelete", campYearIDParameter);
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        /// <param name="mergeOption"></param>
-        /// <param name="campYearID">No Metadata Documentation available.</param>
-        public ObjectResult<tblFedCampGrant> uspFedCampGrantDelete(Nullable<global::System.Int32> campYearID, MergeOption mergeOption)
-        {
-            ObjectParameter campYearIDParameter;
-            if (campYearID.HasValue)
-            {
-                campYearIDParameter = new ObjectParameter("CampYearID", campYearID);
-            }
-            else
-            {
-                campYearIDParameter = new ObjectParameter("CampYearID", typeof(global::System.Int32));
-            }
-    
-            return base.ExecuteFunction<tblFedCampGrant>("uspFedCampGrantDelete", mergeOption, campYearIDParameter);
+            return base.ExecuteFunction("uspFedCampGrantDelete", campYearIDParameter);
         }
     
         /// <summary>
@@ -734,6 +715,102 @@ namespace Model
         private Nullable<global::System.Boolean> _IsManual;
         partial void OnIsManualChanging(Nullable<global::System.Boolean> value);
         partial void OnIsManualChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> JDataID
+        {
+            get
+            {
+                return _JDataID;
+            }
+            set
+            {
+                OnJDataIDChanging(value);
+                ReportPropertyChanging("JDataID");
+                _JDataID = StructuralObject.SetValidValue(value, "JDataID");
+                ReportPropertyChanged("JDataID");
+                OnJDataIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _JDataID;
+        partial void OnJDataIDChanging(Nullable<global::System.Int32> value);
+        partial void OnJDataIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsWestCamp
+        {
+            get
+            {
+                return _IsWestCamp;
+            }
+            set
+            {
+                OnIsWestCampChanging(value);
+                ReportPropertyChanging("IsWestCamp");
+                _IsWestCamp = StructuralObject.SetValidValue(value, "IsWestCamp");
+                ReportPropertyChanged("IsWestCamp");
+                OnIsWestCampChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsWestCamp;
+        partial void OnIsWestCampChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsWestCampChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsAdamahCamp
+        {
+            get
+            {
+                return _IsAdamahCamp;
+            }
+            set
+            {
+                OnIsAdamahCampChanging(value);
+                ReportPropertyChanging("IsAdamahCamp");
+                _IsAdamahCamp = StructuralObject.SetValidValue(value, "IsAdamahCamp");
+                ReportPropertyChanged("IsAdamahCamp");
+                OnIsAdamahCampChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsAdamahCamp;
+        partial void OnIsAdamahCampChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsAdamahCampChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsURJCamp
+        {
+            get
+            {
+                return _IsURJCamp;
+            }
+            set
+            {
+                OnIsURJCampChanging(value);
+                ReportPropertyChanging("IsURJCamp");
+                _IsURJCamp = StructuralObject.SetValidValue(value, "IsURJCamp");
+                ReportPropertyChanged("IsURJCamp");
+                OnIsURJCampChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsURJCamp;
+        partial void OnIsURJCampChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsURJCampChanged();
 
         #endregion
 
@@ -1140,30 +1217,6 @@ namespace Model
         private global::System.Double _GrantAmount;
         partial void OnGrantAmountChanging(global::System.Double value);
         partial void OnGrantAmountChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Note
-        {
-            get
-            {
-                return _Note;
-            }
-            set
-            {
-                OnNoteChanging(value);
-                ReportPropertyChanging("Note");
-                _Note = StructuralObject.SetValidValue(value, true, "Note");
-                ReportPropertyChanged("Note");
-                OnNoteChanged();
-            }
-        }
-        private global::System.String _Note;
-        partial void OnNoteChanging(global::System.String value);
-        partial void OnNoteChanged();
 
         #endregion
 

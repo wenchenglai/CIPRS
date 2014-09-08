@@ -10,7 +10,20 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <div style="float:left">
+            <ul>
+                <li><asp:HyperLink NavigateUrl="Camps.aspx" runat="server" Text="Camps"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="FedCampContacts.aspx" Text="FedCampContacts" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="FedCampGrant.aspx" Text="FedCampGrant" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="FedCamps.aspx" Text="FedCamps" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="FedGrades.aspx" Text="FedGrades" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="JCCs.aspx" Text="JCCs" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="NationalCamps.aspx" Text="NationalCamps" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="Synagogues.aspx" Text="Synagogues" runat="server"></asp:HyperLink></li>
+                <li><asp:HyperLink NavigateUrl="UserCamps.aspx" Text="UserCamps" runat="server"></asp:HyperLink></li>
+            </ul>
+        </div>
+        <div style="margin-left:300px;">
             <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         
             </asp:ContentPlaceHolder>
