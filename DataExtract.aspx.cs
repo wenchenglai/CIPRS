@@ -273,6 +273,7 @@ public partial class DataExtract : System.Web.UI.Page
 		
 		// The first row is decoration headers
 		ws.Rows[1].Height = 2 * 256;
+	    int columnPointer = 9;
 
 		CellStyle cs = new CellStyle();
 		cs.FillPattern.SetSolid(Color.FromArgb(204, 153, 255));
@@ -280,7 +281,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs.WrapText = true;
 		cs.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr = ws.Cells.GetSubrangeAbsolute(0, 0, 0, 9);
+        CellRange cr = ws.Cells.GetSubrangeAbsolute(0, 0, 0, columnPointer);
 		cr.Merged = true;
 		cr.Value = "Program Information";
 		cr.Style = cs;
@@ -291,7 +292,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs2.WrapText = true;
 		cs2.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr2 = ws.Cells.GetSubrangeAbsolute(0, 10, 0, 14);
+        CellRange cr2 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 5);
 		cr2.Merged = true;
 		cr2.Value = "Camp Information";
 		cr2.Style = cs2;
@@ -302,7 +303,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs3.WrapText = true;
 		cs3.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr3 = ws.Cells.GetSubrangeAbsolute(0, 15, 0, 22);
+		CellRange cr3 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 8);
 		cr3.Merged = true;
 		cr3.Value = "Basic Camper Information";
 		cr3.Style = cs3;
@@ -313,7 +314,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs4.WrapText = true;
 		cs4.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr4 = ws.Cells.GetSubrangeAbsolute(0, 23, 0, 27);
+		CellRange cr4 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 5);
 		cr4.Merged = true;
 		cr4.Value = "Camper Contact Information";
 		cr4.Style = cs4;
@@ -324,7 +325,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs5.WrapText = true;
 		cs5.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr5 = ws.Cells.GetSubrangeAbsolute(0, 28, 0, 41);
+		CellRange cr5 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 14);
 		cr5.Merged = true;
 		cr5.Value = "Parent Contact Information";
 		cr5.Style = cs5;
@@ -335,7 +336,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs6.WrapText = true;
 		cs6.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr6 = ws.Cells.GetSubrangeAbsolute(0, 42, 0, 44);
+		CellRange cr6 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 3);
 		cr6.Merged = true;
 		cr6.Value = "Application Information";
 		cr6.Style = cs6;
@@ -346,7 +347,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs7.WrapText = true;
 		cs7.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr7 = ws.Cells.GetSubrangeAbsolute(0, 45, 0, 51);
+		CellRange cr7 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 8);
 		cr7.Merged = true;
 		cr7.Value = "Marketing Source";
 		cr7.Style = cs7;
@@ -357,7 +358,7 @@ public partial class DataExtract : System.Web.UI.Page
 		cs8.WrapText = true;
 		cs8.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-		CellRange cr8 = ws.Cells.GetSubrangeAbsolute(0, 52, 0, 67);
+        CellRange cr8 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 16);
 		cr8.Merged = true;
 		cr8.Value = "Demographic Information";
 		cr8.Style = cs8;
@@ -368,7 +369,7 @@ public partial class DataExtract : System.Web.UI.Page
         cs9.WrapText = true;
         cs9.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-        CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, 69, 0, 73);
+        CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 2, 0, columnPointer += 6);
         cr9.Merged = true;
         cr9.Value = "FJC ONLY";
         cr9.Style = cs8;
