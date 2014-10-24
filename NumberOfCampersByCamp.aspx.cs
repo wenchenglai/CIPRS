@@ -25,7 +25,7 @@ public partial class NumberOfCampersByCamp : System.Web.UI.Page
         {
             if (UserRole != Role.FJCAdmin)
             {
-                ddlProgram.Enabled = false;
+                ddlProgram.Visible = false;
 
                 if (UserRole == Role.CampDirector)
                 {

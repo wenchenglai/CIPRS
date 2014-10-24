@@ -24,8 +24,8 @@ public partial class Login : System.Web.UI.Page
         }
         else if (strUID == "2")
         {
-            strUID = "rlichtman@thepartnershipnj.org";
-            strPwd = "robert";
+            strUID = "whoffman@jfgp.org";
+            strPwd = "warren";
         }
         else if (strUID == "3")
         {
