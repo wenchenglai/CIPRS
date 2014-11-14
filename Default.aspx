@@ -78,12 +78,7 @@
         <a href="NumberOfCampersByProgram.aspx">Camper Status by Program</a>: Number of campers in each status organized by program.
     </span>
     <br /><br />
-    <span style="font-weight:bold;">
-        <a href="SummaryByProgram.aspx">Summary by Program</a>: Number of campers in each status organized by program for current and previous years<br />
-    </span>
-    <ul>
-        <li>Info included: Data for 2013, 2012, 2011, 2010 and 2009 can be computed in one report.</li>
-    </ul>
+
     <span style="font-weight:bold;">
         <a href="NumberOfCampersByCamp.aspx">Camper Status by Camp</a>: Number of campers in each status organized by camp.
     </span>
@@ -127,6 +122,12 @@
         <a href="CamperApplicationSearchReport.aspx">Camper App Search</a>: Search by various criteria (Name, Address, Email, Birth date) to search applications and produce a list of campers.  
     </span>
     <br /><br />
+    <span style="font-weight:bold;">
+        <a href="SummaryByProgram.aspx">Summary by Program</a>: Number of campers in each status organized by program for current and previous years<br />
+    </span>
+    <ul>
+        <li>Info included: Data for 2014, 2013, 2012, 2011, 2010 and 2009 can be computed in one report.</li>
+    </ul>
 </div>
     
 </asp:Content>

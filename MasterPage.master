@@ -105,14 +105,8 @@
                 <li id="Li7" runat="server" visible="true">
                     <asp:HyperLink ID="hylNumberOfCampersByProgram" runat="server" Text="Camper Status by Program" NavigateUrl="~/NumberOfCampersByProgram.aspx" ></asp:HyperLink>
                 </li>
-                <li id="Li19" runat="server" visible="true">
-                    <asp:HyperLink ID="hylSummaryByProgram" runat="server" Text="Summary by Program" NavigateUrl="~/SummaryByProgram.aspx" ></asp:HyperLink>
-                </li>
                 <li>
                     <asp:HyperLink ID="hylNumberOfCampersByCamp" runat="server" Text="Camper Status by Camp" NavigateUrl="~/NumberOfCampersByCamp.aspx" ></asp:HyperLink>
-                </li>
-                <li id="Li21" runat="server" visible="true">
-                    <asp:HyperLink ID="hylSummaryByCamp" runat="server" Text="Summary by Camp" NavigateUrl="~/SummaryByCamp.aspx" ></asp:HyperLink>
                 </li>
                 <li id="Li8" runat="server" visible="true">
                     <asp:HyperLink ID="hylDataExtract" runat="server" Text="Full Data Extract" NavigateUrl="~/DataExtract.aspx" ></asp:HyperLink>
@@ -152,7 +146,13 @@
             <ul class="menutext2">
                 <li>
                     <asp:HyperLink ID="hylCamperApplicationSearchReport" runat="server" Text="Camper App Search" NavigateUrl="~/CamperApplicationSearchReport.aspx" ></asp:HyperLink>
-                </li>                              
+                </li>
+                <li id="Li19" runat="server" visible="true">
+                    <asp:HyperLink ID="hylSummaryByProgram" runat="server" Text="Summary by Program" NavigateUrl="~/SummaryByProgram.aspx" ></asp:HyperLink>
+                </li>
+                <li id="Li21" runat="server" visible="true">
+                    <asp:HyperLink ID="hylSummaryByCamp" runat="server" Text="Summary by Camp" NavigateUrl="~/SummaryByCamp.aspx" ></asp:HyperLink>
+                </li>                                                         
             </ul>
             <br /><br />
             <asp:HyperLink ID="hylBackToCIPMS" runat="server" Text="Return to OHC Home"></asp:HyperLink>
