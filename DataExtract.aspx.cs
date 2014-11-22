@@ -369,7 +369,8 @@ public partial class DataExtract : System.Web.UI.Page
         cs9.WrapText = true;
         cs9.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-        CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 2, 0, columnPointer += 6);
+        // Toronto questions
+        CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 2, 0, columnPointer += 7);
         cr9.Merged = true;
         cr9.Value = "FJC ONLY";
         cr9.Style = cs8;
