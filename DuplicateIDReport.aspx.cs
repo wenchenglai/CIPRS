@@ -78,6 +78,10 @@ public partial class DuplicateIDReport : System.Web.UI.Page
             }
         }
 
+        toYear.Text = ddlCampYear.SelectedItem.Text;
+        fromYear.Text = (Int32.Parse(ddlCampYear.SelectedItem.Text) - 1).ToString();
+        
+
         gv.DataSource = GenerateDataTable();
         gv.DataBind();
 

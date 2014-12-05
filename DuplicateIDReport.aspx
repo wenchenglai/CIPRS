@@ -26,6 +26,7 @@
     </div>
 
     <div id="divReport" runat="server" visible="false">
+        Years: <asp:Label runat="server" ID="fromYear"></asp:Label> To <asp:Label runat="server" ID="toYear"></asp:Label><br/><br/>
         <asp:LinkButton ID="lnkbtnBack" runat="server" Text="Back to report menu" onclick="lnkbtnBack_Click"></asp:LinkButton>
         <span style="margin-left:10px"><asp:Button ID="btnExcelExport" 
             Text="Export to Excel" runat="server" onclick="btnExcelExport_Click" /></span>
