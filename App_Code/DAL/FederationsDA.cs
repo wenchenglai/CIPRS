@@ -17,14 +17,30 @@ public class FederationsDA
         return db.FillDataTable("usprsFederations_Select");
     }
 
-    public static DataTable GetAllFederationsByUserRole(int CampYearID, Role UserRole, int FedID)
+    public static DataTable GetAllFederationsByUserRole(int CampYearID, Role UserRole, int FedID, int UserID)
     {
         SQLDBAccess db = new SQLDBAccess("CIPMS");
-        db.AddParameter("@Action", "All");
-        db.AddParameter("@CampYearID", CampYearID);
-        if (UserRole != Role.FJCAdmin)
-            db.AddParameter("@FedID", FedID);
-        return db.FillDataTable("usprsFederations_Select");
+
+        string spName = "usprsFederations_Select";
+        var actionName = "All";
+
+        if (UserRole == Role.MovementAdmin)
+        {
+            spName = "usp_Movement_Select";
+            actionName = "GetMovementFedIDsByUserID";
+            db.AddParameter("@UserID", UserID);
+        }
+        else
+        {
+            if (UserRole != Role.FJCAdmin)
+                db.AddParameter("@FedID", FedID);
+
+            db.AddParameter("@CampYearID", CampYearID);
+        }
+
+        db.AddParameter("@Action", actionName);
+
+        return db.FillDataTable(spName);
     }
 
     public static DataTable GetAllFederationsByMultipleCampYearsAndUserRole(string CampYearID_String, Role UserRole, int FedID)

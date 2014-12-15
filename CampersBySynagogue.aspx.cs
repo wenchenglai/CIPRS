@@ -48,7 +48,7 @@ public partial class CampersBySynagogue : System.Web.UI.Page
                 //ddlFed.SelectedValue = FedID.ToString();
                 ddlFed.Enabled = true;
             }
-            else if (UserRole == Role.FJCAdmin)
+            else if (UserRole == Role.FJCAdmin || UserRole == Role.MovementAdmin)
             {
                 ddlFed.Enabled = true;
             }

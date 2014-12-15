@@ -11,7 +11,8 @@ public enum Role
     FJCAdmin,
     FederationAdmin,
     CampDirector,
-    Approver
+    Approver,
+    MovementAdmin = 6
 }
 
 /// <summary>
