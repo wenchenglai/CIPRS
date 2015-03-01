@@ -10,6 +10,7 @@
             <ContentTemplate>      
                 <strong>Summer:</strong>&nbsp;&nbsp;
                 <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" runat="server" AutoPostBack="true" />
+                &nbsp;&nbsp;&nbsp;<span style="color:red;">...and the previous year</span>
                 <br /><br />
                 <strong>Status:</strong>&nbsp;&nbsp;
                 <asp:CheckBoxList ID="chklistStatus" runat="server" DataSourceID="odsStatus" DataValueField="ID" DataTextField="Description" RepeatColumns="2" RepeatDirection="Vertical" ondatabound="chklistStatus_DataBound"></asp:CheckBoxList>
