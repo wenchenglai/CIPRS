@@ -125,7 +125,10 @@
                 </li>   
                 <li id="Li22" runat="server" visible="true">
                     <asp:HyperLink ID="hylCamperHolding" runat="server" Text="Camper Holding Report" NavigateUrl="~/CamperHoldingReport.aspx"></asp:HyperLink>
-                </li>                                                                                                                        
+                </li>
+                <li id="Li23" runat="server" visible="true">
+                    <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Payment Processing" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
+                </li>                                                                                                                                        
             </ul>
             <span style="font-weight:bold; font-size:small">Analytical Reports</span>
             <ul class="menutext2">

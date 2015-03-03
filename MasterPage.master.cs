@@ -132,6 +132,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         hylCamperHolding.ForeColor = Color.DarkBlue;
                         break;
 
+                    case "PaymentProcessing.aspx":
+                        hylPaymentProcessing.ForeColor = Color.DarkBlue;
+                        break;
+
                     default:
                         break;
                 }
