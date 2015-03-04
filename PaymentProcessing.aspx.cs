@@ -10,14 +10,9 @@ using GemBox.ExcelLite;
 
 public partial class PaymentProcessing : System.Web.UI.Page
 {
-    Role UserRole;
     protected void Page_Load(object sender, EventArgs e)
     {
-        UserRole = (Role)Convert.ToInt32(Session["RoleID"]);
-
         lblMsg.Text = "";
-        chkAllCamps.Enabled = true;
-        //btnReport123.Enabled = true;
 
         if (!IsPostBack)
         {
@@ -28,25 +23,23 @@ public partial class PaymentProcessing : System.Web.UI.Page
                 ddlCampYear.DataBind();
             }
 
-            if (UserRole == Role.CampDirector)
-            {
-                ddlFed.Visible = false;
-                ddlFed.DataSourceID = null;
 
-                chklistCamp.DataSourceID = null;
-                chklistCamp.DataSource = CampsDA.GetCampByJWestCampDirector(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(Session["UserID"].ToString()));
-                chklistCamp.DataBind();
-
-                chkAllCamps.Visible = false;
-            }
         }
     }
 
     protected void btnRunPayment_Click(object sender, EventArgs e)
     {
+        if (chkFinal.Checked)
+        {
+            if (!chkFinalAgain.Checked)
+            {
+                lblMsg.Text = "You must confirm your action of running a payment with permanent change on data.";
+                return;
+            }
+        }
+
         bool e_flag = true;
         var campIdList = new List<int>();
-        var campIds = "";
 
         foreach (ListItem li in chklistCamp.Items)
         {
@@ -54,11 +47,6 @@ public partial class PaymentProcessing : System.Web.UI.Page
             {
                 e_flag = false;
                 campIdList.Add(Int32.Parse(li.Value));
-
-                if (campIds == "")
-                    campIds = li.Value;
-                else
-                    campIds += ", " + li.Value;
             }
         }
 
@@ -68,55 +56,15 @@ public partial class PaymentProcessing : System.Web.UI.Page
             return;
         }
 
-        GenerateExcelReport(campIdList, campIds);
+        GenerateExcelReport(campIdList);
     }
 
     protected void btnReversePayment_Click(object sender, EventArgs e)
     {
-        bool e_flag = true;
-        foreach (ListItem li in chklistCamp.Items)
-        {
-            if (li.Selected)
-                e_flag = false;
 
-        }
-
-        if (e_flag)
-        {
-            lblMsg.Text = "You must select at least one camp";
-            return;
-        }
-
-        var param = new ReportParamCampersFJC()
-        {
-            CampYearID = Int32.Parse(ddlCampYear.SelectedValue),
-            ProgramTypeID = ProgramType.NoUse,
-            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text)
-        };
-
-        if (UserRole == Role.CampDirector)
-        {
-            param.FedID = -1;  // for camp director, Fed are JWest Federations only
-        }
-        else
-            param.FedID = Int32.Parse(ddlFed.SelectedValue);
-
-        foreach (ListItem li in chklistCamp.Items)
-        {
-            if (li.Selected)
-            {
-                param.Camp_Dict[Int32.Parse(li.Value)] = li.Text;
-            }
-        }
-
-        param.BuildStrings();
-
-        Session.Add("ReportParamCampersFJC", param);
-
-        Response.Redirect("ReportFJCCAmpers.aspx");
     }
 
-    private void GenerateExcelReport(IEnumerable<int> campIdList, string campIds)
+    private void GenerateExcelReport(IList<int> campIdList)
     {
         var templateFile = Server.MapPath(@"~/Docs/Templates/CamperDetailReport.xls");
         var workFileDir = Server.MapPath(@"~/Docs");
@@ -128,7 +76,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
 
         // Data Content of report
-        DataTable dtAllCamps = PaymentProcessingDAL.GetPreliminaryReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIds);
+        DataTable dtAllCamps = PaymentProcessingDAL.GetReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIdList, chkFinal.Checked);
 
         foreach (var campId in campIdList)
         {
@@ -201,6 +149,8 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
                 // this creats the real table
                 dt.Columns.Remove("CampID");
+                dt.Columns.Remove("CampName");
+                dt.Columns.Remove("StatusID");
                 ws.InsertDataTable(dt, iRow, BEGIN_COLUMN_INDEX, true);
 
                 // decorate the header of content table
@@ -231,24 +181,28 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
                 iRow += dt.Rows.Count + 2;
                 var boldTextStyle = new CellStyle { Font = { Weight = ExcelFont.BoldWeight } };
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 6].Value = "Total Dollars";
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 6].Style = boldTextStyle;
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Value = totalGrantAmount;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Value = "Total Dollars";
                 ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Style = boldTextStyle;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 8].Value = totalGrantAmount;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 8].Style = boldTextStyle;
 
                 iRow += 1;
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 6].Value = "# of campers";
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 6].Style = boldTextStyle;
-                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Value = totalCamperCount;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Value = "# of campers";
                 ws.Cells[iRow, BEGIN_COLUMN_INDEX + 7].Style = boldTextStyle;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 8].Value = totalCamperCount;
+                ws.Cells[iRow, BEGIN_COLUMN_INDEX + 8].Style = boldTextStyle;
              
             }
         }
 
-        excel.Worksheets[0].Delete();
-        excel.Worksheets[0].Delete();
-        excel.Worksheets[0].Delete();
-        excel.Worksheets.ActiveWorksheet = excel.Worksheets[0];
+        if (dtAllCamps.Rows.Count > 0)
+        {
+            excel.Worksheets[0].Delete();
+            excel.Worksheets[0].Delete();
+            excel.Worksheets[0].Delete();
+            excel.Worksheets.ActiveWorksheet = excel.Worksheets[0];            
+        }
+
 
         // Save to a file on the local file system
         string filename = String.Format("\\{0}{1}{2}{3}-Payment.xls", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Millisecond);
@@ -280,13 +234,13 @@ public partial class PaymentProcessing : System.Web.UI.Page
             if (lblMsg.Text == "")
                 lblMsgCamps.Text = "The federation has no camp in the camper applications data";
             chkAllCamps.Enabled = false;
-            btnReport.Enabled = false;
+            btnRun.Enabled = false;
         }
         else
         {
             lblMsgCamps.Text = "";
             chkAllCamps.Enabled = true;
-            btnReport.Enabled = true;
+            btnRun.Enabled = true;
         }
     }
 
@@ -309,13 +263,14 @@ public partial class PaymentProcessing : System.Web.UI.Page
         if (ddlFed.Items.Count == 0)
         {
             chkAllCamps.Visible = false;
-            btnReport.Enabled = false;
+            btnRun.Enabled = false;
             lblMsg.Text = "Currently you are not associated with any federations, so you won't see any data in this report";
         }
         else
         {
             chkAllCamps.Visible = true;
-            btnReport.Enabled = true;
+            btnRun.Enabled = true;
+            FillPaymentSummaryData();
         }
     }
 
@@ -326,6 +281,43 @@ public partial class PaymentProcessing : System.Web.UI.Page
         foreach (ListItem li in chklistCamp.Items)
         {
             li.Selected = false;
+        }
+        FillPaymentSummaryData();
+    }
+
+    private void FillPaymentSummaryData()
+    {
+        DataTable dt = PaymentProcessingDAL.GetSummary(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue));
+        lblTotalCampersReady.Text = dt.Rows[0]["Count14"].ToString();
+        lblTotalCampsReady.Text = dt.Rows[0]["Camp14"].ToString();
+        lblTotalCampersDone.Text = dt.Rows[0]["Count25"].ToString();
+        lblTotalCampsDone.Text = dt.Rows[0]["Camp25"].ToString();        
+    }
+    protected void rdoReversePayment_CheckedChanged(object sender, EventArgs e)
+    {
+        if (rdoReversePayment.Checked)
+        {
+            pnlPaymentRun.Visible = false;
+            pnlReversePayment.Visible = true;
+            btnRun.Visible = false;
+            btnReverse.Visible = true;
+        }
+        else
+        {
+            pnlPaymentRun.Visible = true;
+            pnlReversePayment.Visible = false;
+            btnRun.Visible = true;
+            btnReverse.Visible = false;
+        }
+
+    }
+    protected void chkFinal_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkFinal.Checked)
+            chkFinalAgain.Visible = true;
+        else
+        {
+            chkFinalAgain.Visible = false;
         }
     }
 }

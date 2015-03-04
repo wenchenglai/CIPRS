@@ -43,11 +43,15 @@ public class SQLDBAccess
 	/// <param name="paramvalue"></param>
 	public void AddParameter(string paramname, Object paramvalue)
 	{
-		SqlParameter param = new SqlParameter();
-		param.ParameterName = paramname;
-		param.Value = paramvalue;
-		da.SelectCommand.Parameters.Add(param);
+		var param = new SqlParameter {ParameterName = paramname, Value = paramvalue};
+	    da.SelectCommand.Parameters.Add(param);
 	}
+
+    public void AddParameterWithValue(string paramName, Object paramValue)
+    {
+        SqlParameter param = da.SelectCommand.Parameters.AddWithValue(paramName, paramValue);
+        param.SqlDbType = SqlDbType.Structured;      
+    }
 
 	public SqlDataReader ExecuteReader(String strSelectCommand)
 	{

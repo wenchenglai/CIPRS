@@ -43,6 +43,32 @@ public class FederationsDA
         return db.FillDataTable(spName);
     }
 
+    public static DataTable GetAllSelfFundingFederationsByUserRole(int CampYearID, Role UserRole, int FedID, int UserID)
+    {
+        SQLDBAccess db = new SQLDBAccess("CIPMS");
+
+        string spName = "usprsFederations_Select";
+        var actionName = "AllSelfFunding";
+
+        if (UserRole == Role.MovementAdmin)
+        {
+            spName = "usp_Movement_Select";
+            actionName = "GetMovementFedIDsByUserID";
+            db.AddParameter("@UserID", UserID);
+        }
+        else
+        {
+            if (UserRole != Role.FJCAdmin)
+                db.AddParameter("@FedID", FedID);
+
+            db.AddParameter("@CampYearID", CampYearID);
+        }
+
+        db.AddParameter("@Action", actionName);
+
+        return db.FillDataTable(spName);
+    }
+
     public static DataTable GetAllFederationsByMultipleCampYearsAndUserRole(string CampYearID_String, Role UserRole, int FedID)
     {
         SQLDBAccess db = new SQLDBAccess("CIPMS");
