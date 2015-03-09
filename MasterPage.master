@@ -132,10 +132,11 @@
                     <asp:HyperLink ID="hylCamperHolding" runat="server" Text="Camper Holding Report" NavigateUrl="~/CamperHoldingReport.aspx"></asp:HyperLink>
                 </li>
                 <li id="Li23" runat="server" visible="true">
-                    <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Payment Processing" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Run Payment - Self Funding Partners Only" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
                 </li>                                                                                                                                        
             </ul>
-            <span style="font-weight:bold; font-size:small">Analytical Reports</span>
+            <br />
+            <span style="font-weight:bold; font-size:small;">Analytical Reports</span>
             <ul class="menutext2">
                 <li id="Li10" runat="server" visible="true">
                     <asp:HyperLink ID="hylParentByCountry" runat="server" Text="Parent Origin by Camp" NavigateUrl="~/ParentByCountry.aspx" ></asp:HyperLink>
@@ -150,6 +151,7 @@
                     <asp:HyperLink ID="hylCamperReportByState_TimesInCamp" runat="server" Text="Camper State by Camp" NavigateUrl="~/CamperReportByState_TimesInCamp.aspx" ></asp:HyperLink>
                 </li>                                
             </ul>
+            <br />
             <span style="font-weight:bold; font-size:small">Other Reports</span>
             <ul class="menutext2">
                 <li>

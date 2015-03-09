@@ -10,6 +10,7 @@ using GemBox.ExcelLite;
 
 public partial class PaymentProcessing : System.Web.UI.Page
 {
+    private bool isFinal = false;
     protected void Page_Load(object sender, EventArgs e)
     {
         lblMsg.Text = "";
@@ -22,21 +23,35 @@ public partial class PaymentProcessing : System.Web.UI.Page
                 ddlCampYear.SelectedValue = Application["CampYearID"].ToString();
                 ddlCampYear.DataBind();
             }
-
-
         }
     }
 
     protected void btnRunPayment_Click(object sender, EventArgs e)
     {
-        if (chkFinal.Checked)
+        bool e_flag = true;
+        var campIdList = new List<int>();
+
+        foreach (ListItem li in chklistCamp.Items)
         {
-            if (!chkFinalAgain.Checked)
+            if (li.Selected)
             {
-                lblMsg.Text = "You must confirm your action of running a payment with permanent change on data.";
-                return;
+                e_flag = false;
+                campIdList.Add(Int32.Parse(li.Value));
             }
         }
+
+        if (e_flag)
+        {
+            lblMsg.Text = "You must select at least one camp";
+            return;
+        }
+
+        GenerateExcelReport(campIdList);
+    }
+
+    protected void btnRunPayment2_Click(object sender, EventArgs e)
+    {
+        isFinal = true;
 
         bool e_flag = true;
         var campIdList = new List<int>();
@@ -76,7 +91,14 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
 
         // Data Content of report
-        DataTable dtAllCamps = PaymentProcessingDAL.GetReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIdList, chkFinal.Checked);
+        DataTable dtAllCamps = PaymentProcessingDAL.GetReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIdList, isFinal);
+
+        var summaryTable = new DataTable();
+        summaryTable.Columns.Add("CampName", typeof(string));
+        summaryTable.Columns.Add("1st/2nd/3rd Time", typeof(int));
+        summaryTable.Columns.Add("Day School", typeof(int));
+        summaryTable.Columns.Add("Total Dollars", typeof(double));
+
 
         foreach (var campId in campIdList)
         {
@@ -86,9 +108,22 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
             if (enumByCamp.Any())
             {
+                var sum = enumByCamp.Sum(x => x.Field<double>("GrantAmount"));
+                var countDS = (from camperApp in enumByCamp
+                               where camperApp.Field<int>("Day School") == 1
+                               select camperApp).Count();
+                var countAll = enumByCamp.Count();
+ 
                 DataTable dt = enumByCamp.CopyToDataTable();
 
                 var campName = dt.Rows[0]["CampName"].ToString();
+
+                var dr = summaryTable.NewRow();
+                dr["CampName"] = campName;
+                dr["1st/2nd/3rd Time"] = countAll;
+                dr["Day School"] = countDS;
+                dr["Total Dollars"] = sum;
+                summaryTable.Rows.Add(dr);
 
                 if (campName.Contains(":"))
                     campName = campName.Replace(":", "-");
@@ -104,7 +139,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
                 var ws = excel.Worksheets.Add(campName);
 
                 // Global artistic setting
-                ws.Columns[0].Width = 20 * 20; // make the first column smaller
+                ws.Columns[0].Width = 20*20; // make the first column smaller
 
                 // Create Report Header
                 var styleReportHeader = new CellStyle
@@ -112,33 +147,69 @@ public partial class PaymentProcessing : System.Web.UI.Page
                     Font = {Color = Color.Blue, Size = 22*20, Weight = ExcelFont.BoldWeight}
                 };
 
-                CellRange reportHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_HEADER_CELL_NUMBER);
+                CellRange reportHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                    REPORT_HEADER_CELL_NUMBER);
                 reportHeader.Merged = true;
                 reportHeader.Style = styleReportHeader;
                 reportHeader.Value = "One Happy Camper Payment Report";
 
-                ws.Rows[iRow].Height = 25 * 20;
+                ws.Rows[iRow].Height = 25*20;
 
                 iRow += 1;
 
                 // Create Report SubHeader - usually it's camp year and report generation time
                 var styleReportSubHeader = new CellStyle {Font = {Size = 16*20, Weight = ExcelFont.BoldWeight}};
 
-                CellRange subHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
+                CellRange subHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                    REPORT_SUB_HEADER_CELL_NUMBER);
                 subHeader.Merged = true;
                 subHeader.Style = styleReportSubHeader;
-                subHeader.Value = string.Format("Camp Year: {0}  Generated on {1} {2}", ddlCampYear.SelectedItem.Text, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
+                subHeader.Value = string.Format("Camp Year: {0}  Generated on {1} {2}", ddlCampYear.SelectedItem.Text,
+                    DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
 
                 // Create Federation Name row
                 iRow += 2;
 
                 var cs = new CellStyle {Font = {Size = 18*20, Weight = ExcelFont.BoldWeight}};
-                CellRange fedNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, CAMP_NAME_MERGED_CELL_NUMBER);
+                CellRange fedNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                    CAMP_NAME_MERGED_CELL_NUMBER);
                 fedNameRange.Merged = true;
                 fedNameRange.Style = cs;
                 fedNameRange.Value = ddlFed.SelectedItem.Text;
+
+                // admin name
+                iRow += 1;
+                //var cs = new CellStyle { Font = { Size = 18 * 20, Weight = ExcelFont.BoldWeight } };
+                CellRange adminNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                    CAMP_NAME_MERGED_CELL_NUMBER);
+                adminNameRange.Merged = true;
+                //fedNameRange.Style = cs;
+                adminNameRange.Value = String.Format("Report Generated by: {0} {1}", Session["FirstName"],
+                    Session["LastName"]);
+
+                // report type name
+                iRow += 2;
+                var reportTypeStyle = new CellStyle {Font = {Size = 10*20, Weight = ExcelFont.BoldWeight}};
+                var reportTypeText = "";
+                if (isFinal)
+                {
+                    reportTypeStyle.FillPattern.SetSolid(Color.ForestGreen);
+                    reportTypeStyle.Font.Color = Color.White;
+                    reportTypeText = "FINAL REPORT.  ALL RECORDS HAVE BEEN UPDATED TO PAYMENT REQUESTED.";
+                }
+                else
+                {
+                    reportTypeStyle.FillPattern.SetSolid(Color.Yellow);
+                    reportTypeStyle.Font.Color = Color.Red;
+                    reportTypeText = "IMPORTANT:  This is a Preliminary Report.  Once data confirmed, run a FINAL report.";
+                }
+
+                CellRange reportTypeNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, CAMP_NAME_MERGED_CELL_NUMBER);
+                reportTypeNameRange.Merged = true;
+                reportTypeNameRange.Style = reportTypeStyle;
+                reportTypeNameRange.Value = reportTypeText;
                     
-                iRow += 4;
+                iRow += 1;
 
                 CellRange campNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, CAMP_NAME_MERGED_CELL_NUMBER);
                 campNameRange.Merged = true;
@@ -197,6 +268,129 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
         if (dtAllCamps.Rows.Count > 0)
         {
+            // ******** Summary worksheet ***************
+            IEnumerable<DataRow> enumSummary = from rows in summaryTable.AsEnumerable()
+                                              select rows;
+
+            var sumTimer = enumSummary.Sum(x => x.Field<int>("1st/2nd/3rd Time"));
+            var sumDS = enumSummary.Sum(x => x.Field<int>("Day School"));
+            var sumTotal = enumSummary.Sum(x => x.Field<double>("Total Dollars"));
+
+            var dr = summaryTable.NewRow();
+            dr["CampName"] = "TOTAL";
+            dr["1st/2nd/3rd Time"] = sumTimer;
+            dr["Day School"] = sumDS;
+            dr["Total Dollars"] = sumTotal;
+            summaryTable.Rows.Add(dr);            
+
+            const int BEGIN_COLUMN_INDEX = 0;
+            const int REPORT_HEADER_CELL_NUMBER = 12;
+            const int REPORT_SUB_HEADER_CELL_NUMBER = 8;
+            const int CAMP_NAME_MERGED_CELL_NUMBER = 6;
+
+            int iRow = 1;
+
+            var ws = excel.Worksheets.Add("Summary");
+
+            // Global artistic setting
+            ws.Columns[0].Width = 20 * 20; // make the first column smaller
+
+            // Create Report Header
+            var styleReportHeader = new CellStyle
+            {
+                Font = { Color = Color.Blue, Size = 22 * 20, Weight = ExcelFont.BoldWeight }
+            };
+
+            CellRange reportHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                REPORT_HEADER_CELL_NUMBER);
+            reportHeader.Merged = true;
+            reportHeader.Style = styleReportHeader;
+            reportHeader.Value = "One Happy Camper Payment Report";
+
+            ws.Rows[iRow].Height = 25 * 20;
+
+            iRow += 1;
+
+            // Create Report SubHeader - usually it's camp year and report generation time
+            var styleReportSubHeader = new CellStyle { Font = { Size = 16 * 20, Weight = ExcelFont.BoldWeight } };
+
+            CellRange subHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                REPORT_SUB_HEADER_CELL_NUMBER);
+            subHeader.Merged = true;
+            subHeader.Style = styleReportSubHeader;
+            subHeader.Value = string.Format("Camp Year: {0}  Generated on {1} {2}", ddlCampYear.SelectedItem.Text,
+                DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
+
+            // Create Federation Name row
+            iRow += 2;
+
+            var cs = new CellStyle { Font = { Size = 18 * 20, Weight = ExcelFont.BoldWeight } };
+            CellRange fedNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                CAMP_NAME_MERGED_CELL_NUMBER);
+            fedNameRange.Merged = true;
+            fedNameRange.Style = cs;
+            fedNameRange.Value = ddlFed.SelectedItem.Text;
+
+            // admin name
+            iRow += 1;
+            //var cs = new CellStyle { Font = { Size = 18 * 20, Weight = ExcelFont.BoldWeight } };
+            CellRange adminNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
+                CAMP_NAME_MERGED_CELL_NUMBER);
+            adminNameRange.Merged = true;
+            //fedNameRange.Style = cs;
+            adminNameRange.Value = String.Format("Report Generated by: {0} {1}", Session["FirstName"],
+                Session["LastName"]);
+
+            // report type name
+            iRow += 2;
+            var reportTypeStyle = new CellStyle { Font = { Size = 10 * 20, Weight = ExcelFont.BoldWeight } };
+            var reportTypeText = "";
+            if (isFinal)
+            {
+
+                reportTypeStyle.FillPattern.SetSolid(Color.ForestGreen);
+                reportTypeStyle.Font.Color = Color.White;
+                reportTypeText = "FINAL REPORT.  ALL RECORDS HAVE BEEN UPDATED TO PAYMENT REQUESTED.";
+            }
+            else
+            {
+                reportTypeStyle.FillPattern.SetSolid(Color.Yellow);
+                reportTypeStyle.Font.Color = Color.Red;
+                reportTypeText = "IMPORTANT:  This is a Preliminary Report.  Once data confirmed, run a FINAL report.";
+            }
+
+            CellRange reportTypeNameRange = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, CAMP_NAME_MERGED_CELL_NUMBER);
+            reportTypeNameRange.Merged = true;
+            reportTypeNameRange.Style = reportTypeStyle;
+            reportTypeNameRange.Value = reportTypeText;
+
+            iRow += 1;
+
+            // this creats the real table
+            ws.InsertDataTable(summaryTable, iRow, BEGIN_COLUMN_INDEX, true);
+
+            // decorate the header of content table
+            // loop through each column and 1.set the width of each colum, 2. set the header style of each column
+            var tableHeaderStyle = new CellStyle { Font = { Weight = ExcelFont.BoldWeight }};
+            tableHeaderStyle.FillPattern.SetSolid(Color.DarkGray);
+            var boldTextStyle = new CellStyle { Font = { Weight = ExcelFont.BoldWeight } };
+
+            for (int i = BEGIN_COLUMN_INDEX; i < summaryTable.Columns.Count; i++)
+            {
+                ws.Cells[iRow, i].Style = tableHeaderStyle;
+                ws.Cells[iRow + summaryTable.Rows.Count, i].Style = boldTextStyle;
+
+                if (i == BEGIN_COLUMN_INDEX)
+                    ws.Columns[i].Width = 30 * 256;
+                else if (i == BEGIN_COLUMN_INDEX + 3)
+                    ws.Columns[i].Width = 20 * 256;
+                else
+                    ws.Columns[i].Width = 18 * 256;
+
+            }
+
+            // ******** End of Summary worksheet ********
+
             excel.Worksheets[0].Delete();
             excel.Worksheets[0].Delete();
             excel.Worksheets[0].Delete();
@@ -235,12 +429,14 @@ public partial class PaymentProcessing : System.Web.UI.Page
                 lblMsgCamps.Text = "The federation has no camp in the camper applications data";
             chkAllCamps.Enabled = false;
             btnRun.Enabled = false;
+            btnRun2.Enabled = false;
         }
         else
         {
             lblMsgCamps.Text = "";
             chkAllCamps.Enabled = true;
             btnRun.Enabled = true;
+            btnRun2.Enabled = true;
         }
     }
 
@@ -264,12 +460,14 @@ public partial class PaymentProcessing : System.Web.UI.Page
         {
             chkAllCamps.Visible = false;
             btnRun.Enabled = false;
+            btnRun2.Enabled = false;
             lblMsg.Text = "Currently you are not associated with any federations, so you won't see any data in this report";
         }
         else
         {
             chkAllCamps.Visible = true;
             btnRun.Enabled = true;
+            btnRun2.Enabled = true;
             FillPaymentSummaryData();
         }
     }
@@ -289,9 +487,9 @@ public partial class PaymentProcessing : System.Web.UI.Page
     {
         DataTable dt = PaymentProcessingDAL.GetSummary(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue));
         lblTotalCampersReady.Text = dt.Rows[0]["Count14"].ToString();
-        lblTotalCampsReady.Text = dt.Rows[0]["Camp14"].ToString();
+        //lblTotalCampsReady.Text = dt.Rows[0]["Camp14"].ToString();
         lblTotalCampersDone.Text = dt.Rows[0]["Count25"].ToString();
-        lblTotalCampsDone.Text = dt.Rows[0]["Camp25"].ToString();        
+       // lblTotalCampsDone.Text = dt.Rows[0]["Camp25"].ToString();        
     }
     protected void rdoReversePayment_CheckedChanged(object sender, EventArgs e)
     {
@@ -300,6 +498,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
             pnlPaymentRun.Visible = false;
             pnlReversePayment.Visible = true;
             btnRun.Visible = false;
+            btnRun2.Visible = false;
             btnReverse.Visible = true;
         }
         else
@@ -307,17 +506,9 @@ public partial class PaymentProcessing : System.Web.UI.Page
             pnlPaymentRun.Visible = true;
             pnlReversePayment.Visible = false;
             btnRun.Visible = true;
+            btnRun2.Visible = true;
             btnReverse.Visible = false;
         }
 
-    }
-    protected void chkFinal_CheckedChanged(object sender, EventArgs e)
-    {
-        if (chkFinal.Checked)
-            chkFinalAgain.Visible = true;
-        else
-        {
-            chkFinalAgain.Visible = false;
-        }
     }
 }

@@ -42,7 +42,7 @@ ul
 
 li
 {
-    height:50px;
+    height:20px;
 }
 
 /*
@@ -130,8 +130,6 @@ a:hover
 
 .menutext2 li 
 { 
-	margin-top:5px;
-	margin-bottom:5px;
 	list-style-type:none;
 }
 	
