@@ -102,7 +102,15 @@
                 </asp:ObjectDataSource>
 
                 <asp:Button ID="btnRun" runat="server" Text="STEP 1: Run Preliminary Payment" OnClientClick="RunPayment();" Visible="False" />
-                <asp:Button ID="btnRun2" runat="server" Text="STEP 2: Run Final Payment" OnClientClick="RunPayment2();" Visible="False" /> 
+                <asp:Button ID="btnRun2" runat="server" Text="STEP 2: Run Final Payment" OnClientClick="RunPayment2();" Visible="False" />
+                <br />
+                <div id="divWarning" style="color: red" runat="server">
+                    <p>
+                        We recommend you first run a preliminary report to confirm the data (grant amount, camp, session dates).  Running a FINAL report will update these records to Payment Requested.
+                    </p>
+                    <asp:CheckBox runat="server" ID="chkFinal" ForeColor="Red" Text="Click to proceed running FINAL mode."/>                    
+                </div>
+                
             </asp:Panel>
 
             <asp:Panel runat="server" ID="pnlReversePayment" style="margin: 20px;" Visible="False">

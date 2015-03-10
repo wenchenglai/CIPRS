@@ -17,6 +17,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
         if (!IsPostBack)
         {
+            ResetWarning(false);
             using (var ctx = new CIPMSEntities1())
             {
                 ddlCampYear.DataSource = ctx.tblCampYears.Select(x => new { id = x.ID, text = x.CampYear });
@@ -28,6 +29,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
     protected void btnRunPayment_Click(object sender, EventArgs e)
     {
+        ResetWarning(false);
         bool e_flag = true;
         var campIdList = new List<int>();
 
@@ -49,8 +51,27 @@ public partial class PaymentProcessing : System.Web.UI.Page
         GenerateExcelReport(campIdList);
     }
 
+    private void ResetWarning(bool turnOn)
+    {
+        if (turnOn)
+        {
+            divWarning.Visible = true;       
+        }
+        else
+        {
+            divWarning.Visible = false;
+            chkFinal.Checked = false;            
+        }
+    }
+
     protected void btnRunPayment2_Click(object sender, EventArgs e)
     {
+        if (!chkFinal.Checked)
+        {
+            ResetWarning(true);
+            return;
+        }
+
         isFinal = true;
 
         bool e_flag = true;
