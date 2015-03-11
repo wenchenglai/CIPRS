@@ -45,7 +45,9 @@
                 function ReversePayment() {
                     document.getElementById('<%= btnHiddenReverse.ClientID %>').click();
         }
-    </script>                        
+    </script>                   
+            <asp:Label ID="lblMsg2" runat="server" ForeColor="Red"></asp:Label>     
+            <br/>
             <strong>Summer:</strong>&nbsp;&nbsp;
             <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" AutoPostBack="true" Enabled="False" runat="server"></asp:DropDownList>
             <br /><br />    
@@ -81,10 +83,10 @@
             <asp:Panel runat="server" ID="pnlPaymentRun" Visible="False">
                 <div style="margin:15px; border: 1px solid black; padding: 10px; max-width: 800px; background-color: lightgrey">
                     <p>
-                        <span style="font-weight: bold">Stpe 1</span> - Run a 'preliminary' report to confirm the data.
+                        <span style="font-weight: bold">Step 1</span> - Run 'preliminary' report to confirm the data (grant amount, camp, session dates).
                     </p>
                     <p>
-                        <span style="font-weight: bold">Stpe 2</span> - Run a 'final' report.
+                        <span style="font-weight: bold">Step 2</span> - Run a 'final' report.
                     </p>
                     <p>
                         A final report will automatically adjust those records to Payment Requested.  These records will not appear in future payment runs.  Save the final report on your local computer.
@@ -102,15 +104,11 @@
                 </asp:ObjectDataSource>
 
                 <asp:Button ID="btnRun" runat="server" Text="STEP 1: Run Preliminary Payment" OnClientClick="RunPayment();" Visible="False" />
-                <asp:Button ID="btnRun2" runat="server" Text="STEP 2: Run Final Payment" OnClientClick="RunPayment2();" Visible="False" />
-                <br />
+                <asp:Button ID="btnRun2" runat="server" Text="STEP 2: Run Final Payment" OnClientClick="RunPayment2();" Visible="False" /> 
+                <br/>
                 <div id="divWarning" style="color: red" runat="server">
-                    <p>
-                        We recommend you first run a preliminary report to confirm the data (grant amount, camp, session dates).  Running a FINAL report will update these records to Payment Requested.
-                    </p>
-                    <asp:CheckBox runat="server" ID="chkFinal" ForeColor="Red" Text="Click to proceed running FINAL mode."/>                    
-                </div>
-                
+                    <asp:CheckBox runat="server" ID="chkFinal" ForeColor="Red" Text="Check to proceed running in FINAL mode and click “Step 2: Final Payment” button again."/>                    
+                </div>                              
             </asp:Panel>
 
             <asp:Panel runat="server" ID="pnlReversePayment" style="margin: 20px;" Visible="False">
@@ -118,9 +116,6 @@
                 <br/><br/>
                 <asp:Button ID="btnReverse" runat="server" Text="Reverse a Payment" OnClientClick="ReversePayment();" Visible="false" />
             </asp:Panel>
-
-            <asp:Label ID="lblMsgCamps" runat="server" ForeColor="Red"></asp:Label>
-            <br/>
             <br/>
             <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label> 
         </ContentTemplate>

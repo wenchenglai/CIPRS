@@ -132,7 +132,7 @@
                     <asp:HyperLink ID="hylCamperHolding" runat="server" Text="Camper Holding Report" NavigateUrl="~/CamperHoldingReport.aspx"></asp:HyperLink>
                 </li>
                 <li id="Li23" runat="server" visible="true">
-                    <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Run Payment - Self Funding Partners Only" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Payment - Self Funding" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
                 </li>                                                                                                                                        
             </ul>
             <br />

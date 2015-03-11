@@ -14,6 +14,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         lblMsg.Text = "";
+        lblMsg2.Text = "";
 
         if (!IsPostBack)
         {
@@ -30,25 +31,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
     protected void btnRunPayment_Click(object sender, EventArgs e)
     {
         ResetWarning(false);
-        bool e_flag = true;
-        var campIdList = new List<int>();
-
-        foreach (ListItem li in chklistCamp.Items)
-        {
-            if (li.Selected)
-            {
-                e_flag = false;
-                campIdList.Add(Int32.Parse(li.Value));
-            }
-        }
-
-        if (e_flag)
-        {
-            lblMsg.Text = "You must select at least one camp";
-            return;
-        }
-
-        GenerateExcelReport(campIdList);
+        RunMainProcess();
     }
 
     private void ResetWarning(bool turnOn)
@@ -74,6 +57,11 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
         isFinal = true;
 
+        RunMainProcess();
+    }
+
+    private void RunMainProcess()
+    {
         bool e_flag = true;
         var campIdList = new List<int>();
 
@@ -89,10 +77,19 @@ public partial class PaymentProcessing : System.Web.UI.Page
         if (e_flag)
         {
             lblMsg.Text = "You must select at least one camp";
+            lblMsg2.Text = "You must select at least one camp";
             return;
         }
 
-        GenerateExcelReport(campIdList);
+        DataTable dtAllCamps = PaymentProcessingDAL.GetReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIdList, isFinal);
+
+        if (dtAllCamps.Rows.Count > 0)
+            GenerateExcelReport(dtAllCamps, campIdList);
+        else
+        {
+            lblMsg.Text = "There are no campers qualified under the selection criteria.";
+            lblMsg2.Text = "There are no campers qualified under the selection criteria.";
+        }        
     }
 
     protected void btnReversePayment_Click(object sender, EventArgs e)
@@ -100,7 +97,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
     }
 
-    private void GenerateExcelReport(IList<int> campIdList)
+    private void GenerateExcelReport(DataTable dtAllCamps ,IList<int> campIdList)
     {
         var templateFile = Server.MapPath(@"~/Docs/Templates/CamperDetailReport.xls");
         var workFileDir = Server.MapPath(@"~/Docs");
@@ -109,10 +106,6 @@ public partial class PaymentProcessing : System.Web.UI.Page
         ExcelLite.SetLicense("EL6N-Z669-AZZG-3LS7");
         var excel = new ExcelFile();
         excel.LoadXls(templateFile);
-
-
-        // Data Content of report
-        DataTable dtAllCamps = PaymentProcessingDAL.GetReport(Int32.Parse(ddlCampYear.SelectedValue), Int32.Parse(ddlFed.SelectedValue), campIdList, isFinal);
 
         var summaryTable = new DataTable();
         summaryTable.Columns.Add("CampName", typeof(string));
@@ -131,7 +124,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
             {
                 var sum = enumByCamp.Sum(x => x.Field<double>("GrantAmount"));
                 var countDS = (from camperApp in enumByCamp
-                               where camperApp.Field<int>("Day School") == 1
+                               where camperApp.Field<string>("Day School") == "Y"
                                select camperApp).Count();
                 var countAll = enumByCamp.Count();
  
@@ -151,9 +144,9 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
                 //We start at first row, because for ExcelLite control, the header row is not included
                 const int BEGIN_COLUMN_INDEX = 0;
-                const int REPORT_HEADER_CELL_NUMBER = 12;
-                const int REPORT_SUB_HEADER_CELL_NUMBER = 8;
-                const int CAMP_NAME_MERGED_CELL_NUMBER = 6;
+                const int REPORT_HEADER_CELL_NUMBER = 5;
+                const int REPORT_SUB_HEADER_CELL_NUMBER = 5;
+                const int CAMP_NAME_MERGED_CELL_NUMBER = 5;
 
                 int iRow = 1;
 
@@ -168,8 +161,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
                     Font = {Color = Color.Blue, Size = 22*20, Weight = ExcelFont.BoldWeight}
                 };
 
-                CellRange reportHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow,
-                    REPORT_HEADER_CELL_NUMBER);
+                CellRange reportHeader = ws.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_HEADER_CELL_NUMBER);
                 reportHeader.Merged = true;
                 reportHeader.Style = styleReportHeader;
                 reportHeader.Value = "One Happy Camper Payment Report";
@@ -305,9 +297,9 @@ public partial class PaymentProcessing : System.Web.UI.Page
             summaryTable.Rows.Add(dr);            
 
             const int BEGIN_COLUMN_INDEX = 0;
-            const int REPORT_HEADER_CELL_NUMBER = 12;
-            const int REPORT_SUB_HEADER_CELL_NUMBER = 8;
-            const int CAMP_NAME_MERGED_CELL_NUMBER = 6;
+            const int REPORT_HEADER_CELL_NUMBER = 5;
+            const int REPORT_SUB_HEADER_CELL_NUMBER = 5;
+            const int CAMP_NAME_MERGED_CELL_NUMBER = 5;
 
             int iRow = 1;
 
@@ -447,14 +439,23 @@ public partial class PaymentProcessing : System.Web.UI.Page
         if (chklistCamp.Items.Count == 0)
         {
             if (lblMsg.Text == "")
-                lblMsgCamps.Text = "The federation has no camp in the camper applications data";
+            {
+                lblMsg.Text = "The federation has no camp in the camper applications data";
+            }
+
+            if (lblMsg2.Text == "")
+            {
+                lblMsg2.Text = "The federation has no camp in the camper applications data";
+            }
+
             chkAllCamps.Enabled = false;
             btnRun.Enabled = false;
             btnRun2.Enabled = false;
         }
         else
         {
-            lblMsgCamps.Text = "";
+            lblMsg.Text = "";
+            lblMsg2.Text = "";
             chkAllCamps.Enabled = true;
             btnRun.Enabled = true;
             btnRun2.Enabled = true;
@@ -483,6 +484,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
             btnRun.Enabled = false;
             btnRun2.Enabled = false;
             lblMsg.Text = "Currently you are not associated with any federations, so you won't see any data in this report";
+            lblMsg2.Text = "Currently you are not associated with any federations, so you won't see any data in this report";
         }
         else
         {
