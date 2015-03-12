@@ -72,7 +72,10 @@
                 </li>
                 <li id="LiSchoolTypeReport" runat="server" visible="false">
                     <asp:HyperLink ID="HyperLink1" runat="server" Text="School Type Report" NavigateUrl="~/SchoolTypeReport.aspx"></asp:HyperLink>
-                </li>                                                           
+                </li>     
+                <li id="Li24" runat="server" visible="true">
+                    <asp:HyperLink ID="hylPaymentProcessing2" runat="server" Text="Payment - Self Funding" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
+                </li>                                                                         
             </ul>
             <span style="font-weight:bold; font-size:small">Analytical Reports</span>
             <ul class="menutext2">

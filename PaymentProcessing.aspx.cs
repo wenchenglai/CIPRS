@@ -38,11 +38,13 @@ public partial class PaymentProcessing : System.Web.UI.Page
     {
         if (turnOn)
         {
-            divWarning.Visible = true;       
+            divWarning.Visible = true;
+            lblFinal.Visible = true;
         }
         else
         {
             divWarning.Visible = false;
+            lblFinal.Visible = false;
             chkFinal.Checked = false;            
         }
     }

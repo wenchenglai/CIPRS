@@ -46,7 +46,9 @@
                     document.getElementById('<%= btnHiddenReverse.ClientID %>').click();
         }
     </script>                   
-            <asp:Label ID="lblMsg2" runat="server" ForeColor="Red"></asp:Label>     
+            <asp:Label ID="lblMsg2" runat="server" ForeColor="Red"></asp:Label>
+            <br />  
+            <asp:Label ID="lblFinal" runat="server" ForeColor="Red" Text="Check below to proceed running in FINAL mode and click “Step 2: Final Payment” button again."></asp:Label>   
             <br/>
             <strong>Summer:</strong>&nbsp;&nbsp;
             <asp:DropDownList ID="ddlCampYear" DataValueField="id" DataTextField="text" AutoPostBack="true" Enabled="False" runat="server"></asp:DropDownList>
