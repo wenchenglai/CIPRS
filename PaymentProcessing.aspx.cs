@@ -152,7 +152,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
                 int iRow = 1;
 
-                var ws = excel.Worksheets.Add(campName);
+                var ws = excel.Worksheets.AddCopy(campName, excel.Worksheets["Sheet1"]);
 
                 // Global artistic setting
                 ws.Columns[0].Width = 20*20; // make the first column smaller
@@ -305,7 +305,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
             int iRow = 1;
 
-            var ws = excel.Worksheets.Add("Summary");
+            var ws = excel.Worksheets.AddCopy("Summary", excel.Worksheets["Sheet1"]);
 
             // Global artistic setting
             ws.Columns[0].Width = 20 * 20; // make the first column smaller
