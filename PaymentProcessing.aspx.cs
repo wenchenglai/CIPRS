@@ -101,7 +101,7 @@ public partial class PaymentProcessing : System.Web.UI.Page
 
     private void GenerateExcelReport(DataTable dtAllCamps ,IList<int> campIdList)
     {
-        var templateFile = Server.MapPath(@"~/Docs/Templates/CamperDetailReport.xls");
+        var templateFile = Server.MapPath(@"~/Docs/Templates/CamperDetailReportPrintingFormatted.xls");
         var workFileDir = Server.MapPath(@"~/Docs");
 
         // Make a excel report
