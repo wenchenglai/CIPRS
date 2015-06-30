@@ -373,7 +373,19 @@ public partial class DataExtract : System.Web.UI.Page
         CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 2, 0, columnPointer += 7);
         cr9.Merged = true;
         cr9.Value = "FJC ONLY";
-        cr9.Style = cs8;
+        cr9.Style = cs9;
+
+        var cs10 = new CellStyle();
+        cs10.FillPattern.SetSolid(Color.FromArgb(133, 19, 110));
+        cs10.Font.Weight = ExcelFont.BoldWeight;
+        cs10.WrapText = true;
+        cs10.HorizontalAlignment = HorizontalAlignmentStyle.Center;
+
+        // Grandfather questions
+        CellRange cr10 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 4);
+        cr10.Merged = true;
+        cr10.Value = "Grandfather Policy";
+        cr10.Style = cs10;
 
 		// this creats the real table
 		ws.InsertDataTable(dt, 1, 0, true);
