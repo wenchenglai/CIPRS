@@ -363,29 +363,41 @@ public partial class DataExtract : System.Web.UI.Page
 		cr8.Value = "Demographic Information";
 		cr8.Style = cs8;
 
+        // Toronto questions
         CellStyle cs9 = new CellStyle();
         cs9.FillPattern.SetSolid(Color.FromArgb(233, 19, 210));
         cs9.Font.Weight = ExcelFont.BoldWeight;
         cs9.WrapText = true;
         cs9.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-        // Toronto questions
         CellRange cr9 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 2, 0, columnPointer += 7);
         cr9.Merged = true;
         cr9.Value = "FJC ONLY";
         cr9.Style = cs9;
 
+        // Grandfather questions
         var cs10 = new CellStyle();
         cs10.FillPattern.SetSolid(Color.FromArgb(133, 19, 110));
         cs10.Font.Weight = ExcelFont.BoldWeight;
         cs10.WrapText = true;
         cs10.HorizontalAlignment = HorizontalAlignmentStyle.Center;
 
-        // Grandfather questions
         CellRange cr10 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 4);
         cr10.Merged = true;
         cr10.Value = "Grandfather Policy";
         cr10.Style = cs10;
+
+        // Chicago Siblings
+        var cs11 = new CellStyle();
+        cs11.FillPattern.SetSolid(Color.FromArgb(133, 119, 110));
+        cs11.Font.Weight = ExcelFont.BoldWeight;
+        cs11.WrapText = true;
+        cs11.HorizontalAlignment = HorizontalAlignmentStyle.Center;
+
+        CellRange cr11 = ws.Cells.GetSubrangeAbsolute(0, columnPointer + 1, 0, columnPointer += 2);
+        cr11.Merged = true;
+        cr11.Value = "Chicago Siblings";
+        cr11.Style = cs11;
 
 		// this creats the real table
 		ws.InsertDataTable(dt, 1, 0, true);

@@ -16,13 +16,14 @@
             <asp:ControlParameter ControlID="ddlCampYear" Name="CampYearID" PropertyName="SelectedValue" Type="Int32" />
             <asp:SessionParameter SessionField="RoleID" Name="UserRole" Type="Int32" />
             <asp:SessionParameter SessionField="FedID" Name="FedID" Type="Int32" />
+            <asp:SessionParameter SessionField="UserID" Name="UserID" Type="Int32" />
         </SelectParameters>
     </asp:ObjectDataSource>
     <br />
     <br />
     <asp:Button ID="btnReport" runat="server" Text="Report" OnClick="btnReport_Click" />
 
-
+    <br />
     <br />
     <div id="divReport" runat="server" visible="false">
         <asp:GridView ID="gv" runat="server" />

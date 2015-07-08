@@ -23,7 +23,8 @@
 {
 	width:180px;
 	float:left;
-	background-image: url(sidebar.jpg);
+    background-color:yellowgreen;
+	/*background-image: url(sidebar.jpg);*/
 }
 
 #RightContentPanel
