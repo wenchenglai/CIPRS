@@ -1,7 +1,7 @@
 ﻿body 
 {
 	background: #ffffff;
-	font-family:palatino, Verdana;
+	font-family:'meta pro', palatino, Verdana;
 	font-size: 11pt;
 }
 
@@ -23,7 +23,7 @@
 {
 	width:180px;
 	float:left;
-    background-color:yellowgreen;
+    background-color:rgb(109, 192, 103);
 	/*background-image: url(sidebar.jpg);*/
 }
 
