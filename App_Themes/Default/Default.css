@@ -21,7 +21,7 @@
 
 .LeftMenuPanel
 {
-	width:180px;
+	width:250px;
 	float:left;
     background-color:rgb(109, 192, 103);
 	/*background-image: url(sidebar.jpg);*/
@@ -29,7 +29,7 @@
 
 #RightContentPanel
 {
-	margin-left:180px;
+	margin-left:250px;
 	border-left: #dcdcdc 1px dotted;    
 	padding-left: 20px;
 	padding-top: 20px;
@@ -96,6 +96,12 @@ A.headerNavigation:hover
 	color: #717052;
 }
 */
+
+.row 
+{
+    margin: 20px;    
+}
+
 .menutext2
 {
 	padding: 1px;

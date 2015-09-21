@@ -20,8 +20,8 @@ public partial class Login : System.Web.UI.Page
         }
         else if (strUID == "2")
         {
-            strUID = "z@z.com";
-            strPwd = "z";
+            strUID = "edp@cjp.org";
+            strPwd = "edp";
         }
         else if (strUID == "3")
         {

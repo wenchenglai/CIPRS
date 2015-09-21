@@ -535,6 +535,25 @@ namespace Model
     
             return base.ExecuteFunction<tblFederationCampsContactDetail>("uspFedCampsContactsDelete", mergeOption, campYearIDParameter);
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="campYearID">No Metadata Documentation available.</param>
+        public int usp_FedCampDelete(Nullable<global::System.Int32> campYearID)
+        {
+            ObjectParameter campYearIDParameter;
+            if (campYearID.HasValue)
+            {
+                campYearIDParameter = new ObjectParameter("CampYearID", campYearID);
+            }
+            else
+            {
+                campYearIDParameter = new ObjectParameter("CampYearID", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("usp_FedCampDelete", campYearIDParameter);
+        }
 
         #endregion
 
@@ -1347,6 +1366,30 @@ namespace Model
         private Nullable<global::System.Int32> _CampYearID;
         partial void OnCampYearIDChanging(Nullable<global::System.Int32> value);
         partial void OnCampYearIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> isJDS
+        {
+            get
+            {
+                return _isJDS;
+            }
+            set
+            {
+                OnisJDSChanging(value);
+                ReportPropertyChanging("isJDS");
+                _isJDS = StructuralObject.SetValidValue(value, "isJDS");
+                ReportPropertyChanged("isJDS");
+                OnisJDSChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _isJDS;
+        partial void OnisJDSChanging(Nullable<global::System.Boolean> value);
+        partial void OnisJDSChanged();
 
         #endregion
 

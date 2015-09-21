@@ -54,6 +54,7 @@
           <Property Name="CampID" Type="bigint" Nullable="false" />
           <Property Name="Inactive" Type="bit" />
           <Property Name="CampYearID" Type="int" />
+          <Property Name="isJDS" Type="bit" />
         </EntityType>
         <EntityType Name="tblFederationCampsContactDetails">
           <Key>
@@ -160,6 +161,9 @@
         <Function Name="usp_CampsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CampYearID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_FedCampDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CampYearID" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_FedCampGrantDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CampYearID" Type="int" Mode="In" />
         </Function>
@@ -234,6 +238,9 @@
           <EntitySet Name="tblJCCs" EntityType="CIPMSModel.tblJCC" />
           <EntitySet Name="tblUserCamps" EntityType="CIPMSModel.tblUserCamp" />
           <EntitySet Name="tblFedCampGrants" EntityType="CIPMSModel.tblFedCampGrant" />
+          <FunctionImport Name="usp_FedCampDelete">
+            <Parameter Name="CampYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblFederationGrade">
           <Key>
@@ -326,6 +333,7 @@
           <Property Type="Boolean" Name="Inactive" />
           <Property Type="Int32" Name="CampYearID" />
           <NavigationProperty Name="tblCamp" Relationship="CIPMSModel.FK_tblFederationCamps_Camps" FromRole="tblFederationCamp" ToRole="tblCamp" />
+          <Property Name="isJDS" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tblFederationCamps_Camps">
           <End Type="CIPMSModel.tblCamp" Role="tblCamp" Multiplicity="1" />
@@ -469,6 +477,7 @@
           <EntitySetMapping Name="tblFederationCamps">
             <EntityTypeMapping TypeName="CIPMSModel.tblFederationCamp">
               <MappingFragment StoreEntitySet="tblFederationCamps">
+                <ScalarProperty Name="isJDS" ColumnName="isJDS" />
                 <ScalarProperty Name="CampYearID" ColumnName="CampYearID" />
                 <ScalarProperty Name="Inactive" ColumnName="Inactive" />
                 <ScalarProperty Name="FederationID" ColumnName="FederationID" />
@@ -526,6 +535,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_FedCampDelete" FunctionName="CIPMSModel.Store.usp_FedCampDelete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

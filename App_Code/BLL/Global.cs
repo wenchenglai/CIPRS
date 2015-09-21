@@ -30,7 +30,8 @@ public enum CamperOrgType
 {
     Camp = 0,
     Synagogue,
-    CamperContactInfo
+    CamperContactInfo,
+    CamperDetailReport
 }
 
 public enum SearchKeys

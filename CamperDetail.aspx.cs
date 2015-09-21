@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using Model;
 
-public partial class CamperContactInfo : System.Web.UI.Page
+public partial class CamperDetail : System.Web.UI.Page
 {
     Role UserRole;
-
     protected void Page_Load(object sender, EventArgs e)
     {
         UserRole = (Role)Convert.ToInt32(Session["RoleID"]);
@@ -52,7 +53,7 @@ public partial class CamperContactInfo : System.Web.UI.Page
         if (e_flag && UserRole != Role.CampDirector)
         {
             lblMsg.Text = "You must select at least one federation/camp";
-            return false ;
+            return false;
         }
 
         e_flag = true;
@@ -97,12 +98,12 @@ public partial class CamperContactInfo : System.Web.UI.Page
         if (!ValidateInputData())
             return;
 
-        ReportParamCampersFJC param = new ReportParamCampersFJC()
+        var param = new ReportParamCampersFJC()
         {
             CampYearID = Int32.Parse(ddlCampYear.SelectedValue),
             CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text),
             FedID = -1, /* flag value*/
-            CamperOrg = CamperOrgType.CamperContactInfo
+            CamperOrg = CamperOrgType.CamperDetailReport
         };
 
         foreach (ListItem li in chklistFed.Items)
@@ -129,18 +130,18 @@ public partial class CamperContactInfo : System.Web.UI.Page
 
         param.BuildStrings();
 
-        int TimesReceivedGrant = 0;
+        int timesReceivedGrant = 0;
 
         if (chk1stTimers.Checked)
-            TimesReceivedGrant += 2;
+            timesReceivedGrant += 2;
 
         if (chk2ndTimers.Checked)
-            TimesReceivedGrant += 4;
+            timesReceivedGrant += 4;
 
         if (chk3rdTimers.Checked)
-            TimesReceivedGrant += 8;
+            timesReceivedGrant += 8;
 
-        param.TimesReceivedGrant = TimesReceivedGrant;
+        param.TimesReceivedGrant = timesReceivedGrant;
 
         Session.Add("ReportParamCampersFJC", param);
 
@@ -171,7 +172,7 @@ public partial class CamperContactInfo : System.Web.UI.Page
     {
         foreach (ListItem li in chklistStatus.Items)
         {
-            if (li.Value == "1" || li.Value == "7" || li.Value == "14" || li.Value == "25" || li.Value == "28")
+            if (li.Value == "1" || li.Value == "7" || li.Value == "14" || li.Value == "25" || li.Value == "28") 
                 li.Attributes.CssStyle.Add("font-weight", "bold");
         }
     }

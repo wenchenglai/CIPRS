@@ -11,7 +11,7 @@ public class FederationsDA
 {
     public static DataTable GetAllFederations(int CampYearID)
     {
-        SQLDBAccess db = new SQLDBAccess("CIPMS");
+        var db = new SQLDBAccess("CIPMS");
         db.AddParameter("@Action", "All");
         db.AddParameter("@CampYearID", CampYearID);
         return db.FillDataTable("usprsFederations_Select");
@@ -19,7 +19,7 @@ public class FederationsDA
 
     public static DataTable GetAllFederationsByUserRole(int CampYearID, Role UserRole, int FedID, int UserID)
     {
-        SQLDBAccess db = new SQLDBAccess("CIPMS");
+        var db = new SQLDBAccess("CIPMS");
 
         string spName = "usprsFederations_Select";
         var actionName = "All";

@@ -79,7 +79,7 @@ public class CamperApplicationDA
 
 	public static DataTable GetFJCCamperReport(CamperOrgType CamperOrg, ProgramType Program, int FedID, int CampYearID, int CampID, string StatusID_List)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 
 		// Camp and Syang are different 
 		if (CamperOrg == CamperOrgType.Camp)
@@ -101,7 +101,7 @@ public class CamperApplicationDA
 
 	public static DataTable GetCamperContactInfoData(Role userRole, int FedID, string FedID_List, int CampYearID, int CampID, string StatusID_List, int TimesReceivedGrant)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 
 		db.AddParameter("@Action", "GetCamperContactInfo");
 		db.AddParameter("@FedID_List", FedID_List);
@@ -112,9 +112,22 @@ public class CamperApplicationDA
 		return db.FillDataTable("usprsCamperApplications_Select");
 	}
 
+    public static DataTable GetCamperDetailReport(Role userRole, int FedID, string FedID_List, int CampYearID, int CampID, string StatusID_List, int TimesReceivedGrant)
+    {
+        var db = new SQLDBAccess("CIPMS");
+
+        db.AddParameter("@Action", "GetCamperDetailReport");
+        db.AddParameter("@FedID_List", FedID_List);
+        db.AddParameter("@TimesReceivedGrant", TimesReceivedGrant);
+        db.AddParameter("@CampYearID", CampYearID);
+        db.AddParameter("@CampID", CampID);
+        db.AddParameter("@StatusID_List", StatusID_List);
+        return db.FillDataTable("usprsCamperApplications_Select");
+    }
+
 	public static DataTable GetDuplicateCampers(int CampYearID, string StatusID_List)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 		db.AddParameter("@Action", "GetDuplicateCampers");
 		db.AddParameter("@CampYearID", CampYearID);
 		db.AddParameter("@StatusID_List", StatusID_List);
@@ -132,7 +145,7 @@ public class CamperApplicationDA
 	/// <returns></returns>
 	public static DataTable GetFJCCamperReportInBatch(CamperOrgType CamperOrg, ProgramType program, int FedID, int CampYearID, string CampID_List, string StatusID_List)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 
 		if (CamperOrg == CamperOrgType.Camp)
 			db.AddParameter("@Action", "GetFJCCamperReportCampInBatch");
@@ -153,7 +166,7 @@ public class CamperApplicationDA
 
 	public static DataTable GetCamperContactInfoReportInBatch(Role userRole, int FedID, string FedID_List, int CampYearID, string CampID_List, string StatusID_List, int TimesReceivedGrant)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 
 		db.AddParameter("@Action", "GetCamperContactInfoReportInBatch");
 		db.AddParameter("@FedID_List", FedID_List);
@@ -164,9 +177,22 @@ public class CamperApplicationDA
 		return db.FillDataTable("usprsCamperApplications_Select");
 	}
 
+    public static DataTable GetCamperDetailReportInBatch(Role userRole, int FedID, string FedID_List, int CampYearID, string CampID_List, string StatusID_List, int TimesReceivedGrant)
+    {
+        var db = new SQLDBAccess("CIPMS");
+
+        db.AddParameter("@Action", "GetCamperDetailReportInBatch");
+        db.AddParameter("@FedID_List", FedID_List);
+        db.AddParameter("@TimesReceivedGrant", TimesReceivedGrant);
+        db.AddParameter("@CampYearID", CampYearID);
+        db.AddParameter("@CampID_List", CampID_List);
+        db.AddParameter("@StatusID_List", StatusID_List);
+        return db.FillDataTable("usprsCamperApplications_Select");
+    }
+
 	public static DataSet GetCamperCountByFed(int CampYearID, string FedID_List, string StatusName_List, int TimesReceivedGrant)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 		db.AddParameter("@Action", "CamperCountByFed");
 		db.AddParameter("@CampYearID", CampYearID);
 		db.AddParameter("@FedID_List", FedID_List);
@@ -177,7 +203,7 @@ public class CamperApplicationDA
 
 	public static DataSet GetCamperSummaryReportByCamp(int CampYearID, string FedID_List, string CampID_List, string StatusID_List, int TimesReceivedGrant)
 	{
-		SQLDBAccess db = new SQLDBAccess("CIPMS");
+		var db = new SQLDBAccess("CIPMS");
 		db.AddParameter("@Action", "GetCamperSummaryReportByCamp");
 		db.AddParameter("@CampYearID", CampYearID);
 		db.AddParameter("@FedID_List", FedID_List);

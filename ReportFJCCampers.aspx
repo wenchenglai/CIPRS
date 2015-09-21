@@ -114,7 +114,35 @@
                     <asp:BoundField DataField="ModifiedDate" HeaderText="Modified Date" Visible="true" ItemStyle-HorizontalAlign="Center" /> 
                 </Columns>
             </asp:GridView>            
-        </div>                 
+        </div> 
+        <div id="divCamperDetailReport" runat="server" visible="false" class="CampLayout">            
+            <asp:GridView ID="gvCamperDetailReport" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvCamperDetailReport_RowDataBound">
+                <Columns>
+                    <asp:BoundField DataField="FJCID" HeaderText="FJCID" ItemStyle-HorizontalAlign="Left" />
+                    <asp:BoundField DataField="StatusName" HeaderText="Status" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="FirstName" HeaderText="First Name" ItemStyle-HorizontalAlign="Left" />
+                    <asp:BoundField DataField="LastName" HeaderText="Last Name" ItemStyle-HorizontalAlign="Left" />
+                    <asp:BoundField DataField="CreatedDate" HeaderText="Created Date" Visible="true" ItemStyle-HorizontalAlign="Center" /> 
+                    <asp:BoundField DataField="SpecialCode" HeaderText="Code" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Camp Name" HeaderText="Camp" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="GrantAmount" HeaderText="Grant" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="StartDate" HeaderText="Start Date" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="EndDate" HeaderText="End Date" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Days" HeaderText="Days" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Parent1FirstName" HeaderText="Parent First Name" Visible="true" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Parent1LastName" HeaderText="Parent Last Name" Visible="true" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Parent1Email" HeaderText="Parent Email" Visible="true" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="PrimaryPhone" HeaderText="Primary Phone" Visible="true" ItemStyle-HorizontalAlign="Center" />      
+                    <asp:BoundField DataField="Street" HeaderText="Street" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="City" HeaderText="City" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="State" HeaderText="State" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Zip" HeaderText="Zip" ItemStyle-HorizontalAlign="Center" />
+
+             
+
+                </Columns>
+            </asp:GridView>            
+        </div>                         
         <br /><br />
         <div>
             <span id="spanPagerBottom" runat="server">

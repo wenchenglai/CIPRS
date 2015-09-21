@@ -386,7 +386,7 @@ public partial class ParentByCountry : System.Web.UI.Page
     {
         foreach (ListItem li in chklistStatus.Items)
         {
-            if (li.Text.Trim() == "Eligible" || li.Text.Trim() == "Eligible by staff" || li.Text.Trim() == "Campership approved; payment pending" || li.Text.Trim() == "Payment requested" || li.Text.Trim() == "Camper Attended Camp")
+            if (li.Value == "1" || li.Value == "7" || li.Value == "14" || li.Value == "25" || li.Value == "28") 
                 li.Attributes.CssStyle.Add("font-weight", "bold");
         }
     }

@@ -343,6 +343,46 @@ public class CamperApplicationBL
         return ds;
     }
 
+    public static DataSet GetCamperDetailReportInBatch(Role UserRole, int FedID, string FedID_List, int CampYearID, string CampID_List, string StatusID_List, int TimesReceivedGrant)
+    {
+        DataTable dt;
+        dt = CamperApplicationDA.GetCamperDetailReportInBatch(UserRole, FedID, FedID_List, CampYearID, CampID_List, StatusID_List, TimesReceivedGrant);
+        var ds = new DataSet();
+
+        // now, create each table per camp, and store each table into a dataset
+        if (dt.Rows.Count > 0)
+        {
+            int LastCampID = Convert.ToInt32(dt.Rows[0]["CampID"]);
+            int CampID = LastCampID;
+            DataTable dtTemp = dt.Clone();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CampID = Convert.ToInt32(dr["CampID"]);
+
+                if (CampID != LastCampID)
+                {
+                    ds.Tables.Add(dtTemp);
+                    dtTemp = null;
+                    dtTemp = dt.Clone();
+                }
+
+                LastCampID = CampID;
+
+                dtTemp.ImportRow(dr);
+            }
+            // the last table must also be added because it never goes into the if condition right above
+            ds.Tables.Add(dtTemp);
+        }
+
+        // Delete the first column, because we don't need to display it
+        foreach (DataTable dtt in ds.Tables)
+        {
+            dtt.Columns.RemoveAt(0);
+        }
+
+        return ds;
+    }
+
     public static DataTable GetCamperSummaryReport(int CampYearID, int FedID, string CampID_List, string StatusID_List)
     {
         DataTable dt = CamperApplicationDA.GetCamperSummaryReport(CampYearID, FedID, CampID_List, StatusID_List);

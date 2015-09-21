@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -27,7 +26,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		{
 			// 2011-11-01 Camper Contact Info report is totally different from other reports here, but I need to re-use the paginig mechanism.  Refactor is needed, else this page
 			// will be bloated
-			if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+			if (param.CamperOrg == CamperOrgType.CamperContactInfo || param.CamperOrg == CamperOrgType.CamperDetailReport)
 			{
 				CreateCampThatHaveDataDictionaryObject();
 
@@ -142,7 +141,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 				dtCampHaveData = CamperApplicationDA.GetCampsListThatHaveData(param.CampYearID, param.ProgramTypeID, param.CampID_List, param.StatusID_List, param.FedID, param.TimesReceivedGrant);
 			}
 		}
-		else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+		else if (param.CamperOrg == CamperOrgType.CamperContactInfo || param.CamperOrg == CamperOrgType.CamperDetailReport)
 		{
 			dtCampHaveData = CamperApplicationDA.GetCampsListThatHaveDataDAForCamperContactInfo(param.CampYearID, param.FedID_List, param.CampID_List, param.StatusID_List, param.TimesReceivedGrant);
 		}
@@ -209,6 +208,14 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 
 			divCamperContactInfo.Visible = true;
 		}
+        else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
+        {
+            DataTable dt = CamperApplicationDA.GetCamperDetailReport(UserRole, param.FedID, param.FedID_List, param.CampYearID, param.CampsThatHaveDataDict.ElementAt(Int32.Parse(txtPage.Text) - 1).Key, param.StatusID_List, param.TimesReceivedGrant);
+            gvCamperDetailReport.DataSource = dt;
+            gvCamperDetailReport.DataBind();
+
+            divCamperDetailReport.Visible = true;
+        }
 	}
 
     protected void gvCamperContactInfo_RowDataBound(Object sender, GridViewRowEventArgs e)
@@ -222,6 +229,11 @@ public partial class ReportFJCCampers : System.Web.UI.Page
                 e.Row.Cells[16].ForeColor = Color.Red;                
             }
         }
+    }
+
+    protected void gvCamperDetailReport_RowDataBound(Object sender, GridViewRowEventArgs e)
+    {
+
     }
 
     protected void gvPerCamp_RowDataBound(Object sender, GridViewRowEventArgs e)
@@ -396,6 +408,8 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		// the data content section of the report
 		if (param.CamperOrg == CamperOrgType.CamperContactInfo)
 			ds = CamperApplicationBL.GetCamperContactInfoReportInBatch(UserRole, param.FedID, param.FedID_List, param.CampYearID, param.CampID_List, param.StatusID_List, param.TimesReceivedGrant);
+        else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
+            ds = CamperApplicationBL.GetCamperDetailReportInBatch(UserRole, param.FedID, param.FedID_List, param.CampYearID, param.CampID_List, param.StatusID_List, param.TimesReceivedGrant);
 		else
 			ds = CamperApplicationBL.GetFJCCamperReportInBatch(param.CamperOrg, param.ProgramTypeID, param.FedID, param.CampYearID, param.CampID_HaveData_List, param.StatusID_List, param.TimesReceivedGrant);
 
@@ -409,12 +423,12 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		excel.LoadXls(templateFile);
 
 		ExcelWorksheet ws = excel.Worksheets["Sheet1"];
-		ws.Name = "Camper Detail";
+		ws.Name = "Camper Enrollment Verification";
 
 		//We start at first row, because for ExcelLite control, the header row is not included
 		int BEGIN_COLUMN_INDEX;
 
-		if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+        if (param.CamperOrg == CamperOrgType.CamperContactInfo || param.CamperOrg == CamperOrgType.CamperDetailReport)
 			BEGIN_COLUMN_INDEX = 0;
 		else
 			BEGIN_COLUMN_INDEX = 1;
@@ -447,6 +461,8 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		}
 		else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
 			ReportHeader.Value = "Camper Contact Info";
+        else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
+            ReportHeader.Value = "Camper Detail Report";
 		else
 			ReportHeader.Value = "Camper Detail Report By Synagogue";
 
@@ -510,7 +526,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 
 			CellRange crFirst = ws.Cells.GetSubrangeAbsolute(iRow, 0, iRow, 0);
 
-			if (param.CamperOrg != CamperOrgType.CamperContactInfo)
+			if (param.CamperOrg != CamperOrgType.CamperContactInfo && param.CamperOrg != CamperOrgType.CamperDetailReport)
 			{
 				crFirst.Value = "Registered at Camp: Enter a Y / N here";
 				crFirst.Style = csFirst;
@@ -611,7 +627,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 			else
 				dtTotal = null;
 
-			if (param.CamperOrg != CamperOrgType.CamperContactInfo)
+			if (param.CamperOrg != CamperOrgType.CamperContactInfo  && param.CamperOrg != CamperOrgType.CamperDetailReport)
 			{
 				ws.InsertDataTable(dtTotal, iRow, BEGIN_COLUMN_INDEX, true);
 
@@ -624,102 +640,93 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 			}
 		}
 
+        // 2015-08-25 New design need to remove the second tab
 		// Second alternate sheet that list all rows as table format
-		ExcelWorksheet ws2 = excel.Worksheets["Sheet2"];
-		ws2.Name = "Alternate Format";
-		DataTable dtAlternate;
-		if (param.CamperOrg == CamperOrgType.CamperContactInfo)
-			dtAlternate = CamperApplicationDA.GetCamperContactInfoReportInBatch(UserRole, param.FedID, param.FedID_List, param.CampYearID, param.CampID_List, param.StatusID_List, param.TimesReceivedGrant);
-		else
-			dtAlternate = CamperApplicationDA.GetFJCCamperReportInBatch(param.CamperOrg, param.ProgramTypeID, param.FedID, param.CampYearID, param.CampID_HaveData_List, param.StatusID_List);
+        //ExcelWorksheet ws2 = excel.Worksheets["Sheet2"];
+        
+        //ws2.Name = "Alternate Format";
+        //DataTable dtAlternate;
+        //if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+        //    dtAlternate = CamperApplicationDA.GetCamperContactInfoReportInBatch(UserRole, param.FedID, param.FedID_List, param.CampYearID, param.CampID_List, param.StatusID_List, param.TimesReceivedGrant);
+        //else
+        //    dtAlternate = CamperApplicationDA.GetFJCCamperReportInBatch(param.CamperOrg, param.ProgramTypeID, param.FedID, param.CampYearID, param.CampID_HaveData_List, param.StatusID_List);
 
-		dtAlternate.Columns.RemoveAt(0); // We don't want the first column, which is CampID
+        //dtAlternate.Columns.RemoveAt(0); // We don't want the first column, which is CampID
 
-		iRow = 1;
-		ReportHeader = ws2.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_HEADER_CELL_NUMBER);
-		ReportHeader.Merged = true;
-		ReportHeader.Style = styleReportHeader;
+        //iRow = 1;
+        //ReportHeader = ws2.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_HEADER_CELL_NUMBER);
+        //ReportHeader.Merged = true;
+        //ReportHeader.Style = styleReportHeader;
 
-		if (param.CamperOrg == CamperOrgType.Camp)
-		{
-			ReportHeader.Value = "Camper Detail Report By Camp";
-		}
-		else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
-			ReportHeader.Value = "Camper Contact Info";
-		else
-			ReportHeader.Value = "Camper Detail Report By Synagogue";
+        //if (param.CamperOrg == CamperOrgType.Camp)
+        //{
+        //    ReportHeader.Value = "Camper Detail Report By Camp";
+        //}
+        //else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+        //    ReportHeader.Value = "Camper Contact Info";
+        //else
+        //    ReportHeader.Value = "Camper Detail Report By Synagogue";
 
-		ws2.Rows[iRow].Height = 25 * 20;
+        //ws2.Rows[iRow].Height = 25 * 20;
 
-		iRow += 1;
+        //iRow += 1;
 
-		ws2.Rows[iRow].Height = 25 * 20;
-		// Create Report SubHeader
-		SubHeader = ws2.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
-		SubHeader.Merged = true;
-		SubHeader.Value = "Camp Year: " + param.CampYear;
-		SubHeader.Style = styleSubHeader;
+        //ws2.Rows[iRow].Height = 25 * 20;
+        //// Create Report SubHeader
+        //SubHeader = ws2.Cells.GetSubrangeAbsolute(iRow, BEGIN_COLUMN_INDEX, iRow, REPORT_SUB_HEADER_CELL_NUMBER);
+        //SubHeader.Merged = true;
+        //SubHeader.Value = "Camp Year: " + param.CampYear;
+        //SubHeader.Style = styleSubHeader;
 
-		iRow += 2;
+        //iRow += 2;
 
-		ws2.InsertDataTable(dtAlternate, iRow, BEGIN_COLUMN_INDEX, true);
+        //ws2.InsertDataTable(dtAlternate, iRow, BEGIN_COLUMN_INDEX, true);
 
-        // 2012-10-28 Need to make allow contact emails stand out so admins won't contact campers who wish not to be contacted
-        if (param.CamperOrg == CamperOrgType.CamperContactInfo)
-        {
-            for (int i = 0; i <= dtAlternate.Rows.Count; i++)
-            {
-                if (ws2.Cells[i + iRow, 14].Value.ToString() == "No")
-                {
-                    ws2.Cells[i + iRow, 14].Style = redText;
-                    ws2.Cells[i + iRow, 15].Style = redText;
-                    ws2.Cells[i + iRow, 16].Style = redText;
-                }
-            }
-        }
-        else
-        {
-            //for (int i = 0; i <= dtAlternate.Rows.Count; i++)
-            //{
-            //    if (ws2.Cells[i + iRow, 14].Value.ToString() == "No")
-            //    {
-            //        ws2.Cells[i + iRow, 14].Style = redText;
-            //        ws2.Cells[i + iRow, 15].Style = redText;
-            //    }
-            //}
-        }
+        //// 2012-10-28 Need to make allow contact emails stand out so admins won't contact campers who wish not to be contacted
+        //if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+        //{
+        //    for (int i = 0; i <= dtAlternate.Rows.Count; i++)
+        //    {
+        //        if (ws2.Cells[i + iRow, 14].Value.ToString() == "No")
+        //        {
+        //            ws2.Cells[i + iRow, 14].Style = redText;
+        //            ws2.Cells[i + iRow, 15].Style = redText;
+        //            ws2.Cells[i + iRow, 16].Style = redText;
+        //        }
+        //    }
+        //}
 
-		ws2.Rows[iRow].Style = tableHeaderStyle;
-		if (param.CamperOrg == CamperOrgType.CamperContactInfo)
-		{
-			ws2.Columns[BEGIN_COLUMN_INDEX].Width = 16 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 1].Width = 28 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 2].Width = 28 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 3].Width = 14 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 4].Width = 16 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 5].Width = 23 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 10].Width = 26 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 11].Width = 15 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 14].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 15].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 16].Width = 25 * 256;
-		}
-		else
-		{
-			// Camper Detail Report
-			ws2.Columns[BEGIN_COLUMN_INDEX].Width = 15 * 256; // CampID
-			ws2.Columns[BEGIN_COLUMN_INDEX + 1].Width = 30 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 2].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 3].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 4].Width = 30 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 5].Width = 18 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 6].Width = 30 * 256; // Camp Name
-			ws2.Columns[BEGIN_COLUMN_INDEX + 9].Width = 22 * 256; // Session Datea
-			ws2.Columns[BEGIN_COLUMN_INDEX + 10].Width = 18 * 256; // Timer
-			ws2.Columns[BEGIN_COLUMN_INDEX + 12].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 13].Width = 25 * 256;
-			ws2.Columns[BEGIN_COLUMN_INDEX + 14].Width = 25 * 256;
-		}
+        //ws2.Rows[iRow].Style = tableHeaderStyle;
+        //if (param.CamperOrg == CamperOrgType.CamperContactInfo)
+        //{
+        //    ws2.Columns[BEGIN_COLUMN_INDEX].Width = 16 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 1].Width = 28 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 2].Width = 28 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 3].Width = 14 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 4].Width = 16 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 5].Width = 23 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 10].Width = 26 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 11].Width = 15 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 14].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 15].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 16].Width = 25 * 256;
+        //}
+        //else
+        //{
+        //    // Camper Detail Report
+        //    ws2.Columns[BEGIN_COLUMN_INDEX].Width = 15 * 256; // CampID
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 1].Width = 30 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 2].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 3].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 4].Width = 30 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 5].Width = 18 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 6].Width = 30 * 256; // Camp Name
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 9].Width = 22 * 256; // Session Datea
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 10].Width = 18 * 256; // Timer
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 12].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 13].Width = 25 * 256;
+        //    ws2.Columns[BEGIN_COLUMN_INDEX + 14].Width = 25 * 256;
+        //}
 
 		excel.Worksheets.ActiveWorksheet = excel.Worksheets[0];
 		
@@ -759,6 +766,10 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		{
 			retURL = "CamperContactInfo.aspx";
 		}
+        else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
+        {
+            retURL = "CamperDetail.aspx";
+        }
 		else
 		{
 			if (UserRole == Role.FJCAdmin)

@@ -9,49 +9,76 @@
     Your Authentication: <asp:Label ID="lblInfo" runat="server"></asp:Label>--%>
 <div id="divOtherContent" runat="server" style="font-size:small">
     <h2>Administrative Reports</h2>
-    <span style="font-weight:bold;">
-    <a href="CampersByCampFed.aspx">Camper Detail Report</a>: List of campers who have applied for a grant.<br />
-    </span>
-    <ul>
-        <li>Pull list of “Eligible by Staff” campers to send to each camp to confirm camper registration and session information. <br />Important: be sure to send each camp only their own camper information.</li>
-        <li>Info included: column for camps to list ‘registered:’ Yes / No, FJC ID, camper name, gender, grade, session dates, grant amount, and parent contact</li>
-    </ul>	
-    <br />
-    <span style="font-weight:bold;">
-        <a href="CamperContactInfo.aspx">Camper Contact Info</a>
-    </span>
-    <ul>
-        <li>Camper & parent/guardian contact information helpful for a mailing or email</li>
-    </ul>
-    <br />
-    <span style="font-weight:bold;">
-    <a href="NumberOfCampersByCamp.aspx">Camper Status Report</a>: Number of campers in each status organized by camp.
-    </span>
-    <br /><br />
-    <span style="font-weight:bold;">
-    <a href="DataExtract.aspx">Full Data Extract</a>: This report will give you nearly every data point associated with the applicants’ record.
-    </span>
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CampersByCampFed.aspx">Camper Enrollment Confirmation Report</a>: List of campers who have applied for a grant.<br />
+        </div>
+        <p>
+            Pull list of “Eligible by Staff” campers to send to each camp to confirm camper registration and session information.
+        </p>
+        <p>
+            Important: be sure to send each camp only their own camper information.
+        </p>
+        <p>
+            Info included: column for camps to list ‘registered:’ Yes / No, FJC ID, camper name, gender, grade, session dates, grant amount, and parent contact.
+        </p>
+    </div>
+    
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CamperDetail.aspx">Camper Detail Report</a>: Review key data about each camper application.<br />
+        </div>
+    </div>
+	
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CamperContactInfo.aspx">Camper Contact Info</a>: Camper & parent/guardian contact information helpful for a mailing or email.<br />
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="NumberOfCampersByCamp.aspx">Camper Status Report</a>: Number of campers in each status organized by camp.
+        </div>        
+    </div>
+
+
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="DataExtract.aspx">Full Data Extract</a>: This report will give you nearly every data point associated with the applicants’ record.
+        </div>
+    </div>
+
 
     <h2>Analytical Reports</h2>
+    
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="ParentByCountry.aspx">Parent Origin Report</a>: Understand the countries your campers’ parents are from. Organized by camp, see the number of campers and camper parents from selected countries.  
+        </div>
+    </div>
+    
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CampersBySynagogue.aspx">Campers by Synagogue</a>: List of campers who currently have a relationship with a synagogue in your community.
+        </div>
+        <p>
+            Report back to your local synagogues with a roster of their grant applicants. Note: this report is applicable only for community partners who have a designated synagogue question within their application. Important: be sure to send each synagogue only their own camper information.</li>        
+        </p>    
+    </div>
+    
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CamperSummaryReportByCamp.aspx">Session Length Report</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
+        </div>
+    </div>
+    
+    <div class="row">
+        <div style="font-weight:bold;">
+            <a href="CamperReportByState_TimesInCamp.aspx">Camper State Report</a>: Number of your campers by camp from different states (if applicable).
+        </div>
+    </div>
 
-    <span style="font-weight:bold;">
-    <a href="ParentByCountry.aspx">Parent Origin Report</a>: Understand the countries your campers’ parents are from. Organized by camp, see the number of campers and camper parents from selected countries.  
-    </span>
-    <br /><br />
-    <span style="font-weight:bold;">
-    <a href="CampersBySynagogue.aspx">Campers by Synagogue</a>: List of campers who currently have a relationship with a synagogue in your community.
-    </span>
-    <ul>
-        <li>Report back to your local synagogues with a roster of their grant applicants. Note: this report is applicable only for community partners who have a designated synagogue question within their application. Important: be sure to send each synagogue only their own camper information.</li>
-    </ul>
-    <br />
-    <span style="font-weight:bold;">
-    <a href="CamperSummaryReportByCamp.aspx">Session Length Report</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
-    </span>
-    <br /><br />
-    <span style="font-weight:bold;">
-    <a href="CamperReportByState_TimesInCamp.aspx">Camper State Report</a>: Number of your campers by camp from different states (if applicable).
-    </span>
 </div>
 
 <div id="divFJCAdminContent" runat="server" style="font-size:small">

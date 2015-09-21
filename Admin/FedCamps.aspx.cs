@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Model;
 
@@ -11,9 +10,9 @@ public partial class Admin_FedCamps : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            using (CIPMSEntities1 ctx = new CIPMSEntities1())
+            using (var ctx = new CIPMSEntities1())
             {
-                ddlCampYear.DataSource = ctx.tblCampYears.Where(x => x.CurrentYear == true).Select(x => new { id = x.ID, text = x.CampYear });
+                ddlCampYear.DataSource = ctx.tblCampYears.Where(x => x.CurrentYear).Select(x => new { id = x.ID, text = x.CampYear });
                 ddlCampYear.DataValueField = "id";
                 ddlCampYear.DataTextField = "text";
                 ddlCampYear.DataBind();
@@ -25,7 +24,7 @@ public partial class Admin_FedCamps : System.Web.UI.Page
     {
         int campYearID = Int32.Parse(ddlCampYear.SelectedValue);
 
-        using (CIPMSEntities1 ctx = new CIPMSEntities1())
+        using (var ctx = new CIPMSEntities1())
         {
             var list = from row in ctx.tblFederationCamps.Include("tblCamp")
                        where row.CampYearID == campYearID - 1
@@ -46,6 +45,7 @@ public partial class Admin_FedCamps : System.Web.UI.Page
                             CampYearID = campYearID,
                             tblCamp = camp,
                             FederationID = row.FederationID,
+                            isJDS = row.isJDS,
                             Inactive = false
                         };
                     }
@@ -58,12 +58,12 @@ public partial class Admin_FedCamps : System.Web.UI.Page
 
     protected void btnDelete_Click(object sender, EventArgs e)
     {
-        //int campYearID = Int32.Parse(ddlCampYear.SelectedValue);
+        int campYearId = Int32.Parse(ddlCampYear.SelectedValue);
 
-        //using (CIPMSEntities1 ctx = new CIPMSEntities1())
-        //{
-        //    ctx.uspCampsDelete(campYearID);
-        //}
-        //lblMsg.Text = "Data deleted successfully.";
+        using (var ctx = new CIPMSEntities1())
+        {
+            ctx.usp_FedCampDelete(campYearId);
+        }
+        lblMsg.Text = "Data deleted successfully.";
     }
 }
