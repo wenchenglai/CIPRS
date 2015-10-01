@@ -423,7 +423,6 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		excel.LoadXls(templateFile);
 
 		ExcelWorksheet ws = excel.Worksheets["Sheet1"];
-		ws.Name = "Camper Enrollment Verification";
 
 		//We start at first row, because for ExcelLite control, the header row is not included
 		int BEGIN_COLUMN_INDEX;
@@ -455,18 +454,29 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		if (param.CamperOrg == CamperOrgType.Camp)
 		{
 			if (UserRole == Role.FJCAdmin)
-				ReportHeader.Value = "Camper Detail Report By Camp";
+                ReportHeader.Value = "Camper Enrollment Confirmation Report";
 			else
-				ReportHeader.Value = "Camper Detail Report By Camp";
+                ReportHeader.Value = "Camper Enrollment Confirmation Report";
+
+            ws.Name = "Camper Enrollment Verification";
 		}
 		else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
-			ReportHeader.Value = "Camper Contact Info";
-        else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
-            ReportHeader.Value = "Camper Detail Report";
+		{
+		    ReportHeader.Value = "Camper Contact Info";
+            ws.Name = "Camper Contact Info";
+		}
+		else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
+		{
+		    ReportHeader.Value = "Camper Detail Report";
+		    ws.Name = "Camper Detail Report";
+		}
 		else
-			ReportHeader.Value = "Camper Detail Report By Synagogue";
+		{
+		    ReportHeader.Value = "Camper Detail Report By Synagogue";
+            ws.Name = "Camper Detail Report By Syangogue";
+		}
 
-		//
+	    //
 		iRow += 1;
 
 		// Create Report SubHeader

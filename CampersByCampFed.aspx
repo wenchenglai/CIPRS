@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CampersByCampFed.aspx.cs" Inherits="CampersByCampFed" %>
 <asp:Content ID="ContentHeader" ContentPlaceHolderID="ContentPlaceHolderHeader" runat="server">
-<span class="PageHeaderText">Camper Detail Report (Online Data Only)</span>
+<span class="PageHeaderText">Camper Enrollment Confirmation Report (Online Data Only)</span>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">

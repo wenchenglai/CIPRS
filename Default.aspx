@@ -14,13 +14,13 @@
             <a href="CampersByCampFed.aspx">Camper Enrollment Confirmation Report</a>: List of campers who have applied for a grant.<br />
         </div>
         <p>
-            Pull list of “Eligible by Staff” campers to send to each camp to confirm camper registration and session information.
+            Pull list of “Eligible; Admin Approved” campers to send to each camp to confirm camper registration and session information.
         </p>
         <p>
-            Important: be sure to send each camp only their own camper information.
+            Important: be sure to only send each camp their list of campers. 
         </p>
         <p>
-            Info included: column for camps to list ‘registered:’ Yes / No, FJC ID, camper name, gender, grade, session dates, grant amount, and parent contact.
+            Info included: Registration confirmation column (for camps to fill out), FJC ID, camper name, gender, grade, session dates, grant amount, and parent contact.
         </p>
     </div>
     

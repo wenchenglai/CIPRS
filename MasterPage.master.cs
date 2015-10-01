@@ -180,6 +180,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         hylDuplicateIDReport.ForeColor = Color.DarkBlue;
                         break;
 
+                    case "CamperDetail.aspx":
+                        hylCamperDetail.ForeColor = Color.DarkBlue;
+                        break;
+
                     default:
                         break;
                 }            
