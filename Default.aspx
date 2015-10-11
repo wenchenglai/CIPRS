@@ -15,11 +15,9 @@
         </div>
         <p>
             Pull list of “Eligible; Admin Approved” campers to send to each camp to confirm camper registration and session information.
-        </p>
-        <p>
+        <br />
             Important: be sure to only send each camp their list of campers. 
-        </p>
-        <p>
+        <br />
             Info included: Registration confirmation column (for camps to fill out), FJC ID, camper name, gender, grade, session dates, grant amount, and parent contact.
         </p>
     </div>
@@ -90,7 +88,7 @@
         <li>Info included: FJC ID, status, camper name, gender, grade, session dates, grant amount, and parent contact</li>
     </ul>
     <span style="font-weight:bold;">
-        <a href="CampersByCampFed.aspx">Camper Detail by Camp</a>: List of campers who have applied for a grant within one program.<br />
+        <a href="CampersByCampFed.aspx">Camper Detail by Camp (Camper Enrollment Confirmation Report)</a>: List of campers who have applied for a grant within one program.<br />
     </span>
     <ul>
         <li>Info included: FJC ID, status, camper name, gender, grade, session dates, grant amount, and parent contact</li>
@@ -107,7 +105,7 @@
     <br /><br />
 
     <span style="font-weight:bold;">
-        <a href="NumberOfCampersByCamp.aspx">Camper Status by Camp</a>: Number of campers in each status organized by camp.
+        <a href="NumberOfCampersByCamp.aspx">Camper Status by Camp (Camper Status Report)</a>: Number of campers in each status organized by camp.
     </span>
     <br /><br />
     <span style="font-weight:bold;">
@@ -125,7 +123,7 @@
     <h2>Analytical Reports</h2>
 
     <span style="font-weight:bold;">
-        <a href="ParentByCountry.aspx">Parent Origin by Camp</a>: Understand the countries your campers’ parents are from. Organized by camp, see the number of campers and camper parents from selected countries.  
+        <a href="ParentByCountry.aspx">Parent Origin by Camp (Parent Origin Report)</a>: Understand the countries your campers’ parents are from. Organized by camp, see the number of campers and camper parents from selected countries.  
     </span>
     <br /><br />
     <span style="font-weight:bold;">
@@ -136,11 +134,11 @@
     </ul>
     <br />
     <span style="font-weight:bold;">
-        <a href="CamperSummaryReportByCamp.aspx">Session Length by Camp</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
+        <a href="CamperSummaryReportByCamp.aspx">Session Length by Camp (Session Length Report)</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
     </span>
     <br /><br />
     <span style="font-weight:bold;">
-        <a href="CamperReportByState_TimesInCamp.aspx">Camper State by Camp</a>: Number of your campers by camp from different states (if applicable).
+        <a href="CamperReportByState_TimesInCamp.aspx">Camper State by Camp (Camper State Report)</a>: Number of your campers by camp from different states (if applicable).
     </span>
 
     <h2>Other Reports</h2>

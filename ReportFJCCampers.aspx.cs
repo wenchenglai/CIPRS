@@ -451,6 +451,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		ReportHeader.Merged = true;
 		ReportHeader.Style = styleReportHeader;
 
+        string fileName = "report";
 		if (param.CamperOrg == CamperOrgType.Camp)
 		{
 			if (UserRole == Role.FJCAdmin)
@@ -459,21 +460,25 @@ public partial class ReportFJCCampers : System.Web.UI.Page
                 ReportHeader.Value = "Camper Enrollment Confirmation Report";
 
             ws.Name = "Camper Enrollment Verification";
+            fileName = "CamperEnrollmentConfirmationReport";
 		}
 		else if (param.CamperOrg == CamperOrgType.CamperContactInfo)
 		{
 		    ReportHeader.Value = "Camper Contact Info";
             ws.Name = "Camper Contact Info";
+            fileName = "CamperContactInfo";
 		}
 		else if (param.CamperOrg == CamperOrgType.CamperDetailReport)
 		{
 		    ReportHeader.Value = "Camper Detail Report";
 		    ws.Name = "Camper Detail Report";
+            fileName = "CamperDetailReport";
 		}
 		else
 		{
 		    ReportHeader.Value = "Camper Detail Report By Synagogue";
-            ws.Name = "Camper Detail Report By Syangogue";
+            ws.Name = "Camper Detail Report By Synagogue";
+            fileName = "CamperDetailReportBySynagogue";
 		}
 
 	    //
@@ -741,7 +746,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		excel.Worksheets.ActiveWorksheet = excel.Worksheets[0];
 		
 		// Save to a file on the local file system
-		string filename = String.Format("\\{0}{1}{2}{3}CamperDetailReport.xls", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Millisecond);
+		string filename = String.Format("\\{0}{1}{2}{3}{4}.xls", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Millisecond, fileName);
 		string newFile = workFileDir + filename;
 		excel.SaveXls(newFile);
 
