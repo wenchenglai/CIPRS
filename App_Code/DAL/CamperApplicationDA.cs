@@ -82,7 +82,7 @@ public class CamperApplicationDA
 		var db = new SQLDBAccess("CIPMS");
 
 		// Camp and Syang are different 
-		if (CamperOrg == CamperOrgType.Camp)
+		if (CamperOrg == CamperOrgType.EnrollmentConfirmationFJC || CamperOrg == CamperOrgType.EnrollmentConfirmationPartner)
 			db.AddParameter("@Action", "GetFJCCamperReportPerCamp");
 		else if (CamperOrg == CamperOrgType.Synagogue)
 			db.AddParameter("@Action", "GetFJCCamperReportPerSynag");
@@ -147,7 +147,7 @@ public class CamperApplicationDA
 	{
 		var db = new SQLDBAccess("CIPMS");
 
-		if (CamperOrg == CamperOrgType.Camp)
+		if (CamperOrg == CamperOrgType.EnrollmentConfirmationFJC || CamperOrg == CamperOrgType.EnrollmentConfirmationPartner)
 			db.AddParameter("@Action", "GetFJCCamperReportCampInBatch");
 		else if (CamperOrg == CamperOrgType.Synagogue)
 			db.AddParameter("@Action", "GetFJCCamperReportSynagInBatch");

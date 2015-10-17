@@ -38,7 +38,7 @@ public class ReportParamCampersFJC
         Camp_Dict = new Dictionary<int, string>();
         Status_Dict = new Dictionary<int, string>();
         CampsThatHaveDataDict = new Dictionary<int, string>();
-        CamperOrg = CamperOrgType.Camp;
+        CamperOrg = CamperOrgType.EnrollmentConfirmationFJC;
         Fed_Dict = new Dictionary<int, string>();
     }
 

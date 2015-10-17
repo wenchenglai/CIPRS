@@ -82,17 +82,20 @@
 <div id="divFJCAdminContent" runat="server" style="font-size:small">
     <h2>Administrative Reports</h2>
     <span style="font-weight:bold;">
-        <a href="CampersByCampFJC.aspx">Camper Detail Report (FJC)</a>: List of campers who have applied for a grant across all programs.<br />
+        <a href="CampersByCampFJC.aspx">Camper Enrollment Confirmation Report (FJC)</a>: List of campers who have applied for a grant across all programs.<br />
     </span>
     <ul>
         <li>Info included: FJC ID, status, camper name, gender, grade, session dates, grant amount, and parent contact</li>
     </ul>
     <span style="font-weight:bold;">
-        <a href="CampersByCampFed.aspx">Camper Detail by Camp (Camper Enrollment Confirmation Report)</a>: List of campers who have applied for a grant within one program.<br />
+        <a href="CampersByCampFed.aspx">Camper Enrollment Confirmation Report (Partner view)</a>: List of campers who have applied for a grant within one program.<br />
     </span>
     <ul>
         <li>Info included: FJC ID, status, camper name, gender, grade, session dates, grant amount, and parent contact</li>
     </ul>
+    <span style="font-weight:bold;">
+        <a href="CamperDetail.aspx">Camper Detail Report</a>: Review key data about each camper application.<br />
+    </span>
     <span style="font-weight:bold;">
         <a href="CamperContactInfo.aspx">Camper Contact Info</a>
     </span>

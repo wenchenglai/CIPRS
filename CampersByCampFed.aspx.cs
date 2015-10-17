@@ -98,7 +98,8 @@ public partial class CampersByCampFed : System.Web.UI.Page
         { 
             CampYearID = Int32.Parse(ddlCampYear.SelectedValue), 
             ProgramTypeID = ProgramType.NoUse, 
-            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text) 
+            CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text),
+            CamperOrg = CamperOrgType.EnrollmentConfirmationPartner
         };
 
         if (UserRole == Role.CampDirector)

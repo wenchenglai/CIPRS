@@ -128,7 +128,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		{
 			dtCampHaveData = CamperApplicationDA.GetSynagsListThatHaveData(param.CampYearID, param.CampID_List, param.StatusID_List, param.FedID);
 		}
-		else if (param.CamperOrg == CamperOrgType.Camp)
+		else if (param.CamperOrg == CamperOrgType.EnrollmentConfirmationFJC || param.CamperOrg == CamperOrgType.EnrollmentConfirmationPartner)
 		{
 			//
 			if (UserRole == Role.FJCAdmin)
@@ -172,7 +172,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 		lblPage2.Text = lblPage.Text;
 		DataTable dtTotal;
 
-		if (param.CamperOrg == CamperOrgType.Camp)
+		if (param.CamperOrg == CamperOrgType.EnrollmentConfirmationFJC || param.CamperOrg == CamperOrgType.EnrollmentConfirmationPartner)
 		{
 			DataTable dt = CamperApplicationDA.GetFJCCamperReport(param.CamperOrg, param.ProgramTypeID, param.FedID, param.CampYearID, param.CampsThatHaveDataDict.ElementAt(Int32.Parse(txtPage.Text) - 1).Key, param.StatusID_List);
 
@@ -604,7 +604,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
 
 			DataTable dtTotal;
 
-			if (param.CamperOrg == CamperOrgType.Camp)
+			if (param.CamperOrg == CamperOrgType.EnrollmentConfirmationFJC || param.CamperOrg == CamperOrgType.EnrollmentConfirmationPartner)
 			{
 				dtTotal = CreateTotalTablePerCamp(dt);
 			}
@@ -631,7 +631,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
         // ************************** second tab ********************************
 		// Second alternate sheet that list all rows as table format
         // Camper Detail Report (for Program admin) doesn't need to show the whole list
-	    if (param.CamperOrg != CamperOrgType.Camp || UserRole == Role.FJCAdmin)
+	    if (param.CamperOrg != CamperOrgType.EnrollmentConfirmationFJC || UserRole == Role.FJCAdmin)
 	    {
 	        var ws2 = excel.Worksheets["Sheet1"];
 
@@ -785,15 +785,9 @@ public partial class ReportFJCCampers : System.Web.UI.Page
         var fileName = "report";
         switch (type)
         {
-            case CamperOrgType.Camp:
-                if (UserRole == Role.FJCAdmin)
-                {
-                    fileName = "Camper Detail Report (FJC)";
-                }
-                else
-                {
+            case CamperOrgType.EnrollmentConfirmationFJC:
+            case CamperOrgType.EnrollmentConfirmationPartner:
                     fileName = "Camper Enrollment Confirmation Report";
-                }
                 break;
             case CamperOrgType.CamperContactInfo:
                 fileName = "Camper Contact Info";

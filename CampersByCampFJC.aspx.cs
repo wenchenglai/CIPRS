@@ -77,7 +77,7 @@ public partial class CampersByCampFJC : System.Web.UI.Page
             CampYear = Int32.Parse(ddlCampYear.SelectedItem.Text), 
             ProgramTypeID = (ProgramType)Int32.Parse(ddlProgram.SelectedValue), 
             FedID = -1, /* flag value*/ 
-            CamperOrg = CamperOrgType.Camp
+            CamperOrg = CamperOrgType.EnrollmentConfirmationFJC
         };
 
         foreach (ListItem li in chklistCamp.Items)

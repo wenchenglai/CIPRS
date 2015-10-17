@@ -68,6 +68,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         hylCampersByCampFed.ForeColor = Color.DarkBlue;
                         break;
 
+                    case "CamperDetail.aspx":
+                        hylCamperDetails.ForeColor = Color.DarkBlue;
+                        break;
+
                     case "NumberOfCampersByProgram.aspx":
                         hylNumberOfCampersByProgram.ForeColor = Color.DarkBlue;
                         break;

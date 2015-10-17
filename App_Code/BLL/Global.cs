@@ -28,7 +28,8 @@ public enum ProgramType
 
 public enum CamperOrgType
 {
-    Camp = 0,
+    EnrollmentConfirmationFJC = 0,
+    EnrollmentConfirmationPartner,
     Synagogue,
     CamperContactInfo,
     CamperDetailReport

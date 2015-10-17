@@ -105,10 +105,13 @@
             <span style="font-weight:bold; font-size:small">Administrative Reports</span>
             <ul class="menutext2">
                 <li id="Li6" runat="server" visible="true">
-                    <asp:HyperLink ID="hylCampersByCampFJC" runat="server" Text="Camper Detail Report(FJC)" NavigateUrl="~/CampersByCampFJC.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylCampersByCampFJC" runat="server" Text="Camper Enrollment Confirmation Report (FJC)" NavigateUrl="~/CampersByCampFJC.aspx"></asp:HyperLink>
                 </li>
                 <li>
-                    <asp:HyperLink ID="hylCampersByCampFed" runat="server" Text="Camper Detail by Camp" NavigateUrl="~/CampersByCampFed.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylCampersByCampFed" runat="server" Text="Camper Enrollment Confirmation Report (Partner view)" NavigateUrl="~/CampersByCampFed.aspx"></asp:HyperLink>
+                </li>
+                <li>
+                    <asp:HyperLink ID="hylCamperDetails" runat="server" Text="Camper Detail by Camp" NavigateUrl="~/CamperDetail.aspx"></asp:HyperLink>
                 </li>
                 <li id="Li15" runat="server" visible="true">
                     <asp:HyperLink ID="hylCamperContactInfo" runat="server" Text="Camper Contact Info" NavigateUrl="~/CamperContactInfo.aspx"></asp:HyperLink>
