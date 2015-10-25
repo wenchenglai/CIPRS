@@ -111,7 +111,7 @@
                     <asp:HyperLink ID="hylCampersByCampFed" runat="server" Text="Camper Enrollment Confirmation Report (Partner view)" NavigateUrl="~/CampersByCampFed.aspx"></asp:HyperLink>
                 </li>
                 <li>
-                    <asp:HyperLink ID="hylCamperDetails" runat="server" Text="Camper Detail by Camp" NavigateUrl="~/CamperDetail.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylCamperDetails" runat="server" Text="Camper Detail Report" NavigateUrl="~/CamperDetail.aspx"></asp:HyperLink>
                 </li>
                 <li id="Li15" runat="server" visible="true">
                     <asp:HyperLink ID="hylCamperContactInfo" runat="server" Text="Camper Contact Info" NavigateUrl="~/CamperContactInfo.aspx"></asp:HyperLink>

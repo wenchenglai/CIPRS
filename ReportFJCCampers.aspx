@@ -120,6 +120,7 @@
                 <Columns>
                     <asp:BoundField DataField="FJCID" HeaderText="FJCID" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="StatusName" HeaderText="Status" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Program" HeaderText="Program Name" ItemStyle-HorizontalAlign="Center" />
                     <asp:BoundField DataField="FirstName" HeaderText="First Name" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="LastName" HeaderText="Last Name" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="CreatedDate" HeaderText="Created Date" Visible="true" ItemStyle-HorizontalAlign="Center" /> 
