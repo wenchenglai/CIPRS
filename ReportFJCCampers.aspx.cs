@@ -631,7 +631,7 @@ public partial class ReportFJCCampers : System.Web.UI.Page
         // ************************** second tab ********************************
 		// Second alternate sheet that list all rows as table format
         // Camper Detail Report (for Program admin) doesn't need to show the whole list
-	    if (param.CamperOrg != CamperOrgType.EnrollmentConfirmationFJC || UserRole == Role.FJCAdmin)
+	    if (param.CamperOrg != CamperOrgType.EnrollmentConfirmationFJC && param.CamperOrg != CamperOrgType.EnrollmentConfirmationPartner)
 	    {
 	        var ws2 = excel.Worksheets["Sheet1"];
 

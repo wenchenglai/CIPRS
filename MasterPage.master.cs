@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Drawing;
 
@@ -186,6 +181,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
                     case "CamperDetail.aspx":
                         hylCamperDetail.ForeColor = Color.DarkBlue;
+                        break;
+
+                    case "PaymentProcessing.aspx":
+                        hylPaymentProcessing2.ForeColor = Color.DarkBlue;
                         break;
 
                     default:
