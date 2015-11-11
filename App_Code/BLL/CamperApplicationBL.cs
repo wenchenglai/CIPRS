@@ -202,7 +202,10 @@ public class CamperApplicationBL
                                 newrow[DayRangeOne] = (int)newrow[DayRangeOne] + 1;
                             }
                         }
+
+                        newrow[NumberOfCampers] = (int)newrow[DayRangeTwo] + (int)newrow[DayRangeThree] + (int)newrow[DayRangeOne];
                     }
+
                 }
                 dt.Rows.Add(newrow);
             }
