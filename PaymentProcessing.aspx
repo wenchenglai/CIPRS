@@ -68,7 +68,7 @@
             <asp:Panel runat="server" style="border: 1px solid black; padding-left:20px; max-width: 800px; margin-bottom: 20px; margin-top: 20px" ID="pnlInfo">
                 <p>
                     You have <asp:Label runat="server" style="font-weight: bold;" ID="lblTotalCampersReady"></asp:Label> records ready for payments. 
-                    <span style="font-style: italic;">(Campership Approved)</span>
+                    <span style="font-style: italic;">(Enrollment Confirmed)</span>
                 </p>
                 <p>
                     You have already run payment for <asp:Label style="font-weight: bold;" runat="server" ID="lblTotalCampersDone"></asp:Label> records.
@@ -77,7 +77,7 @@
             </asp:Panel>
             
             <div style="margin:20px">
-                <asp:RadioButton runat="server" ID="rdoRunPayment" GroupName="a" Text="Run Payment for records in Campership Approved, Payment Pending" AutoPostBack="true" OnCheckedChanged="rdoReversePayment_CheckedChanged" />
+                <asp:RadioButton runat="server" ID="rdoRunPayment" GroupName="a" Text="Run Payment for records in Enrollment Confirmed, Payment Pending" AutoPostBack="true" OnCheckedChanged="rdoReversePayment_CheckedChanged" />
                 <br/>
                 <asp:RadioButton runat="server" ID="rdoReversePayment" GroupName="a" Text="Reverse Payment of records in Payment Requested (last batch only)" AutoPostBack="true" OnCheckedChanged="rdoReversePayment_CheckedChanged" />
             </div>
