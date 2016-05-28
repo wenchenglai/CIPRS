@@ -89,7 +89,7 @@
                     <asp:HyperLink ID="hylCampersBySynagogue2" runat="server" Text="Campers by Synagogue" NavigateUrl="~/CampersBySynagogue.aspx" ></asp:HyperLink>
                 </li>  
                 <li id="Li4" runat="server" visible="true">
-                    <asp:HyperLink ID="hylCamperSummaryReportByCamp2" runat="server" Text="Session Length" NavigateUrl="~/CamperSummaryReportByCamp.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylCamperSummaryReportByCamp2" runat="server" Text="Session Length" NavigateUrl="~/SessionLengthByCamp.aspx"></asp:HyperLink>
                 </li>  
                 <li id="Li5" runat="server" visible="true">
                     <asp:HyperLink ID="hylCamperReportByState_TimesInCamp2" runat="server" Text="Camper State" NavigateUrl="~/CamperReportByState_TimesInCamp.aspx" ></asp:HyperLink>
@@ -142,7 +142,10 @@
                 </li>
                 <li id="Li23" runat="server" visible="true">
                     <asp:HyperLink ID="hylPaymentProcessing" runat="server" Text="Payment - Self Funding" NavigateUrl="~/PaymentProcessing.aspx"></asp:HyperLink>
-                </li>                                                                                                                                        
+                </li>        
+                <li id="Li25" runat="server" visible="true">
+                    <asp:HyperLink ID="hylEligibility" runat="server" Text="Eligibility" NavigateUrl="~/Eligibility.aspx"></asp:HyperLink>
+                </li>                                                                                                                                                    
             </ul>
             <br />
             <span style="font-weight:bold; font-size:small;">Analytical Reports</span>
@@ -154,7 +157,7 @@
                     <asp:HyperLink ID="hylCampersBySynagogue" runat="server" Text="Campers by Synagogue" NavigateUrl="~/CampersBySynagogue.aspx" ></asp:HyperLink>
                 </li>  
                 <li id="Li12" runat="server" visible="true">
-                    <asp:HyperLink ID="hylCamperSummaryReportByCamp" runat="server" Text="Session Length by Camp" NavigateUrl="~/CamperSummaryReportByCamp.aspx"></asp:HyperLink>
+                    <asp:HyperLink ID="hylCamperSummaryReportByCamp" runat="server" Text="Session Length by Camp" NavigateUrl="~/SessionLengthByCamp.aspx"></asp:HyperLink>
                 </li>  
                 <li id="Li13" runat="server" visible="true">
                     <asp:HyperLink ID="hylCamperReportByState_TimesInCamp" runat="server" Text="Camper State by Camp" NavigateUrl="~/CamperReportByState_TimesInCamp.aspx" ></asp:HyperLink>

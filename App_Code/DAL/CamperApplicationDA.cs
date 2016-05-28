@@ -199,9 +199,10 @@ public class CamperApplicationDA
 		db.AddParameter("@StatusName_List", StatusName_List);
 		db.AddParameter("@TimesReceivedGrant", TimesReceivedGrant);
 		return db.FillDataSet("usprsCamperApplications_Select");
-	}
+    }
 
-	public static DataSet GetCamperSummaryReportByCamp(int CampYearID, string FedID_List, string CampID_List, string StatusID_List, int TimesReceivedGrant)
+    // 2016-04-09 This action block should be deleted because next block is a rewrite using table parameter
+    public static DataSet GetCamperSummaryReportByCamp(int CampYearID, string FedID_List, string CampID_List, string StatusID_List, int TimesReceivedGrant)
 	{
 		var db = new SQLDBAccess("CIPMS");
 		db.AddParameter("@Action", "GetCamperSummaryReportByCamp");
@@ -213,7 +214,19 @@ public class CamperApplicationDA
 		return db.FillDataSet("usprsCamperApplications_Select");
 	}
 
-	public static DataSet GetCamperByState(int CampYearID, string FedID_List, string CampID_List, string StatusID_List, int TimesReceivedGrant)
+    public static DataSet GetSessionLengthByCamp(int CampYearID, DataTable dtFedId, DataTable dtCampId, DataTable dtStatusId, int TimesReceivedGrant)
+    {
+        var db = new SQLDBAccess("CIPMS");
+        db.AddParameter("@Action", "SessionLengthByCamp");
+        db.AddParameter("@CampYearID", CampYearID);
+        db.AddParameterWithValue("@FedIdTable", dtFedId);
+        db.AddParameterWithValue("@CampIdTable", dtCampId);
+        db.AddParameterWithValue("@StatusIdTable", dtStatusId);
+        db.AddParameter("@TimesReceivedGrant", TimesReceivedGrant);
+        return db.FillDataSet("usprsCamperApplications_Select");
+    }
+
+    public static DataSet GetCamperByState(int CampYearID, string FedID_List, string CampID_List, string StatusID_List, int TimesReceivedGrant)
 	{
 		SQLDBAccess db = new SQLDBAccess("CIPMS");
 		db.AddParameter("@Action", "GetCamperByState");

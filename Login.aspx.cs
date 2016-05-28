@@ -15,8 +15,8 @@ public partial class Login : System.Web.UI.Page
         string strPwd = txtPwd.Text.Trim();
         if (strUID == "1")
         {
-            strUID = "ariel@jewishcamp.org";
-            strPwd = "ariel";
+            strUID = "wenchenglai@gmail.com";
+            strPwd = "wayne";
         }
         else if (strUID == "2")
         {

@@ -67,7 +67,7 @@
     
     <div class="row">
         <div style="font-weight:bold;">
-            <a href="CamperSummaryReportByCamp.aspx">Session Length Report</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
+            <a href="SessionLengthByCamp.aspx">Session Length Report</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
         </div>
     </div>
     
@@ -137,7 +137,7 @@
     </ul>
     <br />
     <span style="font-weight:bold;">
-        <a href="CamperSummaryReportByCamp.aspx">Session Length by Camp (Session Length Report)</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
+        <a href="SessionLengthByCamp.aspx">Session Length by Camp (Session Length Report)</a>: Number of your campers organized by number of days in camp (e.g. 12-18 days if applicable or 19+ day session).
     </span>
     <br /><br />
     <span style="font-weight:bold;">

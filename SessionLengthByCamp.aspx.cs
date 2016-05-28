@@ -10,7 +10,7 @@ using System.Drawing;
 
 using Model;
 
-public partial class CamperSummaryReportByCamp : System.Web.UI.Page
+public partial class SessionLengthByCamp : System.Web.UI.Page
 {
     Role UserRole;
 
@@ -99,11 +99,15 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
 
         DataSet ds = GetDataFromRepository();
 
+        int tableIndex = 0;
+
         if (chkAllTimers.Checked)
         {
-            gvAllTimers.DataSource = ds.Tables["AllCampers"];
+            gvAllTimers.DataSource = ds.Tables[tableIndex];
             gvAllTimers.DataBind();
             divAllTimers.Visible = true;
+
+            tableIndex += 1;
         }
         else
         {
@@ -112,9 +116,11 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
 
         if (chk1stTimers.Checked)
         {
-            gv1stTimers.DataSource = ds.Tables["1stYearCampers"];
+            gv1stTimers.DataSource = ds.Tables[tableIndex];
             gv1stTimers.DataBind();
             div1stTimers.Visible = true;
+
+            tableIndex += 1;
         }
         else
         {
@@ -123,9 +129,11 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
 
         if (chk2ndTimers.Checked)
         {
-            gv2ndTimers.DataSource = ds.Tables["2ndYearCampers"];
+            gv2ndTimers.DataSource = ds.Tables[tableIndex];
             gv2ndTimers.DataBind();
             div2ndTimers.Visible = true;
+
+            tableIndex += 1;
         }
         else
         {
@@ -134,19 +142,15 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
 
         if (chk3rdTimers.Checked)
         {
-            if (ds.Tables["3rdYearCampers"].Rows.Count > 0)
-            {
-                gv3rdTimers.DataSource = ds.Tables["3rdYearCampers"];
-                gv3rdTimers.DataBind();
-                div3rdTimers.Visible = true;
-            }
-            else
-                div3rdTimers.Visible = false;
+            gv3rdTimers.DataSource = ds.Tables[tableIndex];
+            gv3rdTimers.DataBind();
+            div3rdTimers.Visible = true;
+
         }
         else
         {
             div3rdTimers.Visible = false;
-        }  
+        }
 
         divMenu.Visible = false;
         divReport.Visible = true;
@@ -190,70 +194,11 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         return a;
     }
 
-    private DataSet GenerateDataSet()
-    {
-        string FedID_List = "";
-        foreach (ListItem li in chklistFed.Items)
-        {
-            if (li.Selected)
-            {
-                if (FedID_List == "")
-                    FedID_List = li.Value;
-                else
-                    FedID_List += ", " + li.Value;
-            }
-        }
-
-        if (FedID_List == "")
-        {
-            FedID_List = "3,4";
-        }
-
-        string CampID_List = "";
-        foreach (ListItem li in chklistCamp.Items)
-        {
-            if (li.Selected)
-            {
-                if (CampID_List == "")
-                    CampID_List = li.Value;
-                else
-                    CampID_List += ", " + li.Value;
-            }
-        }
-
-        string StatusID_List = "";
-        foreach (ListItem li in chklistStatus.Items)
-        {
-            if (li.Selected)
-            {
-                if (StatusID_List == "")
-                    StatusID_List = String.Format("{0}", li.Value.Trim());
-                else
-                    StatusID_List += String.Format(", {0}", li.Value.Trim());
-            }
-        }
-
-        int TimesReceivedGrant = 0;
-        if (chkAllTimers.Checked)
-            TimesReceivedGrant += 1;
-
-        if (chk1stTimers.Checked)
-            TimesReceivedGrant += 2;
-
-        if (chk2ndTimers.Checked)
-            TimesReceivedGrant += 4;
-
-        if (chk3rdTimers.Checked)
-            TimesReceivedGrant += 8;
-
-        return CamperApplicationBL.GetCamperSummaryReportByCamp(Int32.Parse(ddlCampYear.SelectedValue), FedID_List, CampID_List, StatusID_List, TimesReceivedGrant);
-    }
-
     private void MakeKeyStatusBold()
     {
         foreach (ListItem li in chklistStatus.Items)
         {
-            if (li.Value == "1" || li.Value == "7" || li.Value == "14" || li.Value == "25" || li.Value == "28") 
+            if (li.Value == "1" || li.Value == "7" || li.Value == "14" || li.Value == "25" || li.Value == "28")
                 li.Attributes.CssStyle.Add("font-weight", "bold");
         }
     }
@@ -304,11 +249,6 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         {
             //btnReport.Enabled = true;
         }
-    }
-
-    private static DataTable GenerateDataTable(ReportParamCampersFJC param)
-    {
-        return CamperApplicationBL.GetCamperSummaryReport(param.CampYearID, param.FedID, param.CampID_List, param.StatusID_List);
     }
 
     protected void chklistCamp_DataBound(object sender, EventArgs e)
@@ -417,7 +357,7 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         styleTableHeaderColumns.FillPattern.SetSolid(Color.LightGray);
 
         // Data Content of report
-        DataSet dsModified = GenerateDataSet();
+        DataSet dsModified = GetDataFromRepository();
 
         // Get rid of first columns for other tables except first one
         for (int i = 1; i < dsModified.Tables.Count; i++)
@@ -466,7 +406,7 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
                 else if (i == current_starting_column)
                 {
                     ws.Columns[i].Width = 15 * 256;
-                }   
+                }
             }
 
             // Set the data row style
@@ -490,7 +430,7 @@ public partial class CamperSummaryReportByCamp : System.Web.UI.Page
         excel.Worksheets.ActiveWorksheet = excel.Worksheets[0];
 
         // Save to a file on the local file system
-        string filename = String.Format("\\{0}{1}{2}{3}CamperSummaryReportByCamp.xls", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Millisecond);
+        string filename = String.Format("\\{0}{1}{2}{3}SessionLengthByCamp.xls", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Millisecond);
         string newFile = workFileDir + filename;
         excel.SaveXls(newFile);
 
