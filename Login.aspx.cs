@@ -31,13 +31,13 @@ public partial class Login : System.Web.UI.Page
         else if (strUID == "4")
         {
             // camp director
-            strUID = "zimmerman@emanueldenver.org";
-            strPwd = "zim";
+            strUID = "rachel@jewishportland.org";
+            strPwd = "rachel";
         }
         else if (strUID == "5")
         {
-            strUID = "rachel.anolik@shalomdc.org";
-            strPwd = "camperquest";
+            strUID = "rbaltuch@aol.com";
+            strPwd = "rochelle";
         }
 
         DataSet ds;
